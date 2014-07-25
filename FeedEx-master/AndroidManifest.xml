@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="net.fred.feedex"
+    android:installLocation="auto"
+    android:versionCode="42"
+    android:versionName="1.6.1" >
+
+    <uses-sdk
+        android:minSdkVersion="15"
+        android:targetSdkVersion="18" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> 
+    
+    <uses-permission android:name="android.permission.RECORD_AUDIO" /> 
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> 
+
+    <application
+        android:name="net.fred.feedex.MainApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/Theme.Light" >
+        <service android:name="net.fred.feedex.service.RefreshService" />
+        <service android:name="net.fred.feedex.service.FetcherService" />
+
+        <provider
+            android:name="net.fred.feedex.provider.FeedDataContentProvider"
+            android:authorities="net.fred.feedex.provider.FeedData"
+            android:exported="true" />
+
+        <activity
+            android:name="net.fred.feedex.activity.HomeActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTask" >
+
+        </activity>
+        <activity
+            android:name="net.fred.feedex.activity.AddGoogleNewsActivity"
+            android:label="@string/google_news_title"
+            android:launchMode="singleTask" />
+        <activity
+            android:name="net.fred.feedex.activity.AboutActivity"
+            android:label="@string/about_feedex"
+            android:launchMode="singleTask" />
+        <activity
+            android:name="net.fred.feedex.activity.EditFeedsListActivity"
+            android:label="@string/feeds"
+            android:launchMode="singleTask" />
+        <activity
+            android:name="net.fred.feedex.activity.EntryActivity"
+            android:configChanges="orientation|screenSize"
+            android:launchMode="singleTask" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="vnd.android.cursor.item/vnd.feedex.entry" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="net.fred.feedex.activity.GeneralPrefsActivity"
+            android:label="@string/menu_settings"
+            android:launchMode="singleTask" />
+        <activity android:name="net.fred.feedex.widget.WidgetConfigActivity" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+        <activity android:name="net.fred.feedex.activity.EditFeedActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.EDIT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="vnd.android.cursor.item/vnd.feedex.feed" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.INSERT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="vnd.android.cursor.dir/vnd.feedex.feed" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+        </activity>
+
+        <receiver android:name="net.fred.feedex.widget.WidgetProvider" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widgetinfo" />
+        </receiver>
+        <receiver android:name="net.fred.feedex.widget.TickerWidgetProvider" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/tickerwidgetinfo" />
+        </receiver>
+
+        <service
+            android:name="net.fred.feedex.widget.WidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+        <service android:name="net.fred.feedex.widget.TickerWidgetService" />
+
+        <receiver android:name="net.fred.feedex.receiver.BootCompletedBroadcastReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="net.fred.feedex.receiver.ConnectionChangeReceiver" >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="net.fred.feedex.service.RefreshService$RefreshAlarmReceiver" />
+
+        <activity
+            android:name="cgnet.swara.activity.MainActivity" 
+            android:configChanges="keyboardHidden|orientation"
+			android:windowSoftInputMode="stateHidden" 
+            android:label="@string/app_name" >
+           	<intent-filter>
+                <action android:name="android.intent.action.MAIN" /> 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+         
+        <activity
+            android:name="cgnet.swara.activity.RecordAudio"
+            android:label="@string/title_activity_record_audio" >
+        </activity>
+        
+   		<receiver android:name="cgnet.swara.activity.Receiver" >
+		    <intent-filter> 
+		        <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+		        <action android:name="com.android.CUSTOM_INTENT" />
+		    </intent-filter>
+		</receiver>
+        
+        
+    </application>
+
+</manifest>
