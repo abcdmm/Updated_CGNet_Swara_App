@@ -165,14 +165,7 @@ public class EntryView extends WebView {
             getSettings().setBlockNetworkImage(true);
         }
 
-
-        // String baseUrl = "";
-        // try {
-        // URL url = new URL(mLink);
-        // baseUrl = url.getProtocol() + "://" + url.getHost();
-        // } catch (MalformedURLException ignored) {
-        // }
-
+ 
         // do not put 'null' to the base url...
         loadDataWithBaseURL("", generateHtmlContent(title, link, contentText, enclosure, author, timestamp, preferFullText), TEXT_HTML, Constants.UTF8, null);
     }
