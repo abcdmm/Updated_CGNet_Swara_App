@@ -68,7 +68,7 @@
             android:key="lighttheme"
             android:summary="@string/settings_light_theme_description"
             android:title="@string/settings_light_theme" />
-
+<!-- 
         <net.fred.feedex.view.AutoSummaryListPreference
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -77,7 +77,7 @@
             android:entryValues="@array/settings_keep_time_values"
             android:inputType="number"
             android:key="keeptime"
-            android:title="@string/settings_keep_time" />
+            android:title="@string/settings_keep_time" />   -->
 
         <net.fred.feedex.view.AutoSummaryListPreference
             android:layout_width="wrap_content"

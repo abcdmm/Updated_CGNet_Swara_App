@@ -107,6 +107,7 @@ class SendEmailAsyncTask extends AsyncTask <Void, Void, Boolean> {
     @Override
     protected Boolean doInBackground(Void... params) { 
         try { 
+        	Log.e(TAG, "about to send the file");
         	if (mMail.send()) {
         		mEmailSent = true;
         		

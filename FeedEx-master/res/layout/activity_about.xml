@@ -5,14 +5,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
     <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/about_icon"
-        android:src="@drawable/icon"
-        android:layout_marginTop="20dip"
-        android:layout_marginBottom="5dip"/>
+        android:layout_width="match_parent"
+        android:layout_height="71dp"
+        android:layout_marginBottom="5dip"
+        android:layout_marginTop="20dip" 
+        android:src="@drawable/cgnet" />
 
     <TextView
         android:layout_width="wrap_content"

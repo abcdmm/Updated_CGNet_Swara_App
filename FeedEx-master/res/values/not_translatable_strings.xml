@@ -3,30 +3,7 @@
     <string name="app_name" translatable="false">CGNet Swara</string> 
     <string name="about_us_copyright" translatable="false"> </string>
     <string name="about_us_content" translatable="false"><![CDATA[
-    <b>Community</b><br/>
-    • Ildar Mulyukov<br/><br/>
-
-    <b>Developers</b><br/>
-    • equiem<br/>
-    • Frédéric Julian<br/>
-    • madx666<br/>
-    • Mikko Huhtala<br/>
-    • RyDroid<br/>
-    • Sergii Pylypenko<br/>
-    • Shapochkin Mihail<br/>
-    • Suyash Bhatt<br/><br/>
-
-    <b>Translators</b><br/>
-    • Aitor Beriain<br/>
-    • Benjamin Schütte<br/>
-    • changwoo<br/>
-    • chenjia404<br/>
-    • Danilo Treffiletti<br/>
-    • Enric Morales<br/>
-    • Matthias Dill<br/><br/>
-
-    This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. See http://www.gnu.org/licenses<br/><br/>
-    Some parts of this software are based on \'Sparse rss\', Copyright 2010-2012 Stefan Handschuch, under the MIT license.
+     
     ]]></string>
 
     <string-array name="settings_interval_values" translatable="false">
@@ -41,14 +18,6 @@
         <item>86400000</item>
     </string-array>
     <string-array name="settings_keep_time_values" translatable="false">
-        <item>1</item>
-        <item>2</item>
-        <item>4</item>
-        <item>7</item>
-        <item>14</item>
-        <item>30</item>
-        <item>61</item>
-        <item>91</item>
         <item>0</item>
     </string-array>
     <string-array name="settings_font_size_values" translatable="false">

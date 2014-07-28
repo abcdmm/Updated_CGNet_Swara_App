@@ -41,13 +41,8 @@ public class AboutActivity extends BaseActivity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
         String title;
-        PackageManager manager = this.getPackageManager();
-        try {
-            PackageInfo info = manager.getPackageInfo(this.getPackageName(), 0);
-            title = "FeedEx version " + info.versionName;
-        } catch (NameNotFoundException unused) {
-            title = "FeedEx";
-        }
+         
+        title = "CGNet Swara";  
         TextView titleView = (TextView) findViewById(R.id.about_title);
         titleView.setText(title);
 

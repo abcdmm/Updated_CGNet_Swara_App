@@ -52,7 +52,7 @@ public class Mail extends javax.mail.Authenticator {
 
 
 	public Mail() { 
-		_host = "smtp.gmail.com"; // default smtp server 
+		_host = "smtp.nokiamail.com"; // default smtp server 
 		_port = "465"; // default smtp port 
 		_sport = "465"; // default socketfactory port 
 
@@ -110,14 +110,16 @@ public class Mail extends javax.mail.Authenticator {
 
 			// Put parts in message 
 			msg.setContent(_multipart);  
+			Log.e("TAG!!!", "TRYING!!!");
+			Transport transport = session.getTransport("smtps");
+			transport.connect("smtp.nokiamail.com", 465, "cgnet112358", "cgnetswara");
+			transport.sendMessage(msg, msg.getAllRecipients());
+			transport.close();	
+			
 			try {
 				// send email 
-				Transport.send(msg); 
+			//	Transport.send(msg); 
 				Log.e(TAG, "Currently trying to send the email.");
-			} catch (MessagingException e) {
-				Log.e(TAG + "!", e.toString());
-				Log.e(TAG, "Trying to send email - in exception"); 
-				return false;
 			} catch(Exception e) { 
 				Log.e(TAG, "" + e); // This shouldn't happen. 
 			}
@@ -159,8 +161,7 @@ public class Mail extends javax.mail.Authenticator {
 		props.put("mail.smtp.port", _port); 
 		props.put("mail.smtp.socketFactory.port", _sport); 
 		props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory"); 
-		props.put("mail.smtp.socketFactory.fallback", "false"); 
-
+		props.put("mail.smtp.socketFactory.fallback", "false");  
 		return props; 
 	} 
 
