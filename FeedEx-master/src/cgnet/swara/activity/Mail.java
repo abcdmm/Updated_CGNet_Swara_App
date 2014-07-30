@@ -47,12 +47,9 @@ public class Mail extends javax.mail.Authenticator {
 	private boolean _debuggable; 
 
 	private Multipart _multipart;
-
-	private String _audiofilename = null;
-
-
+ 
 	public Mail() { 
-		_host = "smtp.nokiamail.com"; // default smtp server 
+		_host = "smtp.gmail.com"; // default smtp server f
 		_port = "465"; // default smtp port 
 		_sport = "465"; // default socketfactory port 
 
@@ -67,7 +64,7 @@ public class Mail extends javax.mail.Authenticator {
 
 		_multipart = new MimeMultipart(); 
 
-		// There is something wrong with MailCap, javamail can not find a handler for the multipart/mixed part, so this bit needs to be added. 
+		// There is something wrong	 with MailCap, javamail can not find a handler for the multipart/mixed part, so this bit needs to be added. 
 		MailcapCommandMap mc = (MailcapCommandMap) CommandMap.getDefaultCommandMap(); 
 		mc.addMailcap("text/html;; x-java-content-handler=com.sun.mail.handlers.text_html"); 
 		mc.addMailcap("text/xml;; x-java-content-handler=com.sun.mail.handlers.text_xml"); 
@@ -109,19 +106,14 @@ public class Mail extends javax.mail.Authenticator {
 			_multipart.addBodyPart(messageBodyPart); 
 
 			// Put parts in message 
-			msg.setContent(_multipart);  
-			Log.e("TAG!!!", "TRYING!!!");
-			Transport transport = session.getTransport("smtps");
-			transport.connect("smtp.nokiamail.com", 465, "cgnet112358", "cgnetswara");
-			transport.sendMessage(msg, msg.getAllRecipients());
-			transport.close();	
-			
+			msg.setContent(_multipart);   
+			 
 			try {
 				// send email 
-			//	Transport.send(msg); 
+				Transport.send(msg); 
 				Log.e(TAG, "Currently trying to send the email.");
 			} catch(Exception e) { 
-				Log.e(TAG, "" + e); // This shouldn't happen. 
+				Log.e(TAG, "" + e);  
 			}
 			return true; 
 		} else { 
