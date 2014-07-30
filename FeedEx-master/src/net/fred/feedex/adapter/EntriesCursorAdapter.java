@@ -173,9 +173,9 @@ public class EntriesCursorAdapter extends ResourceCursorAdapter {
             holder.dateTextView.setEnabled(true);
             holder.isReadCb.setChecked(false);
         } else {
-            holder.titleTextView.setEnabled(false);
-            holder.dateTextView.setEnabled(false);
-            holder.isReadCb.setChecked(true);
+            holder.titleTextView.setEnabled(true); // items are now never "read"
+            holder.dateTextView.setEnabled(true);
+            holder.isReadCb.setChecked(false);
         }
 
         holder.isReadCb.setOnCheckedChangeListener(new OnCheckedChangeListener() {

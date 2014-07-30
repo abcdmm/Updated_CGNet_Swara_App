@@ -18,6 +18,7 @@
         android:id="@+id/menu_full_screen"
         android:icon="@drawable/full_screen"
         android:showAsAction="always"
+        
         android:title="@string/menu_full_screen"
         tools:ignore="AlwaysShowAction"/>
     <item

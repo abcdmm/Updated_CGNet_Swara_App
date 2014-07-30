@@ -98,7 +98,9 @@ public class HomeActivity extends BaseActivity implements LoaderManager.LoaderCa
     protected void onCreate(Bundle savedInstanceState) {
         UiUtils.setPreferenceTheme(this);
         super.onCreate(savedInstanceState);
-
+        
+        PrefUtils.putBoolean(PrefUtils.SHOW_READ, true);
+        
         if (PrefUtils.getBoolean(PrefUtils.LIGHT_THEME, true)) {
             getWindow().setBackgroundDrawableResource(R.color.light_entry_list_background);
         } else {
@@ -220,9 +222,9 @@ public class HomeActivity extends BaseActivity implements LoaderManager.LoaderCa
             MenuInflater inflater = getMenuInflater();
             inflater.inflate(R.menu.drawer, menu);
 
-            if (!PrefUtils.getBoolean(PrefUtils.SHOW_READ, true)) {
-                menu.findItem(R.id.menu_hide_read_main).setTitle(R.string.context_menu_show_read).setIcon(R.drawable.view_reads);
-            }
+    //        if (!PrefUtils.getBoolean(PrefUtils.SHOW_READ, true)) {
+     //           menu.findItem(R.id.menu_hide_read_main).setTitle(R.string.context_menu_show_read).setIcon(R.drawable.view_reads);
+     //       }
 
             mEntriesFragment.setHasOptionsMenu(false);
         } else {
@@ -240,7 +242,7 @@ public class HomeActivity extends BaseActivity implements LoaderManager.LoaderCa
         }
 
         switch (item.getItemId()) {
-            case R.id.menu_hide_read_main:
+  /*          case R.id.menu_hide_read_main:
                 if (!PrefUtils.getBoolean(PrefUtils.SHOW_READ, true)) {
                     PrefUtils.putBoolean(PrefUtils.SHOW_READ, true);
                     item.setTitle(R.string.context_menu_hide_read).setIcon(R.drawable.hide_reads);
@@ -248,10 +250,10 @@ public class HomeActivity extends BaseActivity implements LoaderManager.LoaderCa
                     PrefUtils.putBoolean(PrefUtils.SHOW_READ, false);
                     item.setTitle(R.string.context_menu_show_read).setIcon(R.drawable.view_reads);
                 }
-                return true;
+                return true;*/
             case R.id.menu_edit_main:
                 startActivity(new Intent(this, EditFeedsListActivity.class));
-                return true;
+                return true; 
             case R.id.menu_refresh_main:
                 if (!PrefUtils.getBoolean(PrefUtils.IS_REFRESHING, false)) {
                     MainApplication.getContext().startService(new Intent(MainApplication.getContext(), FetcherService.class).setAction(FetcherService.ACTION_REFRESH_FEEDS));
