@@ -11,6 +11,7 @@
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:focusable="false"
+        android:visibility="gone"
         android:focusableInTouchMode="false" />
 
     <ImageView
