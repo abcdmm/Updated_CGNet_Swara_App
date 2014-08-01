@@ -1,7 +1,9 @@
 package cgnet.swara.activity;
 
 import java.io.File;   
+
 import android.util.Log;
+
 import java.io.FileWriter;
 import java.io.IOException; 
 
@@ -27,6 +29,9 @@ public class SaveAudioInfo {
 	/** The user's phone number. */
 	private String mPhoneNumber = "";
  
+	private String duration = "";
+	
+	private String time = "";
 	
 	/** Given a path to a main direction, the unique audio file name and the 
 	 *  users phone number, initializes an object. */
@@ -53,6 +58,7 @@ public class SaveAudioInfo {
 	/** Saves information about the user in a comma separated file. */
 	public void writeToFile() {   
 		String content = mMainDir + mInnerDir + mAudioPath + "," + mPhotoFile + "," + mPhoneNumber + "," + mAudioPath; 
+		content += "," + time + "," + duration;
 		Log.e(TAG, "Saving a text file: " + content);
 		File root = new File(mMainDir + "/Logs");
 		try { 
@@ -69,5 +75,13 @@ public class SaveAudioInfo {
 		} catch(Exception e) { 
 			e.printStackTrace();
 		}
+	}
+
+	public void setAudioTime(String timeAudio) {
+		time = timeAudio; 
+	}
+
+	public void setAudioLength(long durationAudio) {
+		duration = Long.toString(durationAudio); 
 	} 	
 }

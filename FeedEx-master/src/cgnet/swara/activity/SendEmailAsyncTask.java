@@ -1,6 +1,5 @@
 package cgnet.swara.activity;
 
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -40,7 +39,7 @@ class SendEmailAsyncTask extends AsyncTask <Void, Void, Boolean> {
 	private final String mFromPassword = EmailLogin.password;
 	
 	/** */
-	private final String mToAddress = "krittika.dsilva@gmail.com";
+	private final String mToAddress = "cgnetswaratest@gmail.com";
 	  
 	/** */
 	private boolean mEmailSent = false;
@@ -73,6 +72,8 @@ class SendEmailAsyncTask extends AsyncTask <Void, Void, Boolean> {
 		mAudioFile = parts[0] + ".mp3"; 
 		String photo = parts[1];
 		String phoneNumber = parts[2]; 
+		String time = parts[3];
+		String length = parts[4];
 		
     	mMail = new Mail(mFromAdddress, mFromPassword);  
     	mMainDir = outerDir;
@@ -82,9 +83,10 @@ class SendEmailAsyncTask extends AsyncTask <Void, Void, Boolean> {
     	String[] toArr = {mToAddress}; // multiple email addresses can be added here 
         mMail.setTo(toArr);
         mMail.setFrom(mFromAdddress);
-        mMail.setSubject("Audio recording from a mobile device.");
+        mMail.setSubject(getSubject(phoneNumber, time, length));
          
-        String body = "Email sent from phone number: " + phoneNumber;
+        String body = getBody(phoneNumber, time, length); 
+        		
         mMail.setBody(body); 
         
         Log.e(TAG, "6. Location of file: " + mMainDir + mInnerDir + mUniqueAudioRecording);
@@ -99,9 +101,8 @@ class SendEmailAsyncTask extends AsyncTask <Void, Void, Boolean> {
 			Log.e(TAG, "Problem including an attachment " +  e.toString());
 		}
     }
-    
-    
-    /** 
+     
+	/** 
      * 
      * */
     @Override
@@ -138,5 +139,37 @@ class SendEmailAsyncTask extends AsyncTask <Void, Void, Boolean> {
     public boolean emailSent() { 
     	return mEmailSent;
     }
-     
+    
+    private String getSubject(String phoneNumber, String time, String length) {
+    	String subject = "Swara-Main||" + length + "|DRAFT|" + phoneNumber + "||" + time;
+    	 
+		return subject;
+	}
+    
+    private String getBody(String phone_number, String time, String length) { 
+    	String body;
+    	body =  "******************************************************************************" + 
+    			"SERVER/सर्वर                        : Swara-Main" +
+    			"******************************************************************************" +
+    			"POST ID/पोस्ट क्र                       : " +
+    			"******************************************************************************" +
+    			"CALLER/नंबर                         : " + phone_number +
+    			"******************************************************************************" +
+    			"TIME STAMP/समय                  : " + time + 
+    			"******************************************************************************" +
+    			"NAME OF CALLER/फ़ोन करने वाले का नाम     :" +
+    			"******************************************************************************" +
+    			"CALL LOCATION/कॉल कहाँ से आई        :" +
+    			"******************************************************************************" +
+    			"TEL CIRC/ टेलिकॉम सर्किल                : "+
+    			"******************************************************************************" +
+    			"LNGTH/अवधी                              : " + length +
+    			"******************************************************************************" +
+    			"STATUS/स्थिति                                           : DRAFT" +
+    			"******************************************************************************" +
+    			"TEXT SUMMARY/   सन्देश                  :";
+    	
+    	return body;
+    }
+    
 }

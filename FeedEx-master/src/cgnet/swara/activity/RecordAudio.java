@@ -92,6 +92,7 @@ public class RecordAudio extends Activity {
 	
 	Bitmap bitmap = null;
 	  
+	private long startTime;
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -191,7 +192,7 @@ public class RecordAudio extends Activity {
 			@Override
 			public void onClick(View arg) {  
 				sendData(); 
-				Toast.makeText(RecordAudio.this,"Your file has been sent.", 
+				Toast.makeText(RecordAudio.this,"Your file will be sent.", 
 						Toast.LENGTH_SHORT).show();
 				Intent intent = new Intent(RecordAudio.this, MainActivity.class);
 				startActivity(intent);
@@ -300,7 +301,17 @@ public class RecordAudio extends Activity {
 
 		mUniqueAudioRecording = "/" + date + "__" + time;
 
+		
+		String dateAudio = c.get(Calendar.YEAR) + "-"+ c.get(Calendar.MONTH)
+				+ "-" + c.get(Calendar.DAY_OF_MONTH);
+
+		String timeAudio = c.get(Calendar.HOUR_OF_DAY) + ":" 
+				+ c.get(Calendar.MINUTE) + ":" + c.get(Calendar.SECOND);
+
+		
+		
 		mUserLogs = new SaveAudioInfo(mMainDir, mUniqueAudioRecording, mPhoneNumber); 
+		mUserLogs.setAudioTime(dateAudio + " " + timeAudio);
 
 		mUniqueAudioRecording += ".mp3";  
 	}
@@ -315,11 +326,15 @@ public class RecordAudio extends Activity {
 	}
 
 	/** Releases resources back to the system.  */
-	private void stopRecording() {   
-		if (mRecorder != null) { 
-
+	private void stopRecording() {
+		long estimatedTime = System.nanoTime() - startTime;
+		 
+		mUserLogs.setAudioLength(estimatedTime);
+		
+		if (mRecorder != null) {  
 			mRecorder.reset();
 			mRecorder = null;
+			
 		} 
 	}
 
@@ -367,6 +382,7 @@ public class RecordAudio extends Activity {
 		try {
 			mRecorder.prepare(); 
 			mRecorder.start();
+			startTime = System.nanoTime();  
 		} catch (IOException e) { 
 			Log.e(TAG, "StartRecording() : prepare() failed");
 		} catch (Exception e) { 
@@ -409,7 +425,7 @@ public class RecordAudio extends Activity {
 	/** Sends the audio file to a central location. */
 	private void sendData() { 
 		mFileToBeSent = true; 
-		mUserLogs.writeToFile();
+		mUserLogs.writeToFile(); 
 		Log.e(TAG, "2. Sending Data: Should iterate through files now");
 		Intent intent = new Intent(); 
 		intent.setAction("com.android.CUSTOM_INTENT");
