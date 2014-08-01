@@ -1,22 +1,19 @@
 package cgnet.swara.activity;
 
-import net.fred.feedex.R;
-import net.fred.feedex.R.layout;
-import net.fred.feedex.R.menu;
+import net.fred.feedex.R; 
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 
 import java.io.File;
 
-import android.net.Uri;
-import android.os.Bundle; 
+import android.net.Uri;   
 import android.os.SystemClock;
 
 import java.util.Calendar; 
+import java.util.concurrent.TimeUnit;
 import java.io.IOException; 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Environment;
 import android.database.Cursor;
@@ -25,8 +22,7 @@ import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.graphics.BitmapFactory;
 import android.provider.MediaStore;
-import android.util.Log;
-import android.view.Menu;
+import android.util.Log; 
 import android.view.View;
 import android.widget.Toast; 
 import android.widget.ImageView; 
@@ -82,16 +78,23 @@ public class RecordAudio extends Activity {
 	/** Saves logs about the user */
 	private SaveAudioInfo mUserLogs;
 
+	/** */
 	private boolean mFileToBeSent;
 
+	/** */
 	private ImageView mUserImage;
 
+	/** */
 	private String mPhoneNumber; 
     
+	/** Shows the amount of time left - audio recordings must be less 
+	 *  than 3 minutes. */
 	private Chronometer chronometer;
 	
-	Bitmap bitmap = null;
+	/** */
+	private Bitmap bitmap = null;
 	  
+	/** */
 	private long startTime;
 	
 	/** Called when the activity is first created. */
@@ -127,7 +130,7 @@ public class RecordAudio extends Activity {
 		if(includePhoto) { 
 			Intent i = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 			startActivityForResult(Intent.createChooser(i,
-					"Select Picture (?)"), SELECT_PICTURE); 
+					"Select Picture"), SELECT_PICTURE); 
 		} else { 
 			mUserImage.setVisibility(View.GONE);
 		}
@@ -292,16 +295,16 @@ public class RecordAudio extends Activity {
 			dirInner.mkdir();
 		} 
 
-		// Name of audio file is the data and then time the audio was created. 
 		Calendar c = Calendar.getInstance();
+		
+		// Name of audio file is the data and then time the audio was created. 
 		String date = c.get(Calendar.YEAR) + "_"+ c.get(Calendar.MONTH)
 				+ "_" + c.get(Calendar.DAY_OF_MONTH);
 		String time = c.get(Calendar.HOUR_OF_DAY) + "_" 
 				+ c.get(Calendar.MINUTE) + "_" + c.get(Calendar.SECOND);
 
-		mUniqueAudioRecording = "/" + date + "__" + time;
 
-		
+		// Different format for the name and date - used for the body of the email.
 		String dateAudio = c.get(Calendar.YEAR) + "-"+ c.get(Calendar.MONTH)
 				+ "-" + c.get(Calendar.DAY_OF_MONTH);
 
@@ -309,9 +312,10 @@ public class RecordAudio extends Activity {
 				+ c.get(Calendar.MINUTE) + ":" + c.get(Calendar.SECOND);
 
 		
+		mUniqueAudioRecording = "/" + date + "__" + time;
 		
 		mUserLogs = new SaveAudioInfo(mMainDir, mUniqueAudioRecording, mPhoneNumber); 
-		mUserLogs.setAudioTime(dateAudio + " " + timeAudio);
+		mUserLogs.setAudioDateTime(dateAudio + " " + timeAudio);
 
 		mUniqueAudioRecording += ".mp3";  
 	}
@@ -328,8 +332,8 @@ public class RecordAudio extends Activity {
 	/** Releases resources back to the system.  */
 	private void stopRecording() {
 		long estimatedTime = System.nanoTime() - startTime;
-		 
-		mUserLogs.setAudioLength(estimatedTime);
+		
+		mUserLogs.setAudioLength(TimeUnit.SECONDS.convert(estimatedTime, TimeUnit.NANOSECONDS));
 		
 		if (mRecorder != null) {  
 			mRecorder.reset();
@@ -345,7 +349,7 @@ public class RecordAudio extends Activity {
 		super.onPause();
 
 		// If the user pauses the app when they're recording a message 
-		// we're going to treat it like they paused the recording before 
+		// we're going to treat it like they stopped recording before 
 		// pausing the app
 		if(mStop.getVisibility() == View.VISIBLE) {  
 			stopRecording(); 
@@ -432,18 +436,19 @@ public class RecordAudio extends Activity {
 		sendBroadcast(intent);  
 	} 
 
+	/** Called when the activity is destroyed, deletes the 
+	 *  audio file if it shouldn't be sent. */
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
 		if(!mFileToBeSent) { 
 			File file = new File(mMainDir + mInnerDir + mUniqueAudioRecording);
 			if(file.exists()) {
-				Log.e(TAG, "onDestroy - Deleting file: " + mMainDir + mInnerDir + mUniqueAudioRecording);
+				Log.e(TAG, "onDestroy, deleting file: " + mMainDir + mInnerDir + mUniqueAudioRecording);
 				file.delete();
 			}
-			if(bitmap != null) {
-
-				Log.e(TAG, "recycling bitmap!!!");
+			if(bitmap != null) { 
+				Log.e(TAG, "Recycling bitmap!!");
 				bitmap.recycle();
 				bitmap = null;
 			}

@@ -13,8 +13,9 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-/** This class allows to perform background operations and
- *  publish results on the UI thread without having to manipulate threads and/or handlers.
+/** This class performs background operations for the CGNet Swara app. 
+ *  When there's an Internet connection, audio files are sent 
+ *  via email with the relevant information included.  
  *  @author Krittika D'Silva
  */
 class SendEmailAsyncTask extends AsyncTask <Void, Void, Boolean> {
@@ -32,20 +33,22 @@ class SendEmailAsyncTask extends AsyncTask <Void, Void, Boolean> {
 	/** Name of the audio file created.	*/
 	private String mUniqueAudioRecording;
 	
-	/** */
+	/** Email address the email is sent from. */
 	private final String mFromAdddress = EmailLogin.email; 
 	
-	/** */
+	/** Password for the SMTP server so that the email can be sent.  */
 	private final String mFromPassword = EmailLogin.password;
 	
-	/** */
+	/** Email address that the message is sent to. */
 	private final String mToAddress = "cgnetswaratest@gmail.com";
 	  
-	/** */
+	/** True if the email has been sent, false otherwise. */
 	private boolean mEmailSent = false;
 	
+	/** */ 
 	private String mTextFile;
 	
+	/** */
 	private String mAudioFile;
 	/** 
 	 * 
@@ -76,6 +79,7 @@ class SendEmailAsyncTask extends AsyncTask <Void, Void, Boolean> {
 		String length = parts[4];
 		
     	mMail = new Mail(mFromAdddress, mFromPassword);  
+    	Log.e(TAG, "mMail: " + mMail);
     	mMainDir = outerDir;
     	mInnerDir = innerDir;
         mUniqueAudioRecording = fileName;
@@ -107,9 +111,11 @@ class SendEmailAsyncTask extends AsyncTask <Void, Void, Boolean> {
      * */
     @Override
     protected Boolean doInBackground(Void... params) { 
+    	  
+    	Log.e(TAG, "mMail: " + mMail);
         try { 
         	Log.e(TAG, "about to send the file");
-        	if (mMail.send()) {
+        	if (mMail != null && mMail.send()) {
         		mEmailSent = true;
         		
         		File audio = new File(mAudioFile);
@@ -141,32 +147,32 @@ class SendEmailAsyncTask extends AsyncTask <Void, Void, Boolean> {
     }
     
     private String getSubject(String phoneNumber, String time, String length) {
-    	String subject = "Swara-Main||" + length + "|DRAFT|" + phoneNumber + "||" + time;
+    	String subject = "Swara-Main|app|" + length + "|DRAFT|" + phoneNumber + "|unk|" + time;
     	 
 		return subject;
 	}
     
     private String getBody(String phone_number, String time, String length) { 
     	String body;
-    	body =  "******************************************************************************" + 
-    			"SERVER/सर्वर                        : Swara-Main" +
-    			"******************************************************************************" +
-    			"POST ID/पोस्ट क्र                       : " +
-    			"******************************************************************************" +
-    			"CALLER/नंबर                         : " + phone_number +
-    			"******************************************************************************" +
-    			"TIME STAMP/समय                  : " + time + 
-    			"******************************************************************************" +
-    			"NAME OF CALLER/फ़ोन करने वाले का नाम     :" +
-    			"******************************************************************************" +
-    			"CALL LOCATION/कॉल कहाँ से आई        :" +
-    			"******************************************************************************" +
-    			"TEL CIRC/ टेलिकॉम सर्किल                : "+
-    			"******************************************************************************" +
-    			"LNGTH/अवधी                              : " + length +
-    			"******************************************************************************" +
-    			"STATUS/स्थिति                                           : DRAFT" +
-    			"******************************************************************************" +
+    	body =  "******************************************************************************\n" + 
+    			"SERVER/सर्वर                        : Swara-Main\n" +
+    			"******************************************************************************\n" +
+    			"POST ID/पोस्ट क्र                       : \n" +
+    			"******************************************************************************\n" +
+    			"CALLER/नंबर                         : " + phone_number + "\n" +
+    			"******************************************************************************\n" +
+    			"TIME STAMP/समय                  : " + time + "\n" +
+    			"******************************************************************************\n" +
+    			"NAME OF CALLER/फ़ोन करने वाले का नाम     :\n" + 
+    			"******************************************************************************\n" +
+    			"CALL LOCATION/कॉल कहाँ से आई        :\n" + 
+    			"******************************************************************************\n" +
+    			"TEL CIRC/ टेलिकॉम सर्किल                : "+ "\n" +
+    			"******************************************************************************\n" +
+    			"LNGTH/अवधी                              : " + length + "\n" +
+    			"******************************************************************************\n" +
+    			"STATUS/स्थिति                                           : DRAFT\n" + 
+    			"******************************************************************************\n" +
     			"TEXT SUMMARY/   सन्देश                  :";
     	
     	return body;

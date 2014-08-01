@@ -1,20 +1,15 @@
 package cgnet.swara.activity;
 
-import java.util.Date;
-
-import android.util.Log;
-
+import java.util.Date; 
+import android.util.Log; 
 import javax.mail.Session;
-import javax.mail.BodyPart;
-
-import java.util.Properties;
-
+import javax.mail.BodyPart; 
+import java.util.Properties; 
 import javax.mail.Multipart;
 import javax.mail.Transport;
 import javax.activation.CommandMap;
 import javax.activation.DataSource;
-import javax.activation.DataHandler;
-import javax.mail.MessagingException;
+import javax.activation.DataHandler; 
 import javax.activation.FileDataSource;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeBodyPart;

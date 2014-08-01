@@ -1,13 +1,12 @@
 package cgnet.swara.activity;
-
-import net.fred.feedex.MainApplication;
-import net.fred.feedex.R; 
-import android.os.Bundle;
-import android.app.Activity;
-import android.view.Menu; 
+ 
 import java.io.File;   
 import android.util.Log; 
 import android.view.View;   
+import android.view.Menu;
+import net.fred.feedex.R; 
+import android.os.Bundle;
+import android.app.Activity; 
 import android.text.Editable;
 import android.widget.Button;
 import android.content.Intent;
@@ -16,8 +15,7 @@ import android.app.AlertDialog;
 import android.widget.EditText;
 import android.text.TextWatcher;
 import android.view.WindowManager;
-import android.view.LayoutInflater;
-import android.content.Context;
+import android.view.LayoutInflater; 
 import android.content.DialogInterface;
 import android.content.SharedPreferences;  
 import android.view.View.OnClickListener;

@@ -57,7 +57,7 @@ public class SaveAudioInfo {
 
 	/** Saves information about the user in a comma separated file. */
 	public void writeToFile() {   
-		String content = mMainDir + mInnerDir + mAudioPath + "," + mPhotoFile + "," + mPhoneNumber + "," + mAudioPath; 
+		String content = mMainDir + mInnerDir + mAudioPath + "," + mPhotoFile + "," + mPhoneNumber; 
 		content += "," + time + "," + duration;
 		Log.e(TAG, "Saving a text file: " + content);
 		File root = new File(mMainDir + "/Logs");
@@ -77,11 +77,13 @@ public class SaveAudioInfo {
 		}
 	}
 
-	public void setAudioTime(String timeAudio) {
+	public void setAudioDateTime(String timeAudio) {
+		Log.e(TAG, "Setting date & time: " + timeAudio);
 		time = timeAudio; 
 	}
 
 	public void setAudioLength(long durationAudio) {
+		Log.e(TAG, "Setting duration: " + durationAudio);
 		duration = Long.toString(durationAudio); 
 	} 	
 }
