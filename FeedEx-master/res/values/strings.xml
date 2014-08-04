@@ -3,7 +3,7 @@
 <resources>
 
     <!-- GENERAL -->
-    <string name="about_CGNet_Swara">About CGNet Swara</string>
+    <string name="about_feedex">About CGNet Swara</string>
     <string name="welcome_title">Welcome to CGNet Swara. Would you like to add one feed?</string>
     <string name="never">never</string>
     <string name="update">Update</string>
@@ -11,7 +11,7 @@
     <string name="menu_settings">Settings</string>
     <string name="menu_refresh">Refresh</string>
     <string name="menu_all_read">Mark all as read</string>
-    <string name="CGNet_Swara_feeds">CGNet Swara feeds</string>
+    <string name="feedex_feeds">CGNet Swara feeds</string>
     <string name="error">Error</string>
     <string name="network_error">The network is not set up</string>
     <string name="loading">Loading…</string>
