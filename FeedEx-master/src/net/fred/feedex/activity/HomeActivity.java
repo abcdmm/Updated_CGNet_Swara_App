@@ -104,7 +104,7 @@ public class HomeActivity extends BaseActivity implements LoaderManager.LoaderCa
         if (PrefUtils.getBoolean(PrefUtils.LIGHT_THEME, true)) {
             getWindow().setBackgroundDrawableResource(R.color.light_entry_list_background);
         } else {
-            getWindow().setBackgroundDrawableResource(R.color.dark_entry_list_background);
+            //getWindow().setBackgroundDrawableResource(R.color.dark_entry_list_background);
         }
 
         setContentView(R.layout.activity_home);
@@ -222,7 +222,7 @@ public class HomeActivity extends BaseActivity implements LoaderManager.LoaderCa
             MenuInflater inflater = getMenuInflater();
             inflater.inflate(R.menu.drawer, menu);
 
-    //        if (!PrefUtils.getBoolean(PrefUtils.SHOW_READ, true)) {
+    //      	  if (!PrefUtils.getBoolean(PrefUtils.SHOW_READ, true)) {
      //           menu.findItem(R.id.menu_hide_read_main).setTitle(R.string.context_menu_show_read).setIcon(R.drawable.view_reads);
      //       }
 

@@ -130,7 +130,7 @@ public class RecordAudio extends Activity {
 		if(includePhoto) { 
 			Intent i = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 			startActivityForResult(Intent.createChooser(i,
-					"Select Picture"), SELECT_PICTURE); 
+					this.getString(R.string.select_picture)), SELECT_PICTURE); 
 		} else { 
 			mUserImage.setVisibility(View.GONE);
 		}
@@ -195,7 +195,7 @@ public class RecordAudio extends Activity {
 			@Override
 			public void onClick(View arg) {  
 				sendData(); 
-				Toast.makeText(RecordAudio.this,"Your file will be sent.", 
+				Toast.makeText(RecordAudio.this, RecordAudio.this.getString(R.string.file_sent),  
 						Toast.LENGTH_SHORT).show();
 				Intent intent = new Intent(RecordAudio.this, MainActivity.class);
 				startActivity(intent);
@@ -239,9 +239,7 @@ public class RecordAudio extends Activity {
 		Log.e(TAG + "!!", "on result activity called");
 		if (resultCode == RESULT_OK) {
 			if (requestCode == SELECT_PICTURE) {
-				Toast.makeText(RecordAudio.this,"You have selected an image.", 
-						Toast.LENGTH_SHORT).show();
-
+				 
 				Uri selectedImageUri = data.getData();
 				String selectedImagePath = getPath(selectedImageUri);
 
@@ -417,14 +415,7 @@ public class RecordAudio extends Activity {
 			Log.e(TAG, e.toString());
 		}
 	}
-
-	/** Inflates the menu. Currently, there aren't any meaningful items
-	 *  to add to the action bar. */
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
+ 
 
 	/** Sends the audio file to a central location. */
 	private void sendData() { 

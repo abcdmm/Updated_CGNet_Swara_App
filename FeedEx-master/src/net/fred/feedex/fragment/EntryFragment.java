@@ -360,18 +360,7 @@ public class EntryFragment extends SwipeRefreshFragment implements BaseActivity.
                     Toast.makeText(activity, R.string.copied_clipboard, Toast.LENGTH_SHORT).show();
                     break;
                 }
-                case R.id.menu_mark_as_unread: {
-                    final Uri uri = ContentUris.withAppendedId(mBaseUri, mEntriesIds[mCurrentPagerPos]);
-                    new Thread() {
-                        @Override
-                        public void run() {
-                            ContentResolver cr = MainApplication.getContext().getContentResolver();
-                            cr.update(uri, FeedData.getUnreadContentValues(), null, null);
-                        }
-                    }.start();
-                    activity.finish();
-                    break;
-                }
+                 
             }
         }
 
