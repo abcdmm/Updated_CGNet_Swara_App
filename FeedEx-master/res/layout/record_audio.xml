@@ -29,7 +29,7 @@
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
 	        android:text="@string/limit"
-	        android:textSize="18sp"  
+	        android:textSize="25sp"  
 	        android:gravity="center"
 	        android:layout_marginBottom="10dip" 
 	        android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -89,8 +89,7 @@
 	    <ImageButton
 	        android:id="@+id/playback"
 	        android:src="@drawable/play_icon"
-	        android:contentDescription="Playback icon"
-	        
+	        android:contentDescription="Playback icon" 
 	        android:background="@drawable/button_red"   
             android:layout_weight="1" 
             android:layout_margin="5dip"
@@ -104,8 +103,7 @@
 	    <ImageButton
 	        android:id="@+id/sendAudio"
 	        android:src="@drawable/select_icon"
-	        android:contentDescription="Send audio icon"
-	        
+	        android:contentDescription="Send audio icon" 
 			android:background="@drawable/button_red"   
             android:layout_weight="1" 
             android:layout_margin="5dip"
@@ -120,8 +118,7 @@
 	<ImageButton
         android:id="@+id/backToMain"
         android:src="@drawable/logout_icon"
-        android:contentDescription="Back to main menu icon"
-        
+        android:contentDescription="Back to main menu icon" 
       	android:background="@drawable/button_red"
         android:layout_margin="5dip"
         android:scaleType="fitCenter"

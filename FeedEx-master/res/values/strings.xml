@@ -87,7 +87,7 @@
 
     <!-- ENTRIES -->
     <string name="all">सन्देश </string>
-    <string name="no_entries">कोई सन्देश </string>
+    <string name="no_entries">कोई सन्देश नहीं </string>
     <string name="favorites">मेरी पसंद</string>
     <string name="context_menu_hide_read">Hide read entries</string>
     <string name="context_menu_show_read">Show read entries</string>
@@ -215,7 +215,7 @@
     <string name="include_image">फोटो के साथ सन्देश रिकॉर्ड करें</string>
     <string name="listen">संदेशों को सुनें</string>
     <string name="your_number">आपका फ़ोन नंबर डालिये </string>
-    <string name="limit">अपना सन्देश 3 मिनट के अंदर रिकॉर्ड करें </string>
+    <string name="limit">बटन दबाने के बाद अपना सन्देश 3 मिनट के अंदर रिकॉर्ड करें </string>
     <string name="title_activity_get_audio_files">सीजीनेट स्वर</string>
     <string name="title_activity_record_audio">सीजीनेट स्वर</string>
     <string name="title_activity_main">सीजीनेट स्वर</string>
