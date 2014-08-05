@@ -97,6 +97,9 @@ public class RecordAudio extends Activity {
 	/** */
 	private long startTime;
 	
+//	private RecMicToMp3 mRecMicToMp3;
+	
+	
 	/** Called when the activity is first created. */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -150,12 +153,12 @@ public class RecordAudio extends Activity {
 			@Override
 			public void onClick(View arg) { 
 				findViewById(R.id.time).setVisibility(View.VISIBLE);
+				mStart.setVisibility(View.GONE);
+				mStop.setVisibility(View.VISIBLE);
 				chronometer.setBase(SystemClock.elapsedRealtime());
 				chronometer.start();
-				
- 				stopRecording();
-				mStart.setVisibility(View.GONE);
-				mStop.setVisibility(View.VISIBLE);	  
+				 
+	  
 				startRecording(); 
 			}  
 		}); 
@@ -332,6 +335,9 @@ public class RecordAudio extends Activity {
 		long estimatedTime = System.nanoTime() - startTime;
 		
 		mUserLogs.setAudioLength(TimeUnit.SECONDS.convert(estimatedTime, TimeUnit.NANOSECONDS));
+//		if(mRecMicToMp3 != null) {
+//			mRecMicToMp3.stop();
+//		}
 		
 		if (mRecorder != null) {  
 			mRecorder.reset();
@@ -379,8 +385,10 @@ public class RecordAudio extends Activity {
 		mRecorder.setOutputFile(mMainDir + mInnerDir + mUniqueAudioRecording); 
 		mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
 
+//		mRecMicToMp3 = new RecMicToMp3(mMainDir + mInnerDir + mUniqueAudioRecording, 8000);
+		
 		Log.e(TAG, "1. Create file: " + mMainDir + mInnerDir + mUniqueAudioRecording);
-
+ 
 		try {
 			mRecorder.prepare(); 
 			mRecorder.start();
@@ -389,7 +397,10 @@ public class RecordAudio extends Activity {
 			Log.e(TAG, "StartRecording() : prepare() failed");
 		} catch (Exception e) { 
 			Log.e("TAG", e.toString());
-		}
+		} 
+		
+
+//		mRecMicToMp3.start();
 	}
 
 	/** Plays the generated audio recording. */
