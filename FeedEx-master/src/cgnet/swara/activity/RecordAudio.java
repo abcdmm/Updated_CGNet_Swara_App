@@ -239,10 +239,12 @@ public class RecordAudio extends Activity {
 
 
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
 		Log.e(TAG + "!!", "on result activity called");
 		if (resultCode == RESULT_OK) {
+			Log.e(TAG, "result code: " + resultCode);
 			if (requestCode == SELECT_PICTURE) {
-				 
+				Log.e(TAG, "request code: " + requestCode);
 				Uri selectedImageUri = data.getData();
 				String selectedImagePath = getPath(selectedImageUri);
 

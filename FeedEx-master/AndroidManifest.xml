@@ -36,8 +36,7 @@
 
         <activity
             android:name="net.fred.feedex.activity.HomeActivity"
-            android:label="@string/app_name"
-            android:launchMode="singleTask" >
+            android:label="@string/app_name" >
 
         </activity>
         <activity
