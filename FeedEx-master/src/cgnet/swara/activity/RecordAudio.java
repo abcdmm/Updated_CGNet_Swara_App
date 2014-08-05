@@ -199,7 +199,7 @@ public class RecordAudio extends Activity {
 			public void onClick(View arg) {  
 				sendData(); 
 				Toast.makeText(RecordAudio.this, RecordAudio.this.getString(R.string.file_sent),  
-						Toast.LENGTH_SHORT).show();
+						Toast.LENGTH_LONG).show();
 				Intent intent = new Intent(RecordAudio.this, MainActivity.class);
 				startActivity(intent);
 				finish();
