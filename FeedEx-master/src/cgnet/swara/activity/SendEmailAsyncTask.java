@@ -118,10 +118,10 @@ class SendEmailAsyncTask extends AsyncTask <Void, Void, Boolean> {
         	if (mMail != null && mMail.send()) {
         		mEmailSent = true;
         		
-        		File audio = new File(mAudioFile);
-        		audio.delete();
+   //     		File audio = new File(mAudioFile);
+    //    		audio.delete();
         		File file = new File(mTextFile);
-        		file.delete(); 
+       		file.delete(); 
         	} else { 
         		mEmailSent = false;
         		Log.e(TAG, "Email not sent"); 
