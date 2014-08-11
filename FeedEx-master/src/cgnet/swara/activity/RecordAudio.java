@@ -50,10 +50,7 @@ public class RecordAudio extends Activity {
 
 	/** Plays back the users voice recording. */
 	private MediaPlayer mUserAudio; 
-
-	/** Records the users audio recording. */
-	private MediaRecorder mRecorder;
-
+   
 	/** Starts recording audio.  */
 	private ImageButton mStart;
 
@@ -97,7 +94,7 @@ public class RecordAudio extends Activity {
 	/** */
 	private long startTime;
 	
-//	private RecMicToMp3 mRecMicToMp3;
+	private RecMicToMp3 mRecMicToMp3;
 	
 	
 	/** Called when the activity is first created. */
@@ -334,15 +331,9 @@ public class RecordAudio extends Activity {
 		long estimatedTime = System.nanoTime() - startTime;
 		
 		mUserLogs.setAudioLength(TimeUnit.SECONDS.convert(estimatedTime, TimeUnit.NANOSECONDS));
-//		if(mRecMicToMp3 != null) {
-//			mRecMicToMp3.stop();
-//		}
-		
-		if (mRecorder != null) {  
-			mRecorder.reset();
-			mRecorder = null;
-			
-		} 
+		if(mRecMicToMp3 != null) {
+			mRecMicToMp3.stop();
+		}  
 	}
 
 	/** Called when the activity is paused; releases resources back to the 
@@ -359,47 +350,24 @@ public class RecordAudio extends Activity {
 		}  
 		stopPlayingAudio(mUserAudio);
 
-		if (mRecorder != null) {
-			mRecorder.reset(); 
-			mRecorder = null;
-		}
+		 
 	}
 
 	/** Called when the activity is paused; begins playing the audio recording
 	 *  for the user. */
 	@Override
 	public void onResume() {
-		super.onResume();
-
-		if(mRecorder != null) {
-			mRecorder = null;
+		super.onResume(); 
+		if(mRecMicToMp3 != null) {
+			mRecMicToMp3.stop();
 		} 
 	}
 
 	/** Creates an audio recording using the phone mic as the audio source. */
 	private void startRecording() {   
-		mRecorder = new MediaRecorder();
-		mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-		mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-		mRecorder.setOutputFile(mMainDir + mInnerDir + mUniqueAudioRecording); 
-		mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-
-//		mRecMicToMp3 = new RecMicToMp3(mMainDir + mInnerDir + mUniqueAudioRecording, 8000);
-		
+		mRecMicToMp3 = new RecMicToMp3(mMainDir + mInnerDir + mUniqueAudioRecording, 8000); 
+		mRecMicToMp3.start();
 		Log.e(TAG, "1. Create file: " + mMainDir + mInnerDir + mUniqueAudioRecording);
- 
-		try {
-			mRecorder.prepare(); 
-			mRecorder.start();
-			startTime = System.nanoTime();  
-		} catch (IOException e) { 
-			Log.e(TAG, "StartRecording() : prepare() failed");
-		} catch (Exception e) { 
-			Log.e("TAG", e.toString());
-		} 
-		
-
-//		mRecMicToMp3.start();
 	}
 
 	/** Plays the generated audio recording. */
@@ -449,7 +417,7 @@ public class RecordAudio extends Activity {
 				file.delete();
 			}
 			if(bitmap != null) { 
-				Log.e(TAG, "Recycling bitmap!!");
+				Log.e(TAG, "Recycling bitmap.");
 				bitmap.recycle();
 				bitmap = null;
 			}
