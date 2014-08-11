@@ -1,3 +1,3 @@
 #!/bin/sh
 cd jni
-ndk-build
+C:\Users\KDsilva\Documents\android-ndk-r10\ndk-build

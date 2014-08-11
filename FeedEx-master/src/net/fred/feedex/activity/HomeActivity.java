@@ -18,11 +18,9 @@
  */
 
 package net.fred.feedex.activity;
-
-import android.app.AlertDialog;
+ 
 import android.app.LoaderManager;
-import android.content.CursorLoader;
-import android.content.DialogInterface;
+import android.content.CursorLoader; 
 import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
@@ -31,8 +29,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-import android.os.Bundle;
-import android.os.Handler;
+import android.os.Bundle;  
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
