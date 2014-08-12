@@ -206,10 +206,7 @@
 
     
 
-    <!--
-    CGNet Swara 
-	<string name="app_name">CGNet Swara</string>
-    -->
+    <!--  CGNet Swara  -->
     <string name="main_title">सीजीनेट स्वर</string>     
     <string name="record">सन्देश रिकॉर्ड करें</string>
     <string name="include_image">फोटो के साथ सन्देश रिकॉर्ड करें</string>
@@ -221,6 +218,8 @@
     <string name="title_activity_main">सीजीनेट स्वर</string>
     <string name="file_sent">आपका सन्देश भेज दिया जायेगा </string> 
 	<string name="select_picture">सन्देश के लिए फोटो चुनें  </string>
+	<string name="ok">Okay</string>
+	<string name="cancel">Cancel</string>
     
 	<!--  Never used -->
     <string name="download_more">Download More</string>

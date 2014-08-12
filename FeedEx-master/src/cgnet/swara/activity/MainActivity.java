@@ -153,6 +153,8 @@ public class MainActivity extends Activity {
 	}
 
 
+	/** Displays an alert dialog prompting 
+	 *  the user to input their phone number. */
 	private void showPrompt() {
  		// get prompts.xml view
 		LayoutInflater li = LayoutInflater.from(this);
@@ -166,7 +168,7 @@ public class MainActivity extends Activity {
 		final EditText userInput = (EditText) promptsView.findViewById(R.id.editTextDialogUserInput);
 
 		// set dialog message
-		alertDialogBuilder.setCancelable(false).setPositiveButton("OK",
+		alertDialogBuilder.setCancelable(false).setPositiveButton(this.getString(R.string.ok),
 				new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog,int id) { 
 				mPhoneNumber = userInput.getText().toString();
@@ -177,7 +179,7 @@ public class MainActivity extends Activity {
 				mNumber.setText(mPhoneNumber);
 			}
 		})
-		.setNegativeButton("Cancel",
+		.setNegativeButton(this.getString(R.string.cancel),
 				new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog,int id) {
 				mPhoneNumber = userInput.getText().toString();
