@@ -2,8 +2,7 @@ package cgnet.swara.activity;
  
 import java.io.File;   
 import android.util.Log; 
-import android.view.View;   
-import android.view.Menu;
+import android.view.View; 
 import net.fred.feedex.R; 
 import android.os.Bundle;
 import android.app.Activity; 

@@ -1,17 +1,16 @@
 package cgnet.swara.activity;
 
-import net.fred.feedex.R; 
-import android.os.Bundle;
-import android.app.Activity; 
 import java.io.File; 
-import android.net.Uri;   
-import android.os.SystemClock; 
-import java.util.Calendar; 
-import java.util.concurrent.TimeUnit;
-import java.io.IOException;  
-import android.util.Log; 
+import android.net.Uri;  
+import android.util.Log;  
+import android.os.Bundle;
 import android.view.View;
+import net.fred.feedex.R; 
+import java.io.IOException;
+import java.util.Calendar;
+import android.app.Activity;   
 import android.widget.Toast; 
+import android.os.SystemClock; 
 import android.content.Intent;
 import android.os.Environment;
 import android.database.Cursor;
@@ -21,6 +20,7 @@ import android.media.MediaPlayer;
 import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.provider.MediaStore;
+import java.util.concurrent.TimeUnit;
 import android.graphics.BitmapFactory;
 import android.view.View.OnClickListener;
 import android.media.MediaPlayer.OnCompletionListener; 
@@ -77,10 +77,11 @@ public class RecordAudio extends Activity {
 	 *  than 3 minutes. */
 	private Chronometer chronometer;
 	
-	/** */
+	/** If the user wants to send an image with their audio file, their chosen 
+	 *  image is shown as they record audio. */
 	private ImageView mUserImage;
 
-	/** */
+	/** The users phone number - inputed on the main screen. */
 	private String mPhoneNumber; 
  
 	/** */
