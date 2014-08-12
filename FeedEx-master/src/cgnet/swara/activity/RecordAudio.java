@@ -2,32 +2,26 @@ package cgnet.swara.activity;
 
 import net.fred.feedex.R; 
 import android.os.Bundle;
-import android.app.Activity;
-import android.view.Menu;
-
-import java.io.File;
-
+import android.app.Activity; 
+import java.io.File; 
 import android.net.Uri;   
-import android.os.SystemClock;
-
+import android.os.SystemClock; 
 import java.util.Calendar; 
 import java.util.concurrent.TimeUnit;
-import java.io.IOException; 
-
+import java.io.IOException;  
+import android.util.Log; 
+import android.view.View;
+import android.widget.Toast; 
 import android.content.Intent;
 import android.os.Environment;
 import android.database.Cursor;
 import android.graphics.Bitmap;  
-import android.media.MediaPlayer; 
-import android.media.MediaRecorder;
-import android.graphics.BitmapFactory;
-import android.provider.MediaStore;
-import android.util.Log; 
-import android.view.View;
-import android.widget.Toast; 
 import android.widget.ImageView; 
+import android.media.MediaPlayer;  
 import android.widget.Chronometer;
 import android.widget.ImageButton;
+import android.provider.MediaStore;
+import android.graphics.BitmapFactory;
 import android.view.View.OnClickListener;
 import android.media.MediaPlayer.OnCompletionListener; 
 
@@ -60,7 +54,8 @@ public class RecordAudio extends Activity {
 	/** Plays back the audio that the user recorded. */
 	private ImageButton mPlayback;
 
-	/** */
+	/** Discards the audio recording created and returns the user to the
+	 *  main menu.  */
 	private ImageButton mBack;
 
 	/** Sends audio recording to a central location if there's an Internet 
@@ -75,25 +70,26 @@ public class RecordAudio extends Activity {
 	/** Saves logs about the user */
 	private SaveAudioInfo mUserLogs;
 
-	/** */
+	/** True if the created audio file should be sent, false otherwise. */
 	private boolean mFileToBeSent;
 
+	/** Shows the amount of time left - audio recordings must be less 
+	 *  than 3 minutes. */
+	private Chronometer chronometer;
+	
 	/** */
 	private ImageView mUserImage;
 
 	/** */
 	private String mPhoneNumber; 
-    
-	/** Shows the amount of time left - audio recordings must be less 
-	 *  than 3 minutes. */
-	private Chronometer chronometer;
-	
+ 
 	/** */
 	private Bitmap bitmap = null;
 	  
 	/** */
 	private long startTime;
 	
+	/** */
 	private RecMicToMp3 mRecMicToMp3;
 	
 	
@@ -154,8 +150,7 @@ public class RecordAudio extends Activity {
 				mStop.setVisibility(View.VISIBLE);
 				chronometer.setBase(SystemClock.elapsedRealtime());
 				chronometer.start();
-				 
-	  
+		 
 				startRecording(); 
 			}  
 		}); 
@@ -186,8 +181,7 @@ public class RecordAudio extends Activity {
 					mPlayback.setVisibility(View.VISIBLE); 
 					mSendAudio.setVisibility(View.VISIBLE); 
 					startPlaying();
-				}
-
+				} 
 			}
 		});
 
@@ -207,9 +201,8 @@ public class RecordAudio extends Activity {
 			@Override
 			public void onClick(View arg) { 
 				goBackHome();		  
-				if(bitmap != null) {
-
-					Log.e(TAG, "recycling bitmap!!!");
+				if(bitmap != null) { 
+					Log.e(TAG, "Recycling bitmap.");
 					bitmap.recycle();
 					bitmap = null;
 				}
@@ -217,9 +210,10 @@ public class RecordAudio extends Activity {
 		}); 
 	}
 	 
+	/**  */
 	private void goBackHome() { 
 		if(bitmap != null) {
-			Log.e(TAG, "recycling bitmap!!!");
+			Log.e(TAG, "Recycling bitmap.");
 			bitmap.recycle();
 			bitmap = null;
 		}
@@ -234,7 +228,7 @@ public class RecordAudio extends Activity {
 	}
 
 
-
+	/**  */
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data); 
 		if (resultCode == RESULT_OK) { 
@@ -258,14 +252,14 @@ public class RecordAudio extends Activity {
 		}
 	}
 	
+	/**  */
 	private Bitmap halfSize(Bitmap input) { 
 		int height = input.getHeight();
 		int width = input.getWidth();  
 		return Bitmap.createScaledBitmap(input,  width/2, height/2, false);
 	}
 
-
-
+	/**  */
 	public String getPath(Uri uri) {
 		String[] projection = { MediaStore.Images.Media.DATA };
 		Cursor cursor = managedQuery(uri, projection, null, null, null);
@@ -348,9 +342,7 @@ public class RecordAudio extends Activity {
 		if(mStop.getVisibility() == View.VISIBLE) {  
 			stopRecording(); 
 		}  
-		stopPlayingAudio(mUserAudio);
-
-		 
+		stopPlayingAudio(mUserAudio); 
 	}
 
 	/** Called when the activity is paused; begins playing the audio recording
@@ -387,6 +379,7 @@ public class RecordAudio extends Activity {
 	            	mPlayback.setImageResource(R.drawable.play_icon);
 	            }
 	        }); 
+			
 		} catch (IOException e) {
 			Log.e(TAG, "StartPlaying() : prepare() failed");
 		} catch (Exception e) { 
