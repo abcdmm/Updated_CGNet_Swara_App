@@ -147,7 +147,7 @@ public class HomeActivity extends BaseActivity implements LoaderManager.LoaderCa
         if (savedInstanceState != null) {
             mCurrentDrawerPos = savedInstanceState.getInt(STATE_CURRENT_DRAWER_POS);
         }
-
+// TODO - how long saved
         getLoaderManager().initLoader(LOADER_ID, null, this);
 
         if (PrefUtils.getBoolean(PrefUtils.REFRESH_ENABLED, true)) {

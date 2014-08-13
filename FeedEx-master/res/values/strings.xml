@@ -3,7 +3,7 @@
 <resources>
 
     <!-- GENERAL -->
-    <string name="about_feedex">सीजीनेट स्वर</string>
+    <string name="about_feedex">स्वर</string>
     <string name="welcome_title">Welcome to CGNet Swara. Would you like to add one feed?</string>
     <string name="never">never</string>
     <string name="update">Update</string>

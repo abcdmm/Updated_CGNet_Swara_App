@@ -2,18 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
-
-    <PreferenceScreen
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:title="@string/about_feedex">
-
-        <intent
-            android:action="android.intent.action.VIEW"
-            android:targetPackage="net.fred.feedex"
-            android:targetClass="net.fred.feedex.activity.AboutActivity" />
-    </PreferenceScreen>
-
+ 
     <PreferenceCategory
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -30,7 +19,7 @@
         <net.fred.feedex.view.AutoSummaryListPreference
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:defaultValue="1800000"
+            android:defaultValue="600000"
             android:dependency="refresh.enabled"
             android:entries="@array/settings_intervals"
             android:entryValues="@array/settings_interval_values"
@@ -41,7 +30,7 @@
         <CheckBoxPreference
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:key="refreshonopen.enabled"
             android:summary="@string/settings_refresh_on_open_description"
             android:title="@string/settings_refresh_on_open" />
@@ -72,7 +61,7 @@
         <net.fred.feedex.view.AutoSummaryListPreference
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:defaultValue="4"
+            android:defaultValue="4" 
             android:entries="@array/settings_keep_times"
             android:entryValues="@array/settings_keep_time_values"
             android:inputType="number"
@@ -100,7 +89,7 @@
         <net.fred.feedex.view.AutoSummaryListPreference
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:defaultValue="WIFI_ONLY_PRELOAD"
+            android:defaultValue="ALWAYS_PRELOAD"
             android:entries="@array/settings_preload_image_modes"
             android:entryValues="@array/settings_preload_image_modes_values"
             android:inputType="text"
