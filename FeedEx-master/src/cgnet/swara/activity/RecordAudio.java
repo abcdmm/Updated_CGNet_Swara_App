@@ -24,9 +24,6 @@ import android.media.MediaPlayer;
 import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.provider.MediaStore;
-
-import java.util.concurrent.TimeUnit;
-
 import android.graphics.BitmapFactory;
 import android.view.View.OnClickListener;
 import android.media.MediaPlayer.OnCompletionListener; 
@@ -335,13 +332,10 @@ public class RecordAudio extends Activity {
 	    Long durationms = Long.parseLong(metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION));
 	    
 	    long duration = durationms / 1000;
-        long h = duration / 3600;
-        long m = (duration - h * 3600) / 60;
-        long s = duration - (h * 3600 + m * 60);
-	     
-		Log.e(TAG, "SECONDS DURATION: " + s);
+	    
+		Log.e(TAG, "SECONDS DURATION: " + duration);
 		
-		mUserLogs.setAudioLength(s);
+		mUserLogs.setAudioLength(duration);
 	}
 
 	/** Called when the activity is paused; releases resources back to the 

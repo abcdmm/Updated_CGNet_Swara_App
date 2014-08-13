@@ -6,8 +6,7 @@ import android.util.Log;
 
 import java.io.FileWriter;
 import java.io.IOException; 
-
-
+ 
 /** 
  * 
  *  @author Krittika D'Silva (krittika.dsilva@gmail.com)
