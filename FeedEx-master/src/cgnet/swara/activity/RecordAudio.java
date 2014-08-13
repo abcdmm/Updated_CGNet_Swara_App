@@ -1,13 +1,16 @@
 package cgnet.swara.activity;
 
 import java.io.File; 
+
 import android.net.Uri;  
 import android.util.Log;  
 import android.os.Bundle;
 import android.view.View;
 import net.fred.feedex.R; 
+
 import java.io.IOException;
 import java.util.Calendar;
+
 import android.app.Activity;   
 import android.widget.Toast; 
 import android.os.SystemClock; 
@@ -16,11 +19,14 @@ import android.os.Environment;
 import android.database.Cursor;
 import android.graphics.Bitmap;  
 import android.widget.ImageView; 
+import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;  
 import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.provider.MediaStore;
+
 import java.util.concurrent.TimeUnit;
+
 import android.graphics.BitmapFactory;
 import android.view.View.OnClickListener;
 import android.media.MediaPlayer.OnCompletionListener; 
@@ -86,11 +92,8 @@ public class RecordAudio extends Activity {
  
 	/** Used to show the users chosen image.*/
 	private Bitmap bitmap = null;
-	  
-	/** Duration of audio recording. */
-	private long startTime;
-	
-	/** */
+	    
+	/** Audio recorder that records the users' message. */
 	private RecMicToMp3 mRecMicToMp3;
 	
 	
@@ -322,13 +325,23 @@ public class RecordAudio extends Activity {
 	}
 
 	/** Releases resources back to the system.  */
-	private void stopRecording() {
-		long estimatedTime = System.nanoTime() - startTime;
-		
-		mUserLogs.setAudioLength(TimeUnit.SECONDS.convert(estimatedTime, TimeUnit.NANOSECONDS));
+	private void stopRecording() { 
 		if(mRecMicToMp3 != null) {
 			mRecMicToMp3.stop();
-		}  
+		}
+		 
+		MediaMetadataRetriever metaRetriever = new MediaMetadataRetriever();
+	    metaRetriever.setDataSource(mMainDir + mInnerDir + mUniqueAudioRecording);
+	    Long durationms = Long.parseLong(metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION));
+	    
+	    long duration = durationms / 1000;
+        long h = duration / 3600;
+        long m = (duration - h * 3600) / 60;
+        long s = duration - (h * 3600 + m * 60);
+	     
+		Log.e(TAG, "SECONDS DURATION: " + s);
+		
+		mUserLogs.setAudioLength(s);
 	}
 
 	/** Called when the activity is paused; releases resources back to the 
