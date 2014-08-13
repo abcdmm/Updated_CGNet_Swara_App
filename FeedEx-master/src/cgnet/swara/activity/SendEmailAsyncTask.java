@@ -116,28 +116,24 @@ class SendEmailAsyncTask extends AsyncTask <Void, Void, Boolean> {
         try { 
         	Log.e(TAG, "about to send the file");
         	if (mMail != null && mMail.send()) {
-        		mEmailSent = true;
-        		
-   //     		File audio = new File(mAudioFile);
-    //    		audio.delete();
+        		mEmailSent = true; 
+        		//File audio = new File(mAudioFile);
+        		//audio.delete();
         		File file = new File(mTextFile);
-       		file.delete(); 
+        		file.delete(); 
         	} else { 
         		mEmailSent = false;
         		Log.e(TAG, "Email not sent"); 
         	}
             return true;
         } catch (AuthenticationFailedException e) {
-            Log.e(TAG, "Bad account details: " + e);
-            e.printStackTrace();
+            Log.e(TAG, "Bad account details: " + e); 
             return false;
         } catch (MessagingException e) {
-            Log.e(TAG, " " + e);
-            e.printStackTrace();
+            Log.e(TAG, " " + e); 
             return false;
         } catch (Exception e) {
-        	Log.e(TAG, "" + e);
-            e.printStackTrace();
+        	Log.e(TAG, "" + e); 
             return false;
         }
     } 

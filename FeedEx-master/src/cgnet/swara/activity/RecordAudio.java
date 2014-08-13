@@ -84,10 +84,10 @@ public class RecordAudio extends Activity {
 	/** The users phone number - inputed on the main screen. */
 	private String mPhoneNumber; 
  
-	/** */
+	/** Used to show the users chosen image.*/
 	private Bitmap bitmap = null;
 	  
-	/** */
+	/** Duration of audio recording. */
 	private long startTime;
 	
 	/** */
@@ -391,8 +391,11 @@ public class RecordAudio extends Activity {
 
 	/** Sends the audio file to a central location. */
 	private void sendData() { 
+		Log.e(TAG, "Send data is being called");
+		
 		mFileToBeSent = true; 
-		mUserLogs.writeToFile(); 
+		mUserLogs.writeToFile();
+		
 		Log.e(TAG, "2. Sending Data: Should iterate through files now");
 		Intent intent = new Intent(); 
 		intent.setAction("com.android.CUSTOM_INTENT");

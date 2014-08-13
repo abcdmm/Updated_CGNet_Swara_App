@@ -108,7 +108,8 @@ public class Mail extends javax.mail.Authenticator {
 				Transport.send(msg); 
 				Log.e(TAG, "Currently trying to send the email.");
 			} catch(Exception e) { 
-				Log.e(TAG, "" + e);  
+				Log.e(TAG, "" + e);
+				return false;
 			}
 			return true; 
 		} else { 

@@ -13,7 +13,7 @@ import java.io.IOException;
  *  @author Krittika D'Silva (krittika.dsilva@gmail.com)
  * */
 public class SaveAudioInfo {
-	private static final String TAG = "SaveUserLogs";
+	private static final String TAG = "SaveAudioInfo";
 	/** CGNet Swara's main directory with audio files. */
 	private String mMainDir;
 
@@ -57,6 +57,8 @@ public class SaveAudioInfo {
 
 	/** Saves information about the user in a comma separated file. */
 	public void writeToFile() {   
+		Log.e(TAG, "Writing file");
+		
 		String content = mMainDir + mInnerDir + mAudioPath + "," + mPhotoFile + "," + mPhoneNumber; 
 		content += "," + time + "," + duration;
 		Log.e(TAG, "Saving a text file: " + content);
@@ -71,9 +73,9 @@ public class SaveAudioInfo {
 			writer.flush();
 			writer.close(); 
 		} catch (IOException e) { 
-			e.printStackTrace();
+			Log.e(TAG,"!!!! " + e.toString()); 
 		} catch(Exception e) { 
-			e.printStackTrace();
+			Log.e(TAG, "!!!! " + e.toString()); 
 		}
 	}
 
