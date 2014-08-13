@@ -23,7 +23,7 @@
     <application
         android:name="net.fred.feedex.MainApplication"
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/cgnet_launcher"
         android:label="@string/app_name"
         android:theme="@style/Theme.Light" >
         <service android:name="net.fred.feedex.service.RefreshService" />

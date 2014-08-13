@@ -1,17 +1,16 @@
 package cgnet.swara.activity;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStreamReader;
-import java.util.Scanner;
-
-import javax.mail.AuthenticationFailedException;
-import javax.mail.MessagingException;
-
-import android.content.Context;
-import android.os.AsyncTask;
 import android.util.Log;
+import java.util.Scanner;
+import android.os.AsyncTask;
+import android.content.Context;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import javax.mail.MessagingException;
+import java.io.FileNotFoundException;
+import javax.mail.AuthenticationFailedException;
+
 
 /** This class performs background operations for the CGNet Swara app. 
  *  When there's an Internet connection, audio files are sent 
@@ -45,13 +44,15 @@ class SendEmailAsyncTask extends AsyncTask <Void, Void, Boolean> {
 	/** True if the email has been sent, false otherwise. */
 	private boolean mEmailSent = false;
 	
-	/** */ 
+	/** Name of the text file. */ 
 	private String mTextFile;
 	
-	/** */
+	/** Name of the audio file. */
 	private String mAudioFile;
-	/** 
-	 * 
+	
+	/** Given a context, the path to a main direction as a string, the path to the 
+	 *  inner folder as a string, and the name of the text file to be attached 
+	 *  an async email is sent to a central location containing the attachment.  
 	 * */
     public SendEmailAsyncTask(Context context, String outerDir, String innerDir, String fileName) {
     	Log.e(TAG, "5. Trying to send: " + fileName);
@@ -106,8 +107,9 @@ class SendEmailAsyncTask extends AsyncTask <Void, Void, Boolean> {
 		}
     }
      
-	/** 
-     * 
+	/** Tries to send off an email with the relevant information and 
+	 *  attachments. If there is no Internet connection, 
+	 *  the email will not be sent and false will be returned.  
      * */
     @Override
     protected Boolean doInBackground(Void... params) { 
@@ -117,6 +119,9 @@ class SendEmailAsyncTask extends AsyncTask <Void, Void, Boolean> {
         	Log.e(TAG, "about to send the file");
         	if (mMail != null && mMail.send()) {
         		mEmailSent = true; 
+        		
+        		// For now, the audio file created is NOT deleted. 
+        		// It can be, if the files end up taking too much storage space.
         		//File audio = new File(mAudioFile);
         		//audio.delete();
         		File file = new File(mTextFile);
@@ -137,25 +142,34 @@ class SendEmailAsyncTask extends AsyncTask <Void, Void, Boolean> {
             return false;
         }
     } 
-       
+    
+    /** Returns true if the email has been sent, false otherwise. */
     public boolean emailSent() { 
     	return mEmailSent;
     }
     
+    /** Given a phone number, as a string, a time and a length of the audio file, 
+     *  returns a string that will serve as the subject of the email - includes 
+     *  the relevant information about the audio file that will be parsed later by the
+     *  server. */    
     private String getSubject(String phoneNumber, String time, String length) {
     	String subject = "Swara-Main|app|" + length + "|DRAFT|" + phoneNumber + "|unk|" + time;
     	 
 		return subject;
 	}
     
-    private String getBody(String phone_number, String time, String length) { 
+    /** Given a phone number, as a string, a time and a length of the audio file, 
+     *  returns a string that will serve as the body of the email - includes 
+     *  the relevant information about the audio file that will be parsed later by the
+     *  server. */
+    private String getBody(String phoneNumber, String time, String length) { 
     	String body;
     	body =  "******************************************************************************\n" + 
     			"SERVER/सर्वर                        : Swara-Main\n" +
     			"******************************************************************************\n" +
     			"POST ID/पोस्ट क्र                       : unk" + "\n" +
     			"******************************************************************************\n" +
-    			"CALLER/नंबर                         : " + phone_number + "\n" +
+    			"CALLER/नंबर                         : " + phoneNumber + "\n" +
     			"******************************************************************************\n" +
     			"TIME STAMP/समय                  : " + time + "\n" +
     			"******************************************************************************\n" +
@@ -172,6 +186,5 @@ class SendEmailAsyncTask extends AsyncTask <Void, Void, Boolean> {
     			"TEXT SUMMARY/   सन्देश                  :";
     	
     	return body;
-    }
-    
+    } 
 }
