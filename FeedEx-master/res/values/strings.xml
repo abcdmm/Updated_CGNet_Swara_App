@@ -11,7 +11,7 @@
     <string name="menu_settings">ऑप्शन</string>
     <string name="menu_refresh">Refresh</string>
     <string name="menu_all_read">Mark all as read</string>
-    <string name="feedex_feeds">सीजीनेट स्वर</string>
+    <string name="feedex_feeds">स्वर</string>
     <string name="error">Error</string>
     <string name="network_error">The network is not set up</string>
     <string name="loading">Loading…</string>
@@ -207,15 +207,15 @@
     
 
     <!--  CGNet Swara  -->
-    <string name="main_title">सीजीनेट स्वर</string>     
+    <string name="main_title">स्वर</string>     
     <string name="record">सन्देश रिकॉर्ड करें</string>
     <string name="include_image">फोटो के साथ सन्देश रिकॉर्ड करें</string>
     <string name="listen">संदेशों को सुनें</string>
     <string name="your_number">आपका फ़ोन नंबर डालिये </string>
     <string name="limit">बटन दबाने के बाद अपना सन्देश 3 मिनट के अंदर रिकॉर्ड करें </string>
-    <string name="title_activity_get_audio_files">सीजीनेट स्वर</string>
-    <string name="title_activity_record_audio">सीजीनेट स्वर</string>
-    <string name="title_activity_main">सीजीनेट स्वर</string>
+    <string name="title_activity_get_audio_files">स्वर</string>
+    <string name="title_activity_record_audio">स्वर</string>
+    <string name="title_activity_main">स्वर</string>
     <string name="file_sent">आपका सन्देश भेज दिया जायेगा </string> 
 	<string name="select_picture">सन्देश के लिए फोटो चुनें  </string>
 	<string name="ok">Okay</string>

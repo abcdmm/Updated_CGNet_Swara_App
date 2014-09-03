@@ -57,8 +57,8 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
-
 import net.fred.feedex.Constants;
 import net.fred.feedex.R;
 import net.fred.feedex.provider.FeedData.EntryColumns;
@@ -682,7 +682,14 @@ public class FeedDataContentProvider extends ContentProvider {
     }
 
     public static void addFeed(Context context, String url, String name, boolean retrieveFullText) {
-        ContentResolver cr = context.getContentResolver();
+        Log.e("adding feed", "context: " + context);
+        Log.e("adding feed", "url: " + url);
+        Log.e("adding feed", "name" + name);
+        Log.e("adding feed", "full" + retrieveFullText);
+        
+        
+        
+    	ContentResolver cr = context.getContentResolver();
 
         if (!url.startsWith(Constants.HTTP_SCHEME) && !url.startsWith(Constants.HTTPS_SCHEME)) {
             url = Constants.HTTP_SCHEME + url;

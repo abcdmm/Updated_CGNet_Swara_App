@@ -33,6 +33,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -47,6 +48,7 @@ import net.fred.feedex.fragment.EntriesListFragment;
 import net.fred.feedex.provider.FeedData;
 import net.fred.feedex.provider.FeedData.EntryColumns;
 import net.fred.feedex.provider.FeedData.FeedColumns;
+import net.fred.feedex.provider.FeedDataContentProvider;
 import net.fred.feedex.service.FetcherService;
 import net.fred.feedex.service.RefreshService;
 import net.fred.feedex.utils.PrefUtils;
@@ -96,12 +98,9 @@ public class HomeActivity extends BaseActivity implements LoaderManager.LoaderCa
         
         PrefUtils.putBoolean(PrefUtils.SHOW_READ, true);
         
-        if (PrefUtils.getBoolean(PrefUtils.LIGHT_THEME, true)) {
-            getWindow().setBackgroundDrawableResource(R.color.light_entry_list_background);
-        } else {
-            //getWindow().setBackgroundDrawableResource(R.color.dark_entry_list_background);
-        }
-
+        getWindow().setBackgroundDrawableResource(R.color.light_entry_list_background); 
+        FeedDataContentProvider.addFeed(this, "http://cgnetswara.org//podcast-big.php", getResources().getString(R.string.main_title), true); 
+        
         setContentView(R.layout.activity_home);
 
         mEntriesFragment = (EntriesListFragment) getFragmentManager().findFragmentById(R.id.entries_list_fragment);
