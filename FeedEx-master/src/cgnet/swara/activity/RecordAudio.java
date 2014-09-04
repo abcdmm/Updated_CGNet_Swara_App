@@ -326,7 +326,7 @@ public class RecordAudio extends Activity {
 		if(mRecMicToMp3 != null) {
 			mRecMicToMp3.stop();
 		}
-		 
+		 // TODO
 		MediaMetadataRetriever metaRetriever = new MediaMetadataRetriever();
 	    metaRetriever.setDataSource(mMainDir + mInnerDir + mUniqueAudioRecording);
 	    Long durationms = Long.parseLong(metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION));

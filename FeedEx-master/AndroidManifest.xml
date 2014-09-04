@@ -36,9 +36,11 @@
 
         <activity
             android:name="net.fred.feedex.activity.HomeActivity"
-            android:label="@string/app_name" >
-
+            android:label="@string/app_name" > 
         </activity>
+        
+        
+        
         <activity
             android:name="net.fred.feedex.activity.AddGoogleNewsActivity"
             android:label="@string/google_news_title"
@@ -143,7 +145,14 @@
             </intent-filter>
         </activity>
         
-         
+        
+        
+        <activity
+            android:name="cgnet.swara.activity.CGNetTracker" 
+            android:label="@string/app_name" > 
+        </activity>
+        
+        
         <activity
             android:name="cgnet.swara.activity.RecordAudio"
             android:label="@string/title_activity_record_audio" >

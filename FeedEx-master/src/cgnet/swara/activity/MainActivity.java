@@ -1,8 +1,14 @@
 package cgnet.swara.activity;
 
 import java.io.File;   
+
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import android.util.Log; 
 import android.view.View; 
+import net.fred.feedex.MainApplication;
+import net.fred.feedex.MainApplication.TrackerName;
 import net.fred.feedex.R; 
 import android.os.Bundle;
 import android.app.Activity; 
@@ -42,9 +48,7 @@ public class MainActivity extends Activity {
 
 	/** The users' phone number. */
 	private EditText mNumber;
-
-	//private EasyTracker tracker = null;
-
+  
 	/** Called when the activity is first created. */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -55,14 +59,17 @@ public class MainActivity extends Activity {
 		mListenMessages = (Button) findViewById(R.id.two);
 		mIncludeAudio = (Button) findViewById(R.id.photo);
 		mNumber = (EditText) findViewById(R.id.phone);
+ 
+		// Get tracker.
+		Tracker t = ((MainApplication) getApplication()).getTracker(TrackerName.APP_TRACKER);
+		 
+        // Set screen name.
+        // Where path is a String representing the screen name.
+        t.setScreenName("Home Screen");
 
-		/*     tracker = EasyTracker.getInstance(MainActivity.this);
-        tracker.set(Fields.SCREEN_NAME, "Home Screen"); 
-        tracker.send(MapBuilder
-        	    .createAppView()
-        	    .build()
-        	);
-        GAServiceManager.getInstance().dispatchLocalHits(); */
+        // Send a screen view.
+        t.send(new HitBuilders.AppViewBuilder().build());
+        
 
 		String savedText = getPreferences(MODE_PRIVATE).getString("Phone", null); 
 		if(savedText != null && !savedText.equals("")) {
@@ -152,6 +159,7 @@ public class MainActivity extends Activity {
 	    }); 
 	}
 
+	 
 
 	/** Displays an alert dialog prompting 
 	 *  the user to input their phone number. */

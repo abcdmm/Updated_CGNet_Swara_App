@@ -19,13 +19,48 @@
 
 package net.fred.feedex;
 
+import java.util.HashMap;
+
+import net.fred.feedex.R;
+import net.fred.feedex.utils.PrefUtils;
+
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Tracker; 
+
 import android.app.Application;
 import android.content.Context;
 
+import java.util.HashMap;
+ 
+
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Tracker;
+
+import android.app.Application;
+import android.content.Context;
 import net.fred.feedex.utils.PrefUtils;
 
 public class MainApplication extends Application {
-
+	HashMap<TrackerName, Tracker> mTrackers = new HashMap<TrackerName, Tracker>();
+	
+	public MainApplication() {
+		super(); 
+	}
+	 
+	public enum TrackerName {
+		APP_TRACKER, 		// Tracker used only in this app.
+		GLOBAL_TRACKER, 	// Tracker used by all the apps from a company. eg: roll-up tracking.
+		ECOMMERCE_TRACKER, 	// Tracker used by all ecommerce transactions from a company.
+	}
+	
+	public synchronized Tracker getTracker(TrackerName appTracker) {
+		if (!mTrackers.containsKey(appTracker)) {
+			GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+			Tracker t = analytics.newTracker(R.xml.analytics);
+		    mTrackers.put(appTracker, t);
+		} 
+		return mTrackers.get(appTracker);
+	}
     private static Context context;
 
     @Override
