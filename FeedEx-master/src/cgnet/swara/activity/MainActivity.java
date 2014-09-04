@@ -67,6 +67,13 @@ public class MainActivity extends Activity {
         
         // Send a screen view.
         t.send(new HitBuilders.AppViewBuilder().build());
+        t.send(new HitBuilders.EventBuilder()
+        .setCategory("Barren Fields")
+        .setAction("Rescue")
+        .setLabel("Dragon")
+        .setValue(1)
+        .build());
+    
         
 
 		String savedText = getPreferences(MODE_PRIVATE).getString("Phone", null); 

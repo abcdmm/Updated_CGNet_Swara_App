@@ -19,8 +19,7 @@
 
 package net.fred.feedex;
 
-import java.util.HashMap;
-
+import java.util.HashMap; 
 import net.fred.feedex.R;
 import net.fred.feedex.utils.PrefUtils;
 
@@ -30,17 +29,7 @@ import com.google.android.gms.analytics.Tracker;
 import android.app.Application;
 import android.content.Context;
 
-import java.util.HashMap;
- 
-
-
-import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.Tracker;
-
-import android.app.Application;
-import android.content.Context;
 import android.util.Log;
-import net.fred.feedex.utils.PrefUtils;
 
 public class MainApplication extends Application {
 	HashMap<TrackerName, Tracker> mTrackers = new HashMap<TrackerName, Tracker>();
