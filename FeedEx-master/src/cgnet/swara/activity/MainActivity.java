@@ -62,11 +62,9 @@ public class MainActivity extends Activity {
  
 		// Get tracker.
 		Tracker t = ((MainApplication) getApplication()).getTracker(TrackerName.APP_TRACKER);
-		 
-        // Set screen name.
-        // Where path is a String representing the screen name.
+		   
         t.setScreenName("Home Screen");
-
+        
         // Send a screen view.
         t.send(new HitBuilders.AppViewBuilder().build());
         

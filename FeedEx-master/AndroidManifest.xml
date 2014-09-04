@@ -28,7 +28,7 @@
         android:theme="@style/Theme.Light" >
         <service android:name="net.fred.feedex.service.RefreshService" />
         <service android:name="net.fred.feedex.service.FetcherService" />
-
+  
         <provider
             android:name="net.fred.feedex.provider.FeedDataContentProvider"
             android:authorities="net.fred.feedex.provider.FeedData"

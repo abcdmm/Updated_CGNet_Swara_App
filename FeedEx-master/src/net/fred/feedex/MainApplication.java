@@ -33,11 +33,13 @@ import android.content.Context;
 import java.util.HashMap;
  
 
+
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 import net.fred.feedex.utils.PrefUtils;
 
 public class MainApplication extends Application {
@@ -54,11 +56,15 @@ public class MainApplication extends Application {
 	}
 	
 	public synchronized Tracker getTracker(TrackerName appTracker) {
+		Log.e("Main activity", "inside method");
+		
 		if (!mTrackers.containsKey(appTracker)) {
 			GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
 			Tracker t = analytics.newTracker(R.xml.analytics);
 		    mTrackers.put(appTracker, t);
+		    Log.e("Main activity", "inside if");
 		} 
+		Log.e("Main activity", mTrackers.get(appTracker).toString());
 		return mTrackers.get(appTracker);
 	}
     private static Context context;
