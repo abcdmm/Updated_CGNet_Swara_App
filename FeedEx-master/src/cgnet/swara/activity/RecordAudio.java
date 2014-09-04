@@ -368,7 +368,7 @@ public class RecordAudio extends Activity {
 		mRecMicToMp3 = new RecMicToMp3(mMainDir + mInnerDir + mUniqueAudioRecording, 8000); 
 		mRecMicToMp3.start();
 		Log.e(TAG, "1. Create file: " + mMainDir + mInnerDir + mUniqueAudioRecording);
-	}
+	}	
 
 	/** Plays the generated audio recording. */
 	private void startPlaying() {

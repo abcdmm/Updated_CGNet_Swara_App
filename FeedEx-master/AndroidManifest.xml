@@ -145,14 +145,7 @@
             </intent-filter>
         </activity>
         
-        
-        
-        <activity
-            android:name="cgnet.swara.activity.CGNetTracker" 
-            android:label="@string/app_name" > 
-        </activity>
-        
-        
+         
         <activity
             android:name="cgnet.swara.activity.RecordAudio"
             android:label="@string/title_activity_record_audio" >
