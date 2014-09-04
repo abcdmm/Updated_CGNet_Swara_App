@@ -1,9 +1,6 @@
 package cgnet.swara.activity.lame;
- 
 
-/**
- * LAME interface class
- */
+/** LAME interface class */
 public class SimpleLame {
 
 	/**
@@ -75,8 +72,6 @@ public class SimpleLame {
 	 */
 	public native static int flush(byte[] mp3buf);
 
-	/**
-	 * Close LAME.
-	 */
+	/** Close LAME. */
 	public native static void close();
 }

@@ -684,8 +684,8 @@ public class FeedDataContentProvider extends ContentProvider {
     public static void addFeed(Context context, String url, String name, boolean retrieveFullText) {
         Log.e("adding feed", "context: " + context);
         Log.e("adding feed", "url: " + url);
-        Log.e("adding feed", "name" + name);
-        Log.e("adding feed", "full" + retrieveFullText);
+        Log.e("adding feed", "name " + name);
+        Log.e("adding feed", "full " + retrieveFullText);
         
         
         
@@ -700,7 +700,8 @@ public class FeedDataContentProvider extends ContentProvider {
 
         if (cursor.moveToFirst()) {
             cursor.close();
-            Toast.makeText(context, R.string.error_feed_url_exists, Toast.LENGTH_SHORT).show();
+            Log.e("inside", "" + cursor);
+         //   Toast.makeText(context, R.string.error_feed_url_exists, Toast.LENGTH_SHORT).show();
         } else {
             cursor.close();
             ContentValues values = new ContentValues();
