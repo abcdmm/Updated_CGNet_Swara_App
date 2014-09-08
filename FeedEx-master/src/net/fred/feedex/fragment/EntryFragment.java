@@ -569,7 +569,7 @@ public class EntryFragment extends SwipeRefreshFragment implements BaseActivity.
 		                    			dir.mkdirs();
 		                    		}
   
-		                            r.setDestinationInExternalPublicDir(Environment.getExternalStorageDirectory().getAbsolutePath() + "/CGNet_Swara/", name); 
+		                            r.setDestinationInExternalPublicDir("CGNet_Swara", name); 
 		                            
 		                            DownloadManager dm = (DownloadManager) MainApplication.getContext().getSystemService(Context.DOWNLOAD_SERVICE);
 		                            dm.enqueue(r);
