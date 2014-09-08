@@ -49,9 +49,14 @@ public class MainApplication extends Application {
 		
 		if (!mTrackers.containsKey(appTracker)) {
 			GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
-			Tracker t = analytics.newTracker(R.xml.analytics);
-		    mTrackers.put(appTracker, t);
-		    Log.e("Main activity", "inside if");
+			
+			if (appTracker == TrackerName.APP_TRACKER) {
+				Tracker t = analytics.newTracker(R.xml.analytics);
+			    mTrackers.put(appTracker, t);
+			    Log.e("Main activity", "inside if");
+            }
+			
+
 		} 
 		Log.e("Main activity", mTrackers.get(appTracker).toString());
 		return mTrackers.get(appTracker);

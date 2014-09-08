@@ -1,10 +1,6 @@
 package cgnet.swara.activity;
 
 import java.io.File;   
-
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
-
 import android.util.Log; 
 import android.view.View; 
 import net.fred.feedex.MainApplication;
@@ -16,6 +12,8 @@ import android.text.Editable;
 import android.widget.Button;
 import android.content.Intent;
 import android.os.Environment;
+import com.flurry.android.FlurryAgent;
+
 import android.app.AlertDialog;
 import android.widget.EditText;
 import android.text.TextWatcher;
@@ -24,6 +22,9 @@ import android.view.LayoutInflater;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;  
 import android.view.View.OnClickListener;
+import com.google.android.gms.analytics.Tracker;
+import com.google.android.gms.analytics.HitBuilders;
+import com.localytics.android.*;
 
 
 /** This is the first screen of the CGNet Swara App. 
@@ -49,6 +50,25 @@ public class MainActivity extends Activity {
 	/** The users' phone number. */
 	private EditText mNumber;
   
+	private LocalyticsAmpSession localyticsSession;
+
+	
+	@Override
+	protected void onStart() {
+		super.onStart();
+		Log.e(TAG, "IN ON START!");
+		FlurryAgent.onStartSession(this, EmailLogin.api_key);
+	    FlurryAgent.setLogEnabled(true);
+	    FlurryAgent.setLogEvents(true);
+	    FlurryAgent.setLogLevel(Log.VERBOSE);
+	    
+	}
+	 
+	@Override
+	protected void onStop() {
+		super.onStop();		
+		FlurryAgent.onEndSession(this);
+	}
 	/** Called when the activity is first created. */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +80,8 @@ public class MainActivity extends Activity {
 		mIncludeAudio = (Button) findViewById(R.id.photo);
 		mNumber = (EditText) findViewById(R.id.phone);
  
+		FlurryAgent.logEvent("User on the main screen");
+		
 		// Get tracker.
 		Tracker t = ((MainApplication) getApplication()).getTracker(TrackerName.APP_TRACKER);
 		   
@@ -73,9 +95,16 @@ public class MainActivity extends Activity {
         .setLabel("Dragon")
         .setValue(1)
         .build());
-    
         
-
+        // Activity Creation Code
+        
+        // Instantiate the object
+        this.localyticsSession = new LocalyticsAmpSession(
+                 this.getApplicationContext());  // Context used to access device resources
+      
+        this.localyticsSession.open();           // open the session
+        this.localyticsSession.upload();         // upload any data
+     
 		String savedText = getPreferences(MODE_PRIVATE).getString("Phone", null); 
 		if(savedText != null && !savedText.equals("")) {
 			mNumber.setText(savedText);
@@ -92,13 +121,7 @@ public class MainActivity extends Activity {
 			public void onClick(View arg) {
 				mRecordMessage.setEnabled(false);
 				recordInput(false);
-				/*			tracker.send(MapBuilder
-					      .createEvent("Clicks",     		// Event category (required)
-					                   "Button",  			// Event action (required)
-					                   "Record a message",  // Event label
-					                   null)            	// Event value
-					      .build()
-					  ); */ 
+ 
 			}  
 		}); 
 
@@ -107,13 +130,7 @@ public class MainActivity extends Activity {
 			public void onClick(View arg) { 
 				mIncludeAudio.setEnabled(false);
 				recordInput(true);
-				/*			tracker.send(MapBuilder
-					      .createEvent("Clicks",     		// Event category (required)
-					                   "Button",  			// Event action (required)
-					                   "Record a message - include a message",  // Event label
-					                   null)            	// Event value
-					      .build()
-					  ); */ 
+ 
 			}  
 		}); 
 
@@ -121,13 +138,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View arg) { 
 				loadRecordings();
-				/*				tracker.send(MapBuilder
-					      .createEvent("Clicks",     		// Event category (required)
-					                   "Button",  			// Event action (required)
-					                   "Listen to messages",  // Event label
-					                   null)            	// Event value
-					      .build()
-					  );*/ 
+ 
 			}  
 		}); 
 
@@ -181,7 +192,7 @@ public class MainActivity extends Activity {
 		final EditText userInput = (EditText) promptsView.findViewById(R.id.editTextDialogUserInput);
 
 		// set dialog message
-		alertDialogBuilder.setCancelable(false).setPositiveButton(this.getString(R.string.ok),
+		alertDialogBuilder.setCancelable(false).setPositiveButton(this.getString(R.string.ok_phone),
 				new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog,int id) { 
 				mPhoneNumber = userInput.getText().toString();
@@ -192,7 +203,7 @@ public class MainActivity extends Activity {
 				mNumber.setText(mPhoneNumber);
 			}
 		})
-		.setNegativeButton(this.getString(R.string.cancel),
+		.setNegativeButton(this.getString(R.string.cancel_phone),
 				new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog,int id) {
 				mPhoneNumber = userInput.getText().toString();
@@ -213,20 +224,7 @@ public class MainActivity extends Activity {
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 		// show it
 		alertDialog.show();
-	}
-
-
-	@Override
-	public void onStart() {
-		super.onStart();
-		//	EasyTracker.getInstance(this).activityStart(this);
-	}
-
-	@Override
-	public void onStop() {
-		super.onStop();
-		//EasyTracker.getInstance(this).activityStop(this);
-	}
+	} 
 
 	/** Called when the activity is paused; begins playing the audio recording
 	 *  for the user. */
@@ -234,6 +232,9 @@ public class MainActivity extends Activity {
 	public void onResume() {
 		super.onResume();   
 
+
+		   this.localyticsSession.open();
+		   this.localyticsSession.upload(); 
 		mRecordMessage.setEnabled(true);
 		mIncludeAudio.setEnabled(true);
 		mNumber.clearFocus();
@@ -244,7 +245,11 @@ public class MainActivity extends Activity {
 	 *  system and stops audio recordings that may be playing. */
 	@Override
 	protected void onPause() {
-		super.onPause();   
+		this.localyticsSession.detach();
+		   this.localyticsSession.close();
+		   this.localyticsSession.upload();
+		super.onPause(); 
+		 
 	}
 
 	/** Opens a new activity to allow the user to record audio content. */

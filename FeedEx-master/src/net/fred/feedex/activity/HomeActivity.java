@@ -98,7 +98,9 @@ public class HomeActivity extends BaseActivity implements LoaderManager.LoaderCa
         
         PrefUtils.putBoolean(PrefUtils.SHOW_READ, true);
         
-        getWindow().setBackgroundDrawableResource(R.color.light_entry_list_background); 
+        getWindow().setBackgroundDrawableResource(R.color.light_entry_list_background);
+        
+        // !!!!
         FeedDataContentProvider.addFeed(HomeActivity.this, "http://cgnetswara.org//podcast-big.php", getResources().getString(R.string.main_title), true); 
         
         setContentView(R.layout.activity_home);
@@ -108,6 +110,10 @@ public class HomeActivity extends BaseActivity implements LoaderManager.LoaderCa
         mTitle = getTitle();
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        
+        // TODO
+      //  mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mDrawerList.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         mDrawerList.setOnItemClickListener(new ListView.OnItemClickListener() {
@@ -216,10 +222,7 @@ public class HomeActivity extends BaseActivity implements LoaderManager.LoaderCa
             MenuInflater inflater = getMenuInflater();
             inflater.inflate(R.menu.drawer, menu);
 
-    //      	  if (!PrefUtils.getBoolean(PrefUtils.SHOW_READ, true)) {
-     //           menu.findItem(R.id.menu_hide_read_main).setTitle(R.string.context_menu_show_read).setIcon(R.drawable.view_reads);
-     //       }
-
+ 
             mEntriesFragment.setHasOptionsMenu(false);
         } else {
             refreshTitleAndIcon();
@@ -236,26 +239,12 @@ public class HomeActivity extends BaseActivity implements LoaderManager.LoaderCa
         }
 
         switch (item.getItemId()) {
-  /*          case R.id.menu_hide_read_main:
-                if (!PrefUtils.getBoolean(PrefUtils.SHOW_READ, true)) {
-                    PrefUtils.putBoolean(PrefUtils.SHOW_READ, true);
-                    item.setTitle(R.string.context_menu_hide_read).setIcon(R.drawable.hide_reads);
-                } else {
-                    PrefUtils.putBoolean(PrefUtils.SHOW_READ, false);
-                    item.setTitle(R.string.context_menu_show_read).setIcon(R.drawable.view_reads);
-                }
-                return true;*/
-            case R.id.menu_edit_main:
-                startActivity(new Intent(this, EditFeedsListActivity.class));
-                return true; 
+  
             case R.id.menu_refresh_main:
                 if (!PrefUtils.getBoolean(PrefUtils.IS_REFRESHING, false)) {
                     MainApplication.getContext().startService(new Intent(MainApplication.getContext(), FetcherService.class).setAction(FetcherService.ACTION_REFRESH_FEEDS));
                 }
-                return true;
-            case R.id.menu_settings_main:
-                startActivity(new Intent(this, GeneralPrefsActivity.class));
-                return true;
+                return true; 
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -286,7 +275,9 @@ public class HomeActivity extends BaseActivity implements LoaderManager.LoaderCa
 
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-        if (mDrawerAdapter != null) {
+    	Log.e("!!!!", cursor.toString());
+    	mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+    	if (mDrawerAdapter != null) {
             mDrawerAdapter.setCursor(cursor);
         } else {
             mDrawerAdapter = new DrawerAdapter(this, cursor);
@@ -339,10 +330,13 @@ public class HomeActivity extends BaseActivity implements LoaderManager.LoaderCa
                     newUri = EntryColumns.ENTRIES_FOR_FEED_CONTENT_URI(feedOrGroupId);
                     showFeedInfo = false;
                 }
-                mTitle = mDrawerAdapter.getItemName(position);
-                break;
+                mTitle = mDrawerAdapter.getItemName(position); 
+                break; 
         }
-
+        Log.e("!!", "" + newUri);
+        Log.e("!!", "" + mEntriesFragment.getUri());
+        Log.e("!!", "" + mDrawerList);
+        
         if (!newUri.equals(mEntriesFragment.getUri())) {
             mEntriesFragment.setData(newUri, showFeedInfo);
         }
@@ -352,15 +346,7 @@ public class HomeActivity extends BaseActivity implements LoaderManager.LoaderCa
         // First open => we open the drawer for you
         if (PrefUtils.getBoolean(PrefUtils.FIRST_OPEN, true)) {
             PrefUtils.putBoolean(PrefUtils.FIRST_OPEN, false);
-            
-          // TODO
-          /*  mDrawerLayout.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mDrawerLayout.openDrawer(mDrawerList);
-                   
-                }
-            }, 200); */ 
+           
         }
     }
 }

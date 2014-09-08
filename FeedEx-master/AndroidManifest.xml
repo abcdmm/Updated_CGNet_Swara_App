@@ -8,7 +8,7 @@
     <uses-sdk
         android:minSdkVersion="15"
         android:targetSdkVersion="18" />
-
+	
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
@@ -19,7 +19,9 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> 
-
+<uses-permission android:name="android.permission.WAKE_LOCK" />
+    
+    
     <application
         android:name="net.fred.feedex.MainApplication"
         android:allowBackup="true"
@@ -29,6 +31,9 @@
         <service android:name="net.fred.feedex.service.RefreshService" />
         <service android:name="net.fred.feedex.service.FetcherService" />
   
+        <meta-data android:name="LOCALYTICS_APP_KEY" android:value="ff53da784e6d687b36ff0c2-a79d4860-3531-11e4-a39f-009c5fda0a25"/>
+        
+        
         <provider
             android:name="net.fred.feedex.provider.FeedDataContentProvider"
             android:authorities="net.fred.feedex.provider.FeedData"

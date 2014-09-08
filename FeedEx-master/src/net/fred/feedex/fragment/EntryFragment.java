@@ -43,6 +43,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -51,7 +52,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
 import net.fred.feedex.Constants;
 import net.fred.feedex.MainApplication;
 import net.fred.feedex.R;
@@ -136,14 +136,23 @@ public class EntryFragment extends SwipeRefreshFragment implements BaseActivity.
                     }
                     if (contentText == null) {
                         contentText = "";
-                    }
-
+                    } 
+                     
                     String author = newCursor.getString(mAuthorPos);
                     long timestamp = newCursor.getLong(mDatePos);
                     String link = newCursor.getString(mLinkPos);
                     String title = newCursor.getString(mTitlePos);
                     String enclosure = newCursor.getString(mEnclosurePos);
 
+                    Log.e("!", "author" + mAuthorPos + " :" +  author);
+                    Log.e("!", "timestamp" + timestamp + " :" +  mDatePos);
+                    Log.e("!", "link" + link + " :" +  mLinkPos);
+                    Log.e("!", "title" + title + " :" +  mTitlePos);
+                    Log.e("!", "enclosure" + enclosure + " :" +  mEnclosurePos);
+                    
+                    
+                    
+                    
                     view.setHtml(mEntriesIds[pagerPos], title, link, contentText, enclosure, author, timestamp, mPreferFullText);
                     view.setTag(newCursor);
 
@@ -346,20 +355,7 @@ public class EntryFragment extends SwipeRefreshFragment implements BaseActivity.
                     }
                     break;
                 }
-                case R.id.menu_full_screen: {
-                    toggleFullScreen();
-                    break;
-                }
-                case R.id.menu_copy_clipboard: {
-                    Cursor cursor = mEntryPagerAdapter.getCursor(mCurrentPagerPos);
-                    String link = cursor.getString(mLinkPos);
-                    ClipboardManager clipboard = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
-                    ClipData clip = ClipData.newPlainText("Copied Text", link);
-                    clipboard.setPrimaryClip(clip);
-
-                    Toast.makeText(activity, R.string.copied_clipboard, Toast.LENGTH_SHORT).show();
-                    break;
-                }
+ 
                  
             }
         }
@@ -455,6 +451,7 @@ public class EntryFragment extends SwipeRefreshFragment implements BaseActivity.
     }
 
     private void showEnclosure(Uri uri, String enclosure, int position1, int position2) {
+    	Log.e("text????", "" + uri);
         try {
             startActivityForResult(new Intent(Intent.ACTION_VIEW).setDataAndType(uri, enclosure.substring(position1 + 3, position2)), 0);
         } catch (Exception e) {
@@ -527,7 +524,8 @@ public class EntryFragment extends SwipeRefreshFragment implements BaseActivity.
     @Override
     public void onClickEnclosure() {
         getActivity().runOnUiThread(new Runnable() {
-            @Override
+//TODO
+        	@Override
             public void run() {
                 final String enclosure = mEntryPagerAdapter.getCursor(mCurrentPagerPos).getString(mEnclosurePos);
 
@@ -540,25 +538,32 @@ public class EntryFragment extends SwipeRefreshFragment implements BaseActivity.
                 new AlertDialog.Builder(getActivity())
                         .setTitle(R.string.open_enclosure)
                         .setMessage(getString(R.string.file) + ": " + filename)
-                        .setPositiveButton(R.string.open_link, new DialogInterface.OnClickListener() {
+                        .setNegativeButton(R.string.cancel_phone, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                showEnclosure(uri, enclosure, position1, position2);
+                            
+                            	
+                            	// showEnclosure(uri, enclosure, position1, position2);
+                            	
+                            	
                             }
-                        }).setNegativeButton(R.string.download_and_save, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        try {
-                            DownloadManager.Request r = new DownloadManager.Request(uri);
-                            r.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename);
-                            r.allowScanningByMediaScanner();
-                            r.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-                            DownloadManager dm = (DownloadManager) MainApplication.getContext().getSystemService(Context.DOWNLOAD_SERVICE);
-                            dm.enqueue(r);
-                        } catch (Exception e) {
-                            Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_LONG).show();
-                        }
-                    }
+                        }).setPositiveButton(R.string.download_and_save, new DialogInterface.OnClickListener() {
+		                    @Override
+		                    public void onClick(DialogInterface dialog, int which) {
+		                        try {
+		                            DownloadManager.Request r = new DownloadManager.Request(uri);
+		                            r.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename);
+		                            r.allowScanningByMediaScanner();
+		                            r.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+		                            //TODO
+		                            r.setDestinationUri(destination);
+		                            
+		                            DownloadManager dm = (DownloadManager) MainApplication.getContext().getSystemService(Context.DOWNLOAD_SERVICE);
+		                            dm.enqueue(r);
+		                        } catch (Exception e) {
+		                            Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_LONG).show();
+		                        }
+		                    }
                 }).show();
             }
         });
