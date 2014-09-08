@@ -19,6 +19,9 @@
 
 package net.fred.feedex.fragment;
 
+import java.io.File;
+
+import cgnet.swara.activity.MainActivity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DownloadManager;
@@ -550,13 +553,23 @@ public class EntryFragment extends SwipeRefreshFragment implements BaseActivity.
                         }).setPositiveButton(R.string.download_and_save, new DialogInterface.OnClickListener() {
 		                    @Override
 		                    public void onClick(DialogInterface dialog, int which) {
-		                        try {
+		                        try { 
 		                            DownloadManager.Request r = new DownloadManager.Request(uri);
 		                            r.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename);
 		                            r.allowScanningByMediaScanner();
 		                            r.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-		                            //TODO
-		                            r.setDestinationUri(destination);
+		                            
+		                            String name = new File(uri.toString()).getName(); 
+		                            Log.e("!?", name);
+		                            
+		                    		String path = Environment.getExternalStorageDirectory().getAbsolutePath();
+		                    		path += "/CGNet_Swara";
+		                    		File dir = new File(path); 
+		                    		if (!dir.exists()|| !dir.isDirectory()) {
+		                    			dir.mkdirs();
+		                    		}
+  
+		                            r.setDestinationInExternalPublicDir(Environment.getExternalStorageDirectory().getAbsolutePath() + "/CGNet_Swara/", name); 
 		                            
 		                            DownloadManager dm = (DownloadManager) MainApplication.getContext().getSystemService(Context.DOWNLOAD_SERVICE);
 		                            dm.enqueue(r);

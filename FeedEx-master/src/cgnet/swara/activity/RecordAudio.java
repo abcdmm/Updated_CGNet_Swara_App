@@ -253,7 +253,7 @@ public class RecordAudio extends Activity {
 		}
 	}
 	
-	/**  */
+	/**  TODO */ 
 	private Bitmap halfSize(Bitmap input) { 
 		int height = input.getHeight();
 		int width = input.getWidth();  

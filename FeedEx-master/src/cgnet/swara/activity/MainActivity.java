@@ -149,6 +149,14 @@ public class MainActivity extends Activity {
 		if (!dir.exists()|| !dir.isDirectory()) {
 			dir.mkdirs();
 		}
+		Log.i("1", "" + Environment.getExternalStorageDirectory().getAbsolutePath());
+		// Creates a folder for the app's recordings
+		String path_audio = Environment.getExternalStorageDirectory().getAbsolutePath();
+		path_audio += "/CGNet_Swara";
+		File dir_audio = new File(path_audio); 
+		if (!dir_audio.exists()|| !dir_audio.isDirectory()) {
+			dir_audio.mkdirs();
+		}
 
 
 
