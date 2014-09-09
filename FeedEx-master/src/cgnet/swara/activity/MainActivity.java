@@ -49,26 +49,7 @@ public class MainActivity extends Activity {
 
 	/** The users' phone number. */
 	private EditText mNumber;
-  
-	private LocalyticsAmpSession localyticsSession;
-
-	
-	@Override
-	protected void onStart() {
-		super.onStart();
-		Log.e(TAG, "IN ON START!");
-		FlurryAgent.onStartSession(this, EmailLogin.api_key);
-	    FlurryAgent.setLogEnabled(true);
-	    FlurryAgent.setLogEvents(true);
-	    FlurryAgent.setLogLevel(Log.VERBOSE);
-	    
-	}
-	 
-	@Override
-	protected void onStop() {
-		super.onStop();		
-		FlurryAgent.onEndSession(this);
-	}
+  	 
 	/** Called when the activity is first created. */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -79,9 +60,7 @@ public class MainActivity extends Activity {
 		mListenMessages = (Button) findViewById(R.id.two);
 		mIncludeAudio = (Button) findViewById(R.id.photo);
 		mNumber = (EditText) findViewById(R.id.phone);
- 
-		FlurryAgent.logEvent("User on the main screen");
-		
+  	
 		// Get tracker.
 		Tracker t = ((MainApplication) getApplication()).getTracker(TrackerName.APP_TRACKER);
 		   
@@ -89,23 +68,8 @@ public class MainActivity extends Activity {
         
         // Send a screen view.
         t.send(new HitBuilders.AppViewBuilder().build());
-        t.send(new HitBuilders.EventBuilder()
-        .setCategory("Barren Fields")
-        .setAction("Rescue")
-        .setLabel("Dragon")
-        .setValue(1)
-        .build());
-        
-        // Activity Creation Code
-        
-        // Instantiate the object
-        this.localyticsSession = new LocalyticsAmpSession(
-                 this.getApplicationContext());  // Context used to access device resources
-      
-        this.localyticsSession.open();           // open the session
-        this.localyticsSession.upload();         // upload any data
-     
-		String savedText = getPreferences(MODE_PRIVATE).getString("Phone", null); 
+  
+        String savedText = getPreferences(MODE_PRIVATE).getString("Phone", null); 
 		if(savedText != null && !savedText.equals("")) {
 			mNumber.setText(savedText);
 		} else {
@@ -239,10 +203,7 @@ public class MainActivity extends Activity {
 	@Override
 	public void onResume() {
 		super.onResume();   
-
-
-		   this.localyticsSession.open();
-		   this.localyticsSession.upload(); 
+ 
 		mRecordMessage.setEnabled(true);
 		mIncludeAudio.setEnabled(true);
 		mNumber.clearFocus();
@@ -252,10 +213,7 @@ public class MainActivity extends Activity {
 	/** Called when the activity is paused; releases resources back to the 
 	 *  system and stops audio recordings that may be playing. */
 	@Override
-	protected void onPause() {
-		this.localyticsSession.detach();
-		   this.localyticsSession.close();
-		   this.localyticsSession.upload();
+	protected void onPause() { 
 		super.onPause(); 
 		 
 	}
