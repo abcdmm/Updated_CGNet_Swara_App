@@ -130,7 +130,7 @@ public class DrawerAdapter extends BaseAdapter {
         } else if (position == 2) {
             holder.titleTxt.setText(R.string.search_entries);
             holder.iconView.setImageResource(R.drawable.action_search);
-        }  else if (mFeedsCursor != null && mFeedsCursor.moveToPosition(position - 3)) {
+        }  /*else if (mFeedsCursor != null && mFeedsCursor.moveToPosition(position - 3)) {
         	
             holder.titleTxt.setText((mFeedsCursor.isNull(POS_NAME) ? mFeedsCursor.getString(POS_URL) : mFeedsCursor.getString(POS_NAME)));
 
@@ -185,7 +185,7 @@ public class DrawerAdapter extends BaseAdapter {
             if (!mFeedsCursor.isNull(POS_GROUP_ID)) { // First level
                 convertView.setPadding(ITEM_PADDING, 0, 0, 0);
             }
-        } 
+        } */
 
         return convertView;
     }
