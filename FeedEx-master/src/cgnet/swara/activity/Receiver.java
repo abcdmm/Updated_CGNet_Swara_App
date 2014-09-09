@@ -24,16 +24,12 @@ public class Receiver extends BroadcastReceiver {
 	/** Called when there's a change in connectivity. Iterates through files 
 	 * that need to be sent and sends each one if there's Internet. */ 
     @Override
-    public void onReceive(Context context, Intent intent) {
-    	
-    	Log.e(TAG,  "3. In onRecieve");
-		
+    public void onReceive(Context context, Intent intent) { 
     	mMainDir = Environment.getExternalStorageDirectory().getAbsolutePath();
 		mMainDir += "/Android/data/com.MSRi.ivr.cgnetswara"; 
     	ConnectivityManager cm = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE));
         if (cm == null)
-            return;
-       Log.e(TAG, intent.getAction());
+            return; 
         if (cm.getActiveNetworkInfo() != null || intent.getAction().equals("com.android.CUSTOM_INTENT")) {
         	File dir = new File(mMainDir + mInnerDir); // Contains files to be sent
         	File[] directoryListing = dir.listFiles();
@@ -41,7 +37,7 @@ public class Receiver extends BroadcastReceiver {
         	if (directoryListing != null) {
         		for (File child : directoryListing) { 
         	    	String fileName = child.getName();
-        	    	Log.e(TAG, "4. Trying to send: " + fileName);
+
         			SendEmailAsyncTask task = new SendEmailAsyncTask(context, 
         										  mMainDir, mInnerDir, "/" + fileName);
         			task.execute(); 

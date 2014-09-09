@@ -50,6 +50,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Environment;
 import android.text.format.DateFormat;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -165,7 +166,7 @@ public class EntryView extends WebView {
             getSettings().setBlockNetworkImage(true);
         }
 
- 
+        Log.e("set html", enclosure);
         // do not put 'null' to the base url...
         loadDataWithBaseURL("", generateHtmlContent(title, link, contentText, enclosure, author, timestamp, preferFullText), TEXT_HTML, Constants.UTF8, null);
     }
@@ -186,8 +187,13 @@ public class EntryView extends WebView {
         String temp = enclosure.split("http://cgnetswara.org//audio/")[1];
         String audio_recording = temp.split("\\[")[0]; 
         
-        Log.e("KD194!", audio_recording);
-        
+         
+        // Creates a folder for the app's recordings
+        String path_audio = Environment.getExternalStorageDirectory().getAbsolutePath();
+     	path_audio += "/CGNet_Swara";
+     	File parent = new File(path_audio);
+     	 
+        //TODO
         
         // TODO - add if statement here
         content.append(dateStringBuilder).append(SUBTITLE_END);

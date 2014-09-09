@@ -115,7 +115,7 @@ public class EntryFragment extends SwipeRefreshFragment implements BaseActivity.
             getLoaderManager().destroyLoader(position);
             container.removeView((View) object);
             mEntryViews.delete(position);
-        }
+        }	
 
         @Override
         public boolean isViewFromObject(View view, Object object) {
@@ -123,6 +123,7 @@ public class EntryFragment extends SwipeRefreshFragment implements BaseActivity.
         }
 
         public void displayEntry(int pagerPos, Cursor newCursor, boolean forceUpdate) {
+        	Log.e("entry fragment", "display entry called");
             EntryView view = mEntryViews.get(pagerPos);
             if (view != null) {
                 if (newCursor == null) {
@@ -147,6 +148,8 @@ public class EntryFragment extends SwipeRefreshFragment implements BaseActivity.
                     String title = newCursor.getString(mTitlePos);
                     String enclosure = newCursor.getString(mEnclosurePos);
  
+                    Log.e("entry fragment", enclosure);
+                    
                     
                     view.setHtml(mEntriesIds[pagerPos], title, link, contentText, enclosure, author, timestamp, mPreferFullText);
                     view.setTag(newCursor);

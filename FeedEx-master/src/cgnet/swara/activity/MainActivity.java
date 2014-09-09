@@ -110,7 +110,8 @@ public class MainActivity extends Activity {
 		if (!dir.exists()|| !dir.isDirectory()) {
 			dir.mkdirs();
 		}
-		Log.i("1", "" + Environment.getExternalStorageDirectory().getAbsolutePath());
+
+		
 		// Creates a folder for the app's recordings
 		String path_audio = Environment.getExternalStorageDirectory().getAbsolutePath();
 		path_audio += "/CGNet_Swara";
@@ -168,7 +169,7 @@ public class MainActivity extends Activity {
 				SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
 				editor.putString("Phone", mPhoneNumber);
 				editor.apply();
-				Log.e(TAG, "Phone number: " + mPhoneNumber);
+
 				mNumber.setText(mPhoneNumber);
 			}
 		})
@@ -176,9 +177,8 @@ public class MainActivity extends Activity {
 				new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog,int id) {
 				mPhoneNumber = userInput.getText().toString();
-				Log.e(TAG, "phone number: " + mPhoneNumber + "!");
-				if(mPhoneNumber == null || mPhoneNumber.equals("") || mPhoneNumber.equals(" ")) {
-					Log.e(TAG, "phone number inside");
+
+				if(mPhoneNumber == null || mPhoneNumber.equals("") || mPhoneNumber.equals(" ")) { 
 					showPrompt();
 				} else {
 					dialog.cancel();

@@ -128,7 +128,7 @@ public class DrawerAdapter extends BaseAdapter {
                 holder.unreadTxt.setText(String.valueOf(unread));
             }
         } else if (position == 2) {
-            holder.titleTxt.setText(android.R.string.search_go);
+            holder.titleTxt.setText(R.string.search_entries);
             holder.iconView.setImageResource(R.drawable.action_search);
         } else if (mFeedsCursor != null && mFeedsCursor.moveToPosition(position - 3)) {
             holder.titleTxt.setText((mFeedsCursor.isNull(POS_NAME) ? mFeedsCursor.getString(POS_URL) : mFeedsCursor.getString(POS_NAME)));

@@ -287,7 +287,7 @@ public class HomeActivity extends BaseActivity implements LoaderManager.LoaderCa
 
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-    	Log.e("!!!!", cursor.toString());
+    	
     	mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
     	if (mDrawerAdapter != null) {
             mDrawerAdapter.setCursor(cursor);
@@ -345,10 +345,7 @@ public class HomeActivity extends BaseActivity implements LoaderManager.LoaderCa
                 mTitle = mDrawerAdapter.getItemName(position); 
                 break; 
         }
-        Log.e("!!", "" + newUri);
-        Log.e("!!", "" + mEntriesFragment.getUri());
-        Log.e("!!", "" + mDrawerList);
-        
+          
         if (!newUri.equals(mEntriesFragment.getUri())) {
             mEntriesFragment.setData(newUri, showFeedInfo);
         }
@@ -358,7 +355,6 @@ public class HomeActivity extends BaseActivity implements LoaderManager.LoaderCa
         // First open => we open the drawer for you
         if (PrefUtils.getBoolean(PrefUtils.FIRST_OPEN, true)) {
             PrefUtils.putBoolean(PrefUtils.FIRST_OPEN, false);
-           
         }
     }
 }

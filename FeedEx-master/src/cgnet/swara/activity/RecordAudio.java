@@ -4,6 +4,7 @@ import java.io.File;
 
 import android.net.Uri;  
 import android.util.Log;  
+import android.opengl.GLES10;
 import android.os.Bundle;
 import android.view.View;
 import net.fred.feedex.MainApplication;
@@ -12,6 +13,8 @@ import net.fred.feedex.MainApplication.TrackerName;
 
 import java.io.IOException;
 import java.util.Calendar;
+
+import javax.microedition.khronos.opengles.GL10;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -23,6 +26,7 @@ import android.content.Intent;
 import android.os.Environment;
 import android.database.Cursor;
 import android.graphics.Bitmap;  
+import android.graphics.Canvas;
 import android.widget.ImageView; 
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;  
@@ -255,6 +259,7 @@ public class RecordAudio extends Activity {
 
 				bitmap = BitmapFactory.decodeFile(selectedImagePath);
 				if(bitmap != null) {
+  //TODO
 					while(bitmap.getHeight() > 2000 || bitmap.getWidth() > 2000) {  
 						bitmap = halfSize(bitmap);
 					}
