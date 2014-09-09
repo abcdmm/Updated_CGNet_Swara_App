@@ -161,8 +161,11 @@ public class RecordAudio extends Activity {
 		chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() { 
             @Override
             public void onChronometerTick(Chronometer chronometer) {
-                if(chronometer.getText().toString().equalsIgnoreCase("2:59"))
+            	Log.e(TAG, chronometer.getText().toString());
+                if(chronometer.getText().toString().equalsIgnoreCase("2:59") || 
+                   chronometer.getText().toString().equalsIgnoreCase("02:59")) { 
                   mStop.performClick();
+                }
             }
         });
 		
@@ -182,9 +185,7 @@ public class RecordAudio extends Activity {
 		mStop.setOnClickListener(new OnClickListener() { 
 			@Override
 			public void onClick(View arg) {  
-				chronometer.stop();
-				findViewById(R.id.time).setVisibility(View.INVISIBLE);
-				findViewById(R.id.limit).setVisibility(View.INVISIBLE);
+				chronometer.stop();  
 				mStop.setVisibility(View.GONE); 
 				mPlayback.setVisibility(View.VISIBLE);
 				mSendAudio.setVisibility(View.VISIBLE); 
@@ -434,10 +435,11 @@ public class RecordAudio extends Activity {
 	} 
 	
 	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) { 
-		
-		if(keyCode == KeyEvent.KEYCODE_BACK && mStop.getVisibility() == View.VISIBLE) {  
-			stopRecording(); 
+	public boolean onKeyDown(int keyCode, KeyEvent event) {  
+			Log.e(TAG, "inside");
+		if(keyCode == KeyEvent.KEYCODE_BACK && mStop.getVisibility() == View.VISIBLE) {
+			Log.e(TAG, "inside2");
+			mStop.performClick();
 		}  
 			
 		
