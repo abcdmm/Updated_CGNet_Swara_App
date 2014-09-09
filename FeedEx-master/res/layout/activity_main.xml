@@ -2,10 +2,14 @@
 <LinearLayout 
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:screenOrientation="nosensor"
+    android:configChanges="keyboardHidden|orientation"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="5dip"  
+    android:padding="5dip"
+    android:focusable="true"
+    android:focusableInTouchMode="true"   
     android:layout_gravity="center_vertical"
     tools:context=".MainActivity" >
  
@@ -80,6 +84,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.75"
         android:focusable="true" 
+        android:maxLength="12"
 		android:focusableInTouchMode="true"
         android:layout_gravity="bottom"
         android:ems="10" 

@@ -164,7 +164,7 @@ public class HomeActivity extends BaseActivity implements LoaderManager.LoaderCa
         if (savedInstanceState != null) {
             mCurrentDrawerPos = savedInstanceState.getInt(STATE_CURRENT_DRAWER_POS);
         }
-// TODO - how long saved
+        // TODO - how long saved
         getLoaderManager().initLoader(LOADER_ID, null, this);
 
         if (PrefUtils.getBoolean(PrefUtils.REFRESH_ENABLED, true)) {
@@ -224,8 +224,7 @@ public class HomeActivity extends BaseActivity implements LoaderManager.LoaderCa
 
     
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
+    public boolean onCreateOptionsMenu(Menu menu) { 
         boolean isOpened = mDrawerLayout.isDrawerOpen(mDrawerList);
         if (isOpened && !mIsDrawerMoving || !isOpened && mIsDrawerMoving) {
             getActionBar().setTitle(R.string.app_name);
@@ -286,8 +285,7 @@ public class HomeActivity extends BaseActivity implements LoaderManager.LoaderCa
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-    	
+    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) { 
     	mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
     	if (mDrawerAdapter != null) {
             mDrawerAdapter.setCursor(cursor);

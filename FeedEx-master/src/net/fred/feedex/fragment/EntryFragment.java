@@ -122,8 +122,7 @@ public class EntryFragment extends SwipeRefreshFragment implements BaseActivity.
             return view == object;
         }
 
-        public void displayEntry(int pagerPos, Cursor newCursor, boolean forceUpdate) {
-        	Log.e("entry fragment", "display entry called");
+        public void displayEntry(int pagerPos, Cursor newCursor, boolean forceUpdate) { 
             EntryView view = mEntryViews.get(pagerPos);
             if (view != null) {
                 if (newCursor == null) {
@@ -147,9 +146,9 @@ public class EntryFragment extends SwipeRefreshFragment implements BaseActivity.
                     String link = newCursor.getString(mLinkPos);
                     String title = newCursor.getString(mTitlePos);
                     String enclosure = newCursor.getString(mEnclosurePos);
- 
-                    Log.e("entry fragment", enclosure);
                     
+                    Log.e("entry fragment!!!", enclosure);
+                    Log.e("entry fragment!!!", contentText);
                     
                     view.setHtml(mEntriesIds[pagerPos], title, link, contentText, enclosure, author, timestamp, mPreferFullText);
                     view.setTag(newCursor);
@@ -448,8 +447,7 @@ public class EntryFragment extends SwipeRefreshFragment implements BaseActivity.
         }
     }
 
-    private void showEnclosure(Uri uri, String enclosure, int position1, int position2) {
-    	Log.e("text????", "" + uri);
+    private void showEnclosure(Uri uri, String enclosure, int position1, int position2) { 
         try {
             startActivityForResult(new Intent(Intent.ACTION_VIEW).setDataAndType(uri, enclosure.substring(position1 + 3, position2)), 0);
         } catch (Exception e) {
@@ -489,6 +487,8 @@ public class EntryFragment extends SwipeRefreshFragment implements BaseActivity.
                 activity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                    	Log.e("entry f", "click full text called");
+                    	
                         mPreferFullText = true;
                         mEntryPagerAdapter.displayEntry(mCurrentPagerPos, null, true);
                     }
@@ -586,6 +586,8 @@ public class EntryFragment extends SwipeRefreshFragment implements BaseActivity.
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+    	Log.e("entry f", "load finished called");
+    	
         if (mBaseUri != null && cursor != null) { // can be null if we do a setData(null) before
             cursor.moveToFirst();
 

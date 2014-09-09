@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.util.Log;  
 import android.opengl.GLES10;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import net.fred.feedex.MainApplication;
 import net.fred.feedex.R; 
@@ -20,8 +21,10 @@ import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
 import android.app.Activity;   
+import android.app.AlertDialog;
 import android.widget.Toast; 
 import android.os.SystemClock; 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Environment;
 import android.database.Cursor;
@@ -180,13 +183,13 @@ public class RecordAudio extends Activity {
 			@Override
 			public void onClick(View arg) {  
 				chronometer.stop();
-				
+				findViewById(R.id.time).setVisibility(View.INVISIBLE);
+				findViewById(R.id.limit).setVisibility(View.INVISIBLE);
 				mStop.setVisibility(View.GONE); 
 				mPlayback.setVisibility(View.VISIBLE);
 				mSendAudio.setVisibility(View.VISIBLE); 
 				mBack.setVisibility(View.VISIBLE); 
-				stopRecording();
-				 
+				stopRecording(); 
 			}  
 		});
 
@@ -429,6 +432,37 @@ public class RecordAudio extends Activity {
 		intent.setAction("com.android.CUSTOM_INTENT");
 		sendBroadcast(intent);  
 	} 
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) { 
+		
+		if(keyCode == KeyEvent.KEYCODE_BACK && mStop.getVisibility() == View.VISIBLE) {  
+			stopRecording(); 
+		}  
+			
+		
+	    //Handle the back button
+	    if(keyCode == KeyEvent.KEYCODE_BACK && mBack.getVisibility() == View.VISIBLE) {
+	        //Ask the user if they want to quit
+	        new AlertDialog.Builder(this)
+	        .setIcon(android.R.drawable.ic_dialog_alert)
+	        .setTitle("Quit?")
+	        .setMessage("Do you want to discard your message?")
+	        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+	            @Override
+	            public void onClick(DialogInterface dialog, int which) { 
+	                RecordAudio.this.finish();    
+	            } 
+	        })
+	        .setNegativeButton("No", null)
+	        .show(); 
+	        return true;
+	    }
+	    else {
+	        return super.onKeyDown(keyCode, event);
+	    }
+
+	}
 
 	/** Called when the activity is destroyed, deletes the 
 	 *  audio file if it shouldn't be sent. */

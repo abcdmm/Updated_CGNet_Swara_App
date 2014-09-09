@@ -57,7 +57,9 @@ public class MainActivity extends Activity {
 		mListenMessages = (Button) findViewById(R.id.two);
 		mIncludeAudio = (Button) findViewById(R.id.photo);
 		mNumber = (EditText) findViewById(R.id.phone);
-  	
+		mNumber.clearFocus();
+ 
+		 		
 		// Get tracker.
 		Tracker t = ((MainApplication) getApplication()).getTracker(TrackerName.APP_TRACKER);
 		   
@@ -120,7 +122,7 @@ public class MainActivity extends Activity {
 			dir_audio.mkdirs();
 		}
 
-
+ 
 
 		// Saves the users phone number
 		mNumber.addTextChangedListener(new TextWatcher(){
@@ -133,7 +135,7 @@ public class MainActivity extends Activity {
 			public void beforeTextChanged(CharSequence s, int start, int count, int after){}
 			public void onTextChanged(CharSequence s, int start, int before, int count){}
 		});
-		
+//TODO			
 		mNumber.addTextChangedListener(new TextWatcher(){
 	        public void afterTextChanged(Editable s) {
 	        	if(s.toString().equals("") || s.toString().equals(" ")) { 
@@ -225,7 +227,6 @@ public class MainActivity extends Activity {
 			intent.putExtra("photo", includePhoto); 
 			intent.putExtra("phone", restoredText); 
 			startActivity(intent);
-			finish();
 		} else { 
 			// this shouldn't happen
 			showPrompt(); 

@@ -45,20 +45,14 @@ public class MainApplication extends Application {
 	}
 	
 	public synchronized Tracker getTracker(TrackerName appTracker) {
-		Log.e("Main activity", "inside method");
-		
 		if (!mTrackers.containsKey(appTracker)) {
 			GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
 			
 			if (appTracker == TrackerName.APP_TRACKER) {
 				Tracker t = analytics.newTracker(R.xml.analytics);
-			    mTrackers.put(appTracker, t);
-			    Log.e("Main activity", "inside if");
-            }
-			
-
-		} 
-		Log.e("Main activity", mTrackers.get(appTracker).toString());
+			    mTrackers.put(appTracker, t); 
+            } 
+		}  
 		return mTrackers.get(appTracker);
 	}
     private static Context context;

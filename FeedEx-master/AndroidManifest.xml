@@ -142,7 +142,8 @@
         <activity
             android:name="cgnet.swara.activity.MainActivity" 
             android:configChanges="keyboardHidden|orientation"
-			android:windowSoftInputMode="stateHidden" 
+			android:windowSoftInputMode="stateHidden"
+			android:screenOrientation="portrait" 
             android:label="@string/app_name" >
            	<intent-filter>
                 <action android:name="android.intent.action.MAIN" /> 
@@ -153,6 +154,7 @@
          
         <activity
             android:name="cgnet.swara.activity.RecordAudio"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_record_audio" >
         </activity>
         
