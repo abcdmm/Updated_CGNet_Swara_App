@@ -130,15 +130,16 @@ public class DrawerAdapter extends BaseAdapter {
         } else if (position == 2) {
             holder.titleTxt.setText(R.string.search_entries);
             holder.iconView.setImageResource(R.drawable.action_search);
-        } else if (mFeedsCursor != null && mFeedsCursor.moveToPosition(position - 3)) {
+        }  else if (mFeedsCursor != null && mFeedsCursor.moveToPosition(position - 3)) {
+        	
             holder.titleTxt.setText((mFeedsCursor.isNull(POS_NAME) ? mFeedsCursor.getString(POS_URL) : mFeedsCursor.getString(POS_NAME)));
 
             if (mFeedsCursor.getInt(POS_IS_GROUP) == 1) {
                 holder.titleTxt.setTextColor(GROUP_TEXT_COLOR);
                 holder.titleTxt.setAllCaps(true);
-                holder.separator.setVisibility(View.VISIBLE);
+                holder.separator.setVisibility(View.INVISIBLE);
             } else {
-                holder.stateTxt.setVisibility(View.VISIBLE);
+                holder.stateTxt.setVisibility(View.INVISIBLE);
 
                 if (mFeedsCursor.isNull(POS_ERROR)) {
                     long timestamp = mFeedsCursor.getLong(POS_LAST_UPDATE);
@@ -158,9 +159,12 @@ public class DrawerAdapter extends BaseAdapter {
                         mFormattedDateCache.put(timestamp, formattedDate);
                     }
 
-                    holder.stateTxt.setText(formattedDate);
+//                    holder.stateTxt.setText(formattedDate);
+                      holder.stateTxt.setText("");
+                    
                 } else {
-                    holder.stateTxt.setText(new StringBuilder(mContext.getString(R.string.error)).append(COLON).append(mFeedsCursor.getString(POS_ERROR)));
+                	  holder.stateTxt.setText("");
+  //                  holder.stateTxt.setText(new StringBuilder(mContext.getString(R.string.error)).append(COLON).append(mFeedsCursor.getString(POS_ERROR)));
                 }
 
                 final long feedId = mFeedsCursor.getLong(POS_ID);
@@ -181,7 +185,7 @@ public class DrawerAdapter extends BaseAdapter {
             if (!mFeedsCursor.isNull(POS_GROUP_ID)) { // First level
                 convertView.setPadding(ITEM_PADDING, 0, 0, 0);
             }
-        }
+        } 
 
         return convertView;
     }
