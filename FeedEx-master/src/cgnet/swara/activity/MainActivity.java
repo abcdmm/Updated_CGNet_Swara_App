@@ -11,9 +11,7 @@ import android.app.Activity;
 import android.text.Editable;
 import android.widget.Button;
 import android.content.Intent;
-import android.os.Environment;
-import com.flurry.android.FlurryAgent;
-
+import android.os.Environment;  
 import android.app.AlertDialog;
 import android.widget.EditText;
 import android.text.TextWatcher;
@@ -24,8 +22,7 @@ import android.content.SharedPreferences;
 import android.view.View.OnClickListener;
 import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.analytics.HitBuilders;
-import com.localytics.android.*;
-
+ 
 
 /** This is the first screen of the CGNet Swara App. 
  *  It allows the user to either record a message (which is then sent to a central location) 

@@ -19,6 +19,9 @@
 
 package net.fred.feedex.activity;
  
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import android.app.LoaderManager;
 import android.content.CursorLoader; 
 import android.content.Intent;
@@ -43,6 +46,7 @@ import android.widget.ListView;
 import net.fred.feedex.Constants;
 import net.fred.feedex.MainApplication;
 import net.fred.feedex.R;
+import net.fred.feedex.MainApplication.TrackerName;
 import net.fred.feedex.adapter.DrawerAdapter;
 import net.fred.feedex.fragment.EntriesListFragment;
 import net.fred.feedex.provider.FeedData;
@@ -105,6 +109,14 @@ public class HomeActivity extends BaseActivity implements LoaderManager.LoaderCa
         
         setContentView(R.layout.activity_home);
 
+        // Get tracker.
+        Tracker t = ((MainApplication) getApplication()).getTracker(TrackerName.APP_TRACKER);
+        
+        t.setScreenName("View feed");
+        
+        // Send a screen view.
+        t.send(new HitBuilders.AppViewBuilder().build());
+        
         mEntriesFragment = (EntriesListFragment) getFragmentManager().findFragmentById(R.id.entries_list_fragment);
 
         mTitle = getTitle();

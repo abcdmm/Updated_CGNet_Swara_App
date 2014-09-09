@@ -6,10 +6,15 @@ import android.net.Uri;
 import android.util.Log;  
 import android.os.Bundle;
 import android.view.View;
+import net.fred.feedex.MainApplication;
 import net.fred.feedex.R; 
+import net.fred.feedex.MainApplication.TrackerName;
 
 import java.io.IOException;
 import java.util.Calendar;
+
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import android.app.Activity;   
 import android.widget.Toast; 
@@ -124,13 +129,24 @@ public class RecordAudio extends Activity {
 		boolean includePhoto = extras.getBoolean("photo"); 
 		mPhoneNumber = extras.getString("phone");
 
+		// Get tracker.
+		Tracker t = ((MainApplication) getApplication()).getTracker(TrackerName.APP_TRACKER);
+				   
+
+		        		
 		if(includePhoto) { 
 			Intent i = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 			startActivityForResult(Intent.createChooser(i,
-					this.getString(R.string.select_picture)), SELECT_PICTURE); 
+					this.getString(R.string.select_picture)), SELECT_PICTURE);
+			t.setScreenName("Record Audio - With an image");
 		} else { 
 			mUserImage.setVisibility(View.GONE);
+			t.setScreenName("Record Audio - Without an image");
 		}
+		
+		// Send a screen view.
+		t.send(new HitBuilders.AppViewBuilder().build());
+
 
 		// Create folders for the audio files 
 		setupDirectory();
