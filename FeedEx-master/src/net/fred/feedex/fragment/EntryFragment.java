@@ -146,15 +146,7 @@ public class EntryFragment extends SwipeRefreshFragment implements BaseActivity.
                     String link = newCursor.getString(mLinkPos);
                     String title = newCursor.getString(mTitlePos);
                     String enclosure = newCursor.getString(mEnclosurePos);
-
-                    Log.e("!", "author" + mAuthorPos + " :" +  author);
-                    Log.e("!", "timestamp" + timestamp + " :" +  mDatePos);
-                    Log.e("!", "link" + link + " :" +  mLinkPos);
-                    Log.e("!", "title" + title + " :" +  mTitlePos);
-                    Log.e("!", "enclosure" + enclosure + " :" +  mEnclosurePos);
-                    
-                    
-                    
+ 
                     
                     view.setHtml(mEntriesIds[pagerPos], title, link, contentText, enclosure, author, timestamp, mPreferFullText);
                     view.setTag(newCursor);

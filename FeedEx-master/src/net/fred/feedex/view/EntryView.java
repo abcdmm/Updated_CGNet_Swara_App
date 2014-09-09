@@ -183,8 +183,13 @@ public class EntryView extends WebView {
         StringBuilder dateStringBuilder = new StringBuilder(DateFormat.getLongDateFormat(context).format(date)).append(' ').append(
                 DateFormat.getTimeFormat(context).format(date));
         
+        String temp = enclosure.split("http://cgnetswara.org//audio/")[1];
+        String audio_recording = temp.split("\\[")[0]; 
+        
+        Log.e("KD194!", audio_recording);
         
         
+        // TODO - add if statement here
         content.append(dateStringBuilder).append(SUBTITLE_END);
         content.append(BUTTON_SECTION_START);
         

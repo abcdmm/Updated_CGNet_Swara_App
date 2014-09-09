@@ -682,13 +682,7 @@ public class FeedDataContentProvider extends ContentProvider {
     }
 
     public static void addFeed(Context context, String url, String name, boolean retrieveFullText) {
-        Log.e("adding feed", "context: " + context);
-        Log.e("adding feed", "url: " + url);
-        Log.e("adding feed", "name " + name);
-        Log.e("adding feed", "full " + retrieveFullText);
-        
-        
-        
+  
     	ContentResolver cr = context.getContentResolver();
 
         if (!url.startsWith(Constants.HTTP_SCHEME) && !url.startsWith(Constants.HTTPS_SCHEME)) {

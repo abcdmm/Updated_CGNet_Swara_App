@@ -192,7 +192,7 @@ public class HomeActivity extends BaseActivity implements LoaderManager.LoaderCa
                 getActionBar().setIcon(R.drawable.dimmed_rating_important);
                 break;
             case 2:
-                getActionBar().setTitle(android.R.string.search_go);
+                getActionBar().setTitle(R.string.search_entries);
                 getActionBar().setIcon(R.drawable.action_search);
                 break;
             default:
