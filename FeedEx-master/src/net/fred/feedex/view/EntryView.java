@@ -186,17 +186,14 @@ public class EntryView extends WebView {
         
         String temp = enclosure.split("http://cgnetswara.org//audio/")[1];
         String audio_recording = temp.split("\\[")[0]; 
-        Log.e("?", audio_recording);
-         
+          
         // Creates a folder for the app's recordings
         String path_audio = Environment.getExternalStorageDirectory().getAbsolutePath();
      	path_audio += "/CGNet_Swara";
-     	File parent = new File(path_audio);
-     	
+      	
      	audio_recording = path_audio + "/" + audio_recording;
      	File child = new File(audio_recording);
-     	
-        
+         
         // TODO - add if statement here
         content.append(dateStringBuilder).append(SUBTITLE_END);
         if(!child.exists()) {
@@ -207,13 +204,10 @@ public class EntryView extends WebView {
 	        }
 	         content.append(BUTTON_SECTION_END); 
         } else { 
-        	
-        	//String content = "\\<a href=\"http://cgnetswara.org//audio/43651.mp3\"\\>";
-        	//content.append();
-        	// show audio buttons to play it 
-        	
+        	//content.append("<audio controls=\"\" src=\"file://storage/sdcard0/CGNet_Swara/43651.mp3\">");
+        	//content.append("</audio>");
+        	 	
         }
-        
         
          // TODO : clean up this code
          // TODO : for real
