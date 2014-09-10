@@ -263,7 +263,6 @@ public class RecordAudio extends Activity {
 
 				bitmap = BitmapFactory.decodeFile(selectedImagePath);
 				if(bitmap != null) {
-  //TODO
 					while(bitmap.getHeight() > 2000 || bitmap.getWidth() > 2000) {  
 						bitmap = halfSize(bitmap);
 					}

@@ -166,7 +166,7 @@ public class EntryView extends WebView {
             getSettings().setBlockNetworkImage(true);
         }
 
-        Log.e("set html", enclosure);
+         
         // do not put 'null' to the base url...
         loadDataWithBaseURL("", generateHtmlContent(title, link, contentText, enclosure, author, timestamp, preferFullText), TEXT_HTML, Constants.UTF8, null);
     }
@@ -186,27 +186,53 @@ public class EntryView extends WebView {
         
         String temp = enclosure.split("http://cgnetswara.org//audio/")[1];
         String audio_recording = temp.split("\\[")[0]; 
-        
+        Log.e("?", audio_recording);
          
         // Creates a folder for the app's recordings
         String path_audio = Environment.getExternalStorageDirectory().getAbsolutePath();
      	path_audio += "/CGNet_Swara";
      	File parent = new File(path_audio);
-     	 
-        //TODO
+     	
+     	audio_recording = path_audio + "/" + audio_recording;
+     	File child = new File(audio_recording);
+     	
         
         // TODO - add if statement here
         content.append(dateStringBuilder).append(SUBTITLE_END);
-        content.append(BUTTON_SECTION_START);
-        
-         
-        if (enclosure != null && enclosure.length() > 6 && !enclosure.contains(IMAGE_ENCLOSURE)) {
-            content.append(BUTTON_START).append(context.getString(R.string.see_enclosure)).append(BUTTON_MIDDLE)
-                    .append("injectedJSObject.onClickEnclosure();").append(BUTTON_END);
+        if(!child.exists()) {
+	        content.append(BUTTON_SECTION_START); 
+	        if (enclosure != null && enclosure.length() > 6 && !enclosure.contains(IMAGE_ENCLOSURE)) {
+	            content.append(BUTTON_START).append(context.getString(R.string.see_enclosure)).append(BUTTON_MIDDLE)
+	                    .append("injectedJSObject.onClickEnclosure();").append(BUTTON_END);
+	        }
+	         content.append(BUTTON_SECTION_END); 
+        } else { 
+        	
+        	//String content = "\\<a href=\"http://cgnetswara.org//audio/43651.mp3\"\\>";
+        	//content.append();
+        	// show audio buttons to play it 
+        	
         }
-         content.append(BUTTON_SECTION_END);
+        
+        
+         // TODO : clean up this code
+         // TODO : for real
+         // TODO : it looks so bad 
+         String s = contentText;
+         String[] feed_content = s.split("\\<h3"); 
+         content.append(feed_content[0]); 
          
-         content.append(contentText).append(BODY_END);   
+         String after_title = feed_content[1];
+         String[] after_title_split = after_title.split("h3\\>"); 
+         String audio_included = after_title_split[1]; 
+         String[] audio = audio_included.split("\\<audio");
+         content.append(audio[0]); 
+         
+         String after_audio = audio[1];
+         String[] after_audio_split = after_audio.split("audio\\>");
+         content.append(after_audio_split[1]); 
+           
+         content.append(BODY_END);   
 
         return content.toString();
     }

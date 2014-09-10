@@ -123,6 +123,7 @@ public class EntryFragment extends SwipeRefreshFragment implements BaseActivity.
         }
 
         public void displayEntry(int pagerPos, Cursor newCursor, boolean forceUpdate) { 
+        	 
             EntryView view = mEntryViews.get(pagerPos);
             if (view != null) {
                 if (newCursor == null) {
@@ -134,8 +135,9 @@ public class EntryFragment extends SwipeRefreshFragment implements BaseActivity.
                     if (contentText == null || (forceUpdate && !mPreferFullText)) {
                         mPreferFullText = false;
                         contentText = newCursor.getString(mAbstractPos);
+                        
                     } else {
-                        mPreferFullText = true;
+                        mPreferFullText = true;	
                     }
                     if (contentText == null) {
                         contentText = "";
@@ -146,10 +148,7 @@ public class EntryFragment extends SwipeRefreshFragment implements BaseActivity.
                     String link = newCursor.getString(mLinkPos);
                     String title = newCursor.getString(mTitlePos);
                     String enclosure = newCursor.getString(mEnclosurePos);
-                    
-                    Log.e("entry fragment!!!", enclosure);
-                    Log.e("entry fragment!!!", contentText);
-                    
+                     
                     view.setHtml(mEntriesIds[pagerPos], title, link, contentText, enclosure, author, timestamp, mPreferFullText);
                     view.setTag(newCursor);
 
@@ -486,8 +485,7 @@ public class EntryFragment extends SwipeRefreshFragment implements BaseActivity.
             if (alreadyMobilized) {
                 activity.runOnUiThread(new Runnable() {
                     @Override
-                    public void run() {
-                    	Log.e("entry f", "click full text called");
+                    public void run() { 
                     	
                         mPreferFullText = true;
                         mEntryPagerAdapter.displayEntry(mCurrentPagerPos, null, true);
@@ -555,8 +553,7 @@ public class EntryFragment extends SwipeRefreshFragment implements BaseActivity.
 		                            r.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
 		                            
 		                            String name = new File(uri.toString()).getName(); 
-		                            Log.e("!?", name);
-		                            
+		                             
 		                    		String path = Environment.getExternalStorageDirectory().getAbsolutePath();
 		                    		path += "/CGNet_Swara";
 		                    		File dir = new File(path); 
@@ -586,8 +583,7 @@ public class EntryFragment extends SwipeRefreshFragment implements BaseActivity.
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-    	Log.e("entry f", "load finished called");
-    	
+    	 
         if (mBaseUri != null && cursor != null) { // can be null if we do a setData(null) before
             cursor.moveToFirst();
 
