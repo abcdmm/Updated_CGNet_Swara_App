@@ -204,10 +204,22 @@ public class EntryView extends WebView {
 	        }
 	         content.append(BUTTON_SECTION_END); 
         } else { 
-        	content.append("<audio controls=\"\" src=\"file://storage/sdcard0/CGNet_Swara/43651.mp3\">");
-        	content.append("</audio>"); 
+        	content.append("<div>");
+ 
+        	String file_path = "<source src=\"file://mnt/sdcard/CGNet_Swara/";
+        	file_path += child.getName();        	
+        	file_path += "\" type=\"audio/mpeg\">";
+        	
+        	Log.e("!", "" + child.getName());
+        	Log.e("!??!", file_path);
+        	
+        	content.append("<video width=\"100%\" height=\"48\" controls>");
+        	content.append(file_path);
+        	content.append("</video>");
+        	
+        	content.append("</div>");
         }
-        
+        Log.e("entry view", "" + content);
          // TODO  
          String s = contentText;
          String[] feed_content = s.split("\\<h3"); 

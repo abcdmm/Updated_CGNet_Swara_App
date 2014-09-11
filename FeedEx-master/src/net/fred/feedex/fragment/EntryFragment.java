@@ -364,7 +364,7 @@ public class EntryFragment extends SwipeRefreshFragment implements BaseActivity.
 
         mBaseUri = FeedData.EntryColumns.PARENT_URI(uri.getPath());
         try {
-            mInitialEntryId = Long.parseLong(uri.getLastPathSegment());
+            mInitialEntryId = Long.parseLong(uri.getLastPathSegment());	
         } catch (Exception unused) {
             mInitialEntryId = -1;
         }
