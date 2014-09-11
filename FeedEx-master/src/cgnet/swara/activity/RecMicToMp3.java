@@ -188,8 +188,7 @@ public class RecMicToMp3 {
  	public boolean isRecording() {
 		return mIsRecording;
 	}
-
- 
+  
 	public void setHandle(Handler handler) {
 		this.mHandler = handler;
 	}

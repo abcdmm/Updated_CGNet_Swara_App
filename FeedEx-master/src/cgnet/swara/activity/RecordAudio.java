@@ -1,51 +1,53 @@
 package cgnet.swara.activity;
 
-import java.io.File; 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.File;  
 
 import android.net.Uri;  
 import android.util.Log;  
-import android.opengl.GLES10;
-import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
-import net.fred.feedex.MainApplication;
-import net.fred.feedex.R; 
-import net.fred.feedex.MainApplication.TrackerName;
+import net.fred.feedex.R;
+import android.os.Bundle;
 
-import java.io.IOException;
 import java.util.Calendar;
+import java.io.IOException; 
 
-import javax.microedition.khronos.opengles.GL10;
+import android.app.Activity;  
+import android.view.KeyEvent;
 
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
+import java.io.FileInputStream; 
 
-import android.app.Activity;   
 import android.app.AlertDialog;
-import android.widget.Toast; 
+import android.widget.Toast;
 import android.os.SystemClock; 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Environment;
 import android.database.Cursor;
-import android.graphics.Bitmap;  
-import android.graphics.Canvas;
+import android.graphics.Bitmap; 
 import android.widget.ImageView; 
 import android.location.Criteria;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;  
 import android.widget.Chronometer;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.provider.MediaStore;
 import android.graphics.BitmapFactory;
+import android.content.DialogInterface;
+import net.fred.feedex.MainApplication; 
+import android.location.LocationManager;
+import android.location.LocationListener;
 import android.view.View.OnClickListener;
+import android.media.MediaMetadataRetriever;
+
+import com.google.android.gms.analytics.Tracker; 
+
+import net.fred.feedex.MainApplication.TrackerName;
+
+import com.google.android.gms.analytics.HitBuilders;
+
 import android.media.MediaPlayer.OnCompletionListener; 
+
 
 /** This screen allows the user to record an audio message.
  *  They can then chose to send the recording off to a central location. 
@@ -116,9 +118,14 @@ public class RecordAudio extends Activity implements LocationListener {
 
 	private int longitudeField;
 	
-	 private LocationManager locationManager;
-	 private String provider;
+	private LocationManager locationManager;
 	
+	private String provider;
+	
+	private boolean includePhoto;
+	
+	private boolean doneRecording;
+	 
 	/** Called when the activity is first created. */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -143,17 +150,17 @@ public class RecordAudio extends Activity implements LocationListener {
 		mBack.setVisibility(View.INVISIBLE);
 		findViewById(R.id.time).setVisibility(View.INVISIBLE);
 		
+		includePhoto = false;
+		doneRecording = false;
 		
 		Intent intent = getIntent();
 		Bundle extras = intent.getExtras(); 
-		boolean includePhoto = extras.getBoolean("photo"); 
+		includePhoto = extras.getBoolean("photo"); 
 		mPhoneNumber = extras.getString("phone");
 
 		// Get tracker.
 		Tracker t = ((MainApplication) getApplication()).getTracker(TrackerName.APP_TRACKER);
-				   
-
-		        		
+ 		        		
 		if(includePhoto) { 
 			Intent i = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 			startActivityForResult(Intent.createChooser(i,
@@ -166,8 +173,7 @@ public class RecordAudio extends Activity implements LocationListener {
 		
 		// Send a screen view.
 		t.send(new HitBuilders.AppViewBuilder().build());
-
-
+ 
 		// Create folders for the audio files 
 		setupDirectory();
 		
@@ -192,8 +198,7 @@ public class RecordAudio extends Activity implements LocationListener {
 	     
 		chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() { 
             @Override
-            public void onChronometerTick(Chronometer chronometer) {
-            	Log.e(TAG, chronometer.getText().toString());
+            public void onChronometerTick(Chronometer chronometer) { 
                 if(chronometer.getText().toString().equalsIgnoreCase("2:59") || 
                    chronometer.getText().toString().equalsIgnoreCase("02:59")) { 
                   mStop.performClick();
@@ -264,10 +269,21 @@ public class RecordAudio extends Activity implements LocationListener {
 					bitmap = null;
 				}
 			}
-		}); 
+		});
+		
+		mUserImage.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg) { 
+				if(doneRecording) {  
+					Intent i = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+					startActivityForResult(Intent.createChooser(i,
+							RecordAudio.this.getString(R.string.select_picture)), SELECT_PICTURE);
+				}
+			} 
+		});
+				
 	}
-	
-	
+	 
 	 
 	/**  */
 	private void goBackHome() { 
@@ -381,10 +397,16 @@ public class RecordAudio extends Activity implements LocationListener {
 
 	/** Releases resources back to the system.  */
 	private void stopRecording() { 
+		doneRecording = true;
 		if(mRecMicToMp3 != null) {
 			mRecMicToMp3.stop();
 		}
-		 // TODO
+		if(includePhoto) { 
+			TextView textLimit = (TextView) findViewById(R.id.limit);
+			textLimit.setText(this.getString(R.string.tap_image_to_choose_another));
+		} 
+		
+		
 		MediaMetadataRetriever metaRetriever = new MediaMetadataRetriever();
 		
 		FileInputStream inputStream;
@@ -445,7 +467,6 @@ public class RecordAudio extends Activity implements LocationListener {
 	private void startRecording() {   
 		mRecMicToMp3 = new RecMicToMp3(mMainDir + mInnerDir + mUniqueAudioRecording, 8000); 
 		mRecMicToMp3.start();
-		Log.e(TAG, "1. Create file: " + mMainDir + mInnerDir + mUniqueAudioRecording);
 	}	
 
 	/** Plays the generated audio recording. */
@@ -480,18 +501,15 @@ public class RecordAudio extends Activity implements LocationListener {
 		
 		mFileToBeSent = true; 
 		mUserLogs.writeToFile();
-		
-		Log.e(TAG, "2. Sending Data: Should iterate through files now");
+		 
 		Intent intent = new Intent(); 
 		intent.setAction("com.android.CUSTOM_INTENT");
 		sendBroadcast(intent);  
 	} 
 	
 	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {  
-			Log.e(TAG, "inside");
-		if(keyCode == KeyEvent.KEYCODE_BACK && mStop.getVisibility() == View.VISIBLE) {
-			Log.e(TAG, "inside2");
+	public boolean onKeyDown(int keyCode, KeyEvent event) {   
+		if(keyCode == KeyEvent.KEYCODE_BACK && mStop.getVisibility() == View.VISIBLE) { 
 			mStop.performClick();
 		}  
 			

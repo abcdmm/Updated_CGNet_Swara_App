@@ -142,6 +142,7 @@
 
         <activity
             android:name="cgnet.swara.activity.MainActivity" 
+            android:launchMode="singleTask"
             android:configChanges="keyboardHidden|orientation"
 			android:windowSoftInputMode="stateHidden"
 			android:screenOrientation="portrait" 

@@ -224,6 +224,7 @@
     <string name="discard_message">क्या आप इस संदेश को रद्द करना चाहते हैं?</string>
     <string name="yes_message">हाँ </string>
     <string name="no_message">नहीं </string>
+    <string name="tap_image_to_choose_another">Tap image to choose another</string>
     
     
 	<!--  Never used -->

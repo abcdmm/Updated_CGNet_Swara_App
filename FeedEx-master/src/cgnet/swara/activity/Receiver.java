@@ -27,24 +27,23 @@ public class Receiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) { 
     	mMainDir = Environment.getExternalStorageDirectory().getAbsolutePath();
 		mMainDir += "/Android/data/com.MSRi.ivr.cgnetswara"; 
+		
     	ConnectivityManager cm = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE));
         if (cm == null)
             return; 
         if (cm.getActiveNetworkInfo() != null || intent.getAction().equals("com.android.CUSTOM_INTENT")) {
         	File dir = new File(mMainDir + mInnerDir); // Contains files to be sent
         	File[] directoryListing = dir.listFiles();
-        	Log.e(TAG, "here");
+         
         	if (directoryListing != null) {
         		for (File child : directoryListing) { 
         	    	String fileName = child.getName();
-
-                	Log.e(TAG, "her2e");
+ 
         			SendEmailAsyncTask task = new SendEmailAsyncTask(context, 
         										  mMainDir, mInnerDir, "/" + fileName);
         			task.execute(); 
         	    }
-        	}
-        	
+        	}       	
         }   
     }  
 }

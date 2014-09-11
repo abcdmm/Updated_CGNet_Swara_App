@@ -1,10 +1,7 @@
 package cgnet.swara.activity;
 
-import java.io.File;   
-import android.util.Log; 
-import android.view.View; 
-import net.fred.feedex.MainApplication;
-import net.fred.feedex.MainApplication.TrackerName;
+import java.io.File;     
+import android.view.View;
 import net.fred.feedex.R; 
 import android.os.Bundle;
 import android.app.Activity; 
@@ -18,12 +15,13 @@ import android.text.TextWatcher;
 import android.view.WindowManager;
 import android.view.LayoutInflater; 
 import android.content.DialogInterface;
+import net.fred.feedex.MainApplication;
 import android.content.SharedPreferences;  
 import android.view.View.OnClickListener;
 import com.google.android.gms.analytics.Tracker;
+import net.fred.feedex.MainApplication.TrackerName;
 import com.google.android.gms.analytics.HitBuilders;
  
-
 /** This is the first screen of the CGNet Swara App. 
  *  It allows the user to either record a message (which is then sent to a central location) 
  *  or listen to recordings.
@@ -59,8 +57,7 @@ public class MainActivity extends Activity {
 		mNumber = (EditText) findViewById(R.id.phone);
 		mNumber.clearFocus();
  
-		 		
-		// Get tracker.
+ 		// Get Google Analytics tracker.
 		Tracker t = ((MainApplication) getApplication()).getTracker(TrackerName.APP_TRACKER);
 		   
         t.setScreenName("Home Screen");
@@ -84,7 +81,6 @@ public class MainActivity extends Activity {
 			public void onClick(View arg) {
 				mRecordMessage.setEnabled(false);
 				recordInput(false);
- 
 			}  
 		}); 
 
@@ -93,7 +89,6 @@ public class MainActivity extends Activity {
 			public void onClick(View arg) { 
 				mIncludeAudio.setEnabled(false);
 				recordInput(true);
- 
 			}  
 		}); 
 
@@ -101,7 +96,6 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View arg) { 
 				loadRecordings();
- 
 			}  
 		}); 
 
@@ -112,8 +106,7 @@ public class MainActivity extends Activity {
 		if (!dir.exists()|| !dir.isDirectory()) {
 			dir.mkdirs();
 		}
-
-		
+ 
 		// Creates a folder for the app's recordings
 		String path_audio = Environment.getExternalStorageDirectory().getAbsolutePath();
 		path_audio += "/CGNet_Swara";
@@ -121,9 +114,7 @@ public class MainActivity extends Activity {
 		if (!dir_audio.exists()|| !dir_audio.isDirectory()) {
 			dir_audio.mkdirs();
 		}
-
  
-
 		// Saves the users phone number
 		mNumber.addTextChangedListener(new TextWatcher(){
 			public void afterTextChanged(Editable s) {
@@ -135,7 +126,7 @@ public class MainActivity extends Activity {
 			public void beforeTextChanged(CharSequence s, int start, int count, int after){}
 			public void onTextChanged(CharSequence s, int start, int before, int count){}
 		});
-//TODO			
+		//TODO			
 		mNumber.addTextChangedListener(new TextWatcher(){
 	        public void afterTextChanged(Editable s) {
 	        	if(s.toString().equals("") || s.toString().equals(" ")) { 
