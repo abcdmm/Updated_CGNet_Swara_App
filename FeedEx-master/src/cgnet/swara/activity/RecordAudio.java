@@ -499,17 +499,15 @@ public class RecordAudio extends Activity implements LocationListener {
 	    //Handle the back button
 	    if(keyCode == KeyEvent.KEYCODE_BACK && mBack.getVisibility() == View.VISIBLE) {
 	        //Ask the user if they want to quit
-	        new AlertDialog.Builder(this)
-	        .setIcon(android.R.drawable.ic_dialog_alert)
-	        .setTitle("Quit?")
-	        .setMessage("Do you want to discard your message?")
-	        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+	        new AlertDialog.Builder(this) 
+	        .setMessage(this.getString(R.string.discard_message))
+	        .setPositiveButton(this.getString(R.string.yes_message), new DialogInterface.OnClickListener() {
 	            @Override
 	            public void onClick(DialogInterface dialog, int which) { 
 	                RecordAudio.this.finish();    
 	            } 
 	        })
-	        .setNegativeButton("No", null)
+	        .setNegativeButton(this.getString(R.string.no_message), null)
 	        .show(); 
 	        return true;
 	    }

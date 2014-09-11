@@ -221,6 +221,9 @@
     <string name="download_and_save">डाउनलोड शुरू करें</string>
     <string name="open_enclosure">डाउनलोड शुरू करें</string>
     <string name="search_entries">खोज</string>
+    <string name="discard_message">क्या आप इस संदेश को रद्द करना चाहते हैं?</string>
+    <string name="yes_message">हाँ </string>
+    <string name="no_message">नहीं </string>
     
     
 	<!--  Never used -->
