@@ -24,6 +24,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.widget.Toast; 
 import android.os.SystemClock; 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Environment;
@@ -31,6 +32,10 @@ import android.database.Cursor;
 import android.graphics.Bitmap;  
 import android.graphics.Canvas;
 import android.widget.ImageView; 
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;  
 import android.widget.Chronometer;
@@ -45,7 +50,7 @@ import android.media.MediaPlayer.OnCompletionListener;
  *  The user is able to listen to the recording prior to sending the off.  
  *   
  *  @author Krittika D'Silva (krittika.dsilva@gmail.com) */
-public class RecordAudio extends Activity {
+public class RecordAudio extends Activity implements LocationListener {
 	private static final String TAG = "RecordAudio";
 
 	/** CGNet Swara's main directory with audio files. */
@@ -104,7 +109,13 @@ public class RecordAudio extends Activity {
 	    
 	/** Audio recorder that records the users' message. */
 	private RecMicToMp3 mRecMicToMp3;
+	 
+	private int latituteField;
+
+	private int longitudeField;
 	
+	 private LocationManager locationManager;
+	 private String provider;
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -157,7 +168,26 @@ public class RecordAudio extends Activity {
 
 		// Create folders for the audio files 
 		setupDirectory();
- 
+		
+		latituteField = -1;
+	    longitudeField = -1;
+	    // Get the location manager
+	    locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+	    // Define the criteria how to select the locatioin provider -> use
+	    // default
+	     
+	    Criteria criteria = new Criteria();
+	    provider = locationManager.getBestProvider(criteria, false);
+	    Location location = locationManager.getLastKnownLocation(provider);
+	    
+	    // Initialize the location fields
+	    if (location != null) {
+	    	Log.e(TAG, "Provider " + provider + " has been selected.");
+	    	onLocationChanged(location);
+	    } else {
+	    	Log.e(TAG, "location null");
+	    }
+	     
 		chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() { 
             @Override
             public void onChronometerTick(Chronometer chronometer) {
@@ -234,6 +264,8 @@ public class RecordAudio extends Activity {
 			}
 		}); 
 	}
+	
+	
 	 
 	/**  */
 	private void goBackHome() { 
@@ -277,7 +309,7 @@ public class RecordAudio extends Activity {
 		}
 	}
 	
-	/**  TODO */ 
+	/**   */ 
 	private Bitmap halfSize(Bitmap input) { 
 		int height = input.getHeight();
 		int width = input.getWidth();  
@@ -367,7 +399,8 @@ public class RecordAudio extends Activity {
 	@Override
 	public void onPause() {
 		super.onPause();
-
+		locationManager.removeUpdates(this);
+		
 		// If the user pauses the app when they're recording a message 
 		// we're going to treat it like they stopped recording before 
 		// pausing the app
@@ -382,6 +415,7 @@ public class RecordAudio extends Activity {
 	@Override
 	public void onResume() {
 		super.onResume(); 
+		locationManager.requestLocationUpdates(provider, 400, 1, this);
 		if(mRecMicToMp3 != null) {
 			mRecMicToMp3.stop();
 		} 
@@ -482,5 +516,24 @@ public class RecordAudio extends Activity {
 				bitmap = null;
 			}
 		}
+	}
+
+	@Override
+	public void onLocationChanged(Location location) {
+		int lat = (int) (location.getLatitude());
+	    int lng = (int) (location.getLongitude());
+	    Log.e(TAG, "lat: " + lat + " lng: " + lng); 
+	}
+
+	@Override
+	public void onProviderDisabled(String provider) { 
+	}
+
+	@Override
+	public void onProviderEnabled(String provider) {
+	}
+
+	@Override
+	public void onStatusChanged(String provider, int status, Bundle extras) { 
 	} 
 }

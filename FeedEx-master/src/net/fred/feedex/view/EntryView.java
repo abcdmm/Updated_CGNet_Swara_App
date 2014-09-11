@@ -204,14 +204,11 @@ public class EntryView extends WebView {
 	        }
 	         content.append(BUTTON_SECTION_END); 
         } else { 
-        	//content.append("<audio controls=\"\" src=\"file://storage/sdcard0/CGNet_Swara/43651.mp3\">");
-        	//content.append("</audio>");
-        	 	
+        	content.append("<audio controls=\"\" src=\"file://storage/sdcard0/CGNet_Swara/43651.mp3\">");
+        	content.append("</audio>"); 
         }
         
-         // TODO : clean up this code
-         // TODO : for real
-         // TODO : it looks so bad 
+         // TODO  
          String s = contentText;
          String[] feed_content = s.split("\\<h3"); 
          content.append(feed_content[0]); 
