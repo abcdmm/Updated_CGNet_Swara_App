@@ -1,6 +1,8 @@
 package cgnet.swara.activity;
 
 import java.io.File; 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 import android.net.Uri;  
 import android.util.Log;  
@@ -384,14 +386,32 @@ public class RecordAudio extends Activity implements LocationListener {
 		}
 		 // TODO
 		MediaMetadataRetriever metaRetriever = new MediaMetadataRetriever();
-	    metaRetriever.setDataSource(mMainDir + mInnerDir + mUniqueAudioRecording);
-	    Long durationms = Long.parseLong(metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION));
-	    
-	    long duration = durationms / 1000;
-	    
-		Log.e(TAG, "SECONDS DURATION: " + duration);
 		
-		mUserLogs.setAudioLength(duration);
+		FileInputStream inputStream;
+		try {
+			inputStream = new FileInputStream(mMainDir + mInnerDir + mUniqueAudioRecording);
+			metaRetriever.setDataSource(inputStream.getFD()); 
+			inputStream.close();
+		 	
+			Long durationms = Long.parseLong(metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION));
+			long duration = durationms / 1000;
+		    
+			Log.e(TAG, "SECONDS DURATION: " + duration);
+			
+			mUserLogs.setAudioLength(duration);
+		    
+		} catch (Exception e) {
+			Log.e(TAG, e.toString());
+			long duration = 0;
+		    
+			Log.e(TAG, "SECONDS DURATION: " + duration);
+			
+			mUserLogs.setAudioLength(duration);
+		    
+		}
+ 
+	    
+	    
 	}
 
 	/** Called when the activity is paused; releases resources back to the 
