@@ -131,7 +131,8 @@ public class RecordAudio extends Activity implements LocationListener {
 	private	Tracker t;
 	
 	private int mCountPlaybacks = 0;
-	 
+	
+	private int mCountChangingImages = 0;
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -282,6 +283,7 @@ public class RecordAudio extends Activity implements LocationListener {
 			@Override
 			public void onClick(View arg) { 
 				if(doneRecording) {  
+					mCountChangingImages++;
 					Intent i = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 					startActivityForResult(Intent.createChooser(i,
 							RecordAudio.this.getString(R.string.select_picture)), SELECT_PICTURE);
@@ -315,7 +317,7 @@ public class RecordAudio extends Activity implements LocationListener {
 			 t.send(new HitBuilders.EventBuilder()
 	         .setCategory("Number of times image changed") 
 	         .setAction("Audio recording not sent, button clicked to return home") 
-	         .setValue(mCountPlaybacks)
+	         .setValue(mCountChangingImages)
 	         .build());
 		}
 		
@@ -582,6 +584,13 @@ public class RecordAudio extends Activity implements LocationListener {
 	         .build()); 
 		}
 		
+		if(includePhoto) {
+			 t.send(new HitBuilders.EventBuilder()
+	         .setCategory("Number of times image changed") 
+	         .setAction("Audio recording sent") 
+	         .setValue(mCountChangingImages)
+	         .build());
+		}
 		
 		 
 		mFileToBeSent = true; 
