@@ -218,31 +218,14 @@ public class EntryView extends WebView {
         	content.append("</video>");
         	
         	content.append("</div>");
-        }
-         
-        Log.e("before", contentText);
-        contentText.replaceAll("<h3>.*</h3>", ""); 
-        contentText.replaceAll("<audio.*</audio>", ""); 
+        } 
         
-        Log.e("AFTER", contentText);
+        contentText = contentText.replaceAll("<h3>.*</h3>", ""); 
+        contentText = contentText.replaceAll("<audio.*>", ""); 
+        contentText = contentText.replaceAll("</audio.*>", ""); 
+         
         content.append(contentText);
-        
-    /*    Log.e("entry view", "" + contentText);
-         // TODO  
-         String s = contentText;
-         String[] feed_content = s.split("\\<h3"); 
-         content.append(feed_content[0]); 
-         
-         String after_title = feed_content[1];
-         String[] after_title_split = after_title.split("h3\\>"); 
-         String audio_included = after_title_split[1]; 
-         String[] audio = audio_included.split("\\<audio");
-         content.append(audio[0]); 
-         
-         String after_audio = audio[1];
-         String[] after_audio_split = after_audio.split("audio\\>");
-         content.append(after_audio_split[1]); 
-      */     
+              
          content.append(BODY_END);   
 
         return content.toString();
