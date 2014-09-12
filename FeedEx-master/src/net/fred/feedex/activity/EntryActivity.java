@@ -19,12 +19,16 @@
 
 package net.fred.feedex.activity;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-
 import net.fred.feedex.Constants;
+import net.fred.feedex.MainApplication;
 import net.fred.feedex.R;
+import net.fred.feedex.MainApplication.TrackerName;
 import net.fred.feedex.fragment.EntryFragment;
 import net.fred.feedex.utils.PrefUtils;
 import net.fred.feedex.utils.UiUtils;
@@ -37,11 +41,17 @@ public class EntryActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         UiUtils.setPreferenceTheme(this);
         super.onCreate(savedInstanceState);
-
+ 
         if (PrefUtils.getBoolean(PrefUtils.DISPLAY_ENTRIES_FULLSCREEN, false)) {
             toggleFullScreen();
         }
 
+        Tracker t = ((MainApplication) getApplication()).getTracker(TrackerName.APP_TRACKER);
+        t.send(new HitBuilders.EventBuilder()
+        .setCategory("Viewing entry")   
+        .setValue(1)
+        .build());
+        
         setContentView(R.layout.activity_entry);
 
         mEntryFragment = (EntryFragment) getFragmentManager().findFragmentById(R.id.entry_fragment);

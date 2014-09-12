@@ -21,6 +21,8 @@ package net.fred.feedex.fragment;
 
 import java.io.File;
 
+import com.google.android.gms.analytics.Tracker;
+
 import cgnet.swara.activity.MainActivity;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -58,6 +60,7 @@ import android.widget.Toast;
 import net.fred.feedex.Constants;
 import net.fred.feedex.MainApplication;
 import net.fred.feedex.R;
+import net.fred.feedex.MainApplication.TrackerName;
 import net.fred.feedex.activity.BaseActivity;
 import net.fred.feedex.provider.FeedData;
 import net.fred.feedex.provider.FeedData.EntryColumns;
@@ -197,8 +200,8 @@ public class EntryFragment extends SwipeRefreshFragment implements BaseActivity.
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        setHasOptionsMenu(true);
-
+        setHasOptionsMenu(true); 
+        
         mEntryPagerAdapter = new EntryPagerAdapter();
 
         super.onCreate(savedInstanceState);
@@ -520,7 +523,8 @@ public class EntryFragment extends SwipeRefreshFragment implements BaseActivity.
     @Override
     public void onClickEnclosure() {
         getActivity().runOnUiThread(new Runnable() {
-//TODO
+        	//TODO
+    		
         	@Override
             public void run() {
                 final String enclosure = mEntryPagerAdapter.getCursor(mCurrentPagerPos).getString(mEnclosurePos);
@@ -533,15 +537,11 @@ public class EntryFragment extends SwipeRefreshFragment implements BaseActivity.
 
                 new AlertDialog.Builder(getActivity())
                         .setTitle(R.string.open_enclosure)
-                        .setMessage(getString(R.string.file) + ": " + filename)
+//                        .setMessage(getString(R.string.file) + ": " + filename)
                         .setNegativeButton(R.string.cancel_phone, new DialogInterface.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                            
-                            	
-                            	// showEnclosure(uri, enclosure, position1, position2);
-                            	
-                            	
+                            public void onClick(DialogInterface dialog, int which) { 
+                            	// showEnclosure(uri, enclosure, position1, position2); 
                             }
                         }).setPositiveButton(R.string.download_and_save, new DialogInterface.OnClickListener() {
 		                    @Override

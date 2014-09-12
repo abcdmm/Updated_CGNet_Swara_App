@@ -46,9 +46,10 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
-
 import net.fred.feedex.Constants;
+import net.fred.feedex.MainApplication;
 import net.fred.feedex.R; 
+import net.fred.feedex.MainApplication.TrackerName;
 import net.fred.feedex.adapter.EntriesCursorAdapter;
 import net.fred.feedex.provider.FeedData;
 import net.fred.feedex.provider.FeedData.EntryColumns; 
@@ -57,6 +58,8 @@ import net.fred.feedex.service.FetcherService;
 import net.fred.feedex.utils.PrefUtils;
 
 import java.util.Date;
+
+import com.google.android.gms.analytics.Tracker;
 
 public class EntriesListFragment extends SwipeRefreshListFragment {
 
@@ -104,6 +107,7 @@ public class EntriesListFragment extends SwipeRefreshListFragment {
 
         @Override
         public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+    		
             mEntriesCursorAdapter.swapCursor(data);
         }
 

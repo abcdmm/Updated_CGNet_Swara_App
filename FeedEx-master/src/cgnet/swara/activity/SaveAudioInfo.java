@@ -31,6 +31,8 @@ public class SaveAudioInfo {
 	private String duration = "";
 	
 	private String time = "";
+
+	private String location = "";
 	
 	/** Given a path to a main direction, the unique audio file name and the 
 	 *  users phone number, initializes an object. */
@@ -59,7 +61,7 @@ public class SaveAudioInfo {
 		Log.e(TAG, "Writing file");
 		
 		String content = mMainDir + mInnerDir + mAudioPath + "," + mPhotoFile + "," + mPhoneNumber; 
-		content += "," + time + "," + duration;
+		content += "," + time + "," + duration + "," + location;
 		Log.e(TAG, "Saving a text file: " + content);
 		File root = new File(mMainDir + "/Logs");
 		try { 
@@ -90,5 +92,9 @@ public class SaveAudioInfo {
 	
 	public String getDuration() {
 		return duration; 
+	}
+
+	public void setLocation(String data) {
+		 location = data;
 	}
 }

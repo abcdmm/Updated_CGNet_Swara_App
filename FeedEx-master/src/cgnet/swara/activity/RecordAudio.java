@@ -29,8 +29,7 @@ import android.widget.TextView;
 import android.provider.MediaStore;
 import android.graphics.BitmapFactory;
 import android.content.DialogInterface;
-import net.fred.feedex.MainApplication; 
-import android.location.LocationManager;
+import net.fred.feedex.MainApplication;  
 import android.location.LocationListener;
 import android.view.View.OnClickListener;
 import android.media.MediaMetadataRetriever;
@@ -110,12 +109,8 @@ public class RecordAudio extends Activity implements LocationListener {
 	    
 	/** Audio recorder that records the users' message. */
 	private RecMicToMp3 mRecMicToMp3;
+	  
 	 
-	private int latituteField;
-
-	private int longitudeField;
-	
-	private LocationManager locationManager;
 	
 	private String provider;
 	
@@ -144,6 +139,8 @@ public class RecordAudio extends Activity implements LocationListener {
 		chronometer = (Chronometer) findViewById(R.id.time);
 		
 		mFileToBeSent = false; 
+		includePhoto = false;
+		doneRecording = false;
 		
 		// At first, the only option the user has is to record audio
 		mStart.setVisibility(View.VISIBLE); 
@@ -152,17 +149,17 @@ public class RecordAudio extends Activity implements LocationListener {
 		mSendAudio.setVisibility(View.GONE); 
 		mBack.setVisibility(View.INVISIBLE);
 		findViewById(R.id.time).setVisibility(View.INVISIBLE);
-		
-		includePhoto = false;
-		doneRecording = false;
-		
+ 
 		Intent intent = getIntent();
 		Bundle extras = intent.getExtras(); 
 		includePhoto = extras.getBoolean("photo"); 
 		mPhoneNumber = extras.getString("phone");
 
 		t = ((MainApplication) getApplication()).getTracker(TrackerName.APP_TRACKER);
- 		        		
+
+		// Create folders for the audio files 
+		setupDirectory();
+		
 		if(includePhoto) { 
 			Intent i = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 			startActivityForResult(Intent.createChooser(i,
@@ -172,32 +169,32 @@ public class RecordAudio extends Activity implements LocationListener {
 			mUserImage.setVisibility(View.GONE);
 			t.setScreenName("Record Audio - Without an image");
 		}
+		 // check if GPS enabled
+        GPSTracker gpsTracker = new GPSTracker(this);
+        if (gpsTracker.canGetLocation()) {
+        	
+        	 String stringLatitude = String.valueOf(gpsTracker.latitude); 
+             String stringLongitude = String.valueOf(gpsTracker.longitude);
+             String country = gpsTracker.getCountryName(this); 
+             String city = gpsTracker.getLocality(this);
+     
+             String data = "Lat: " + stringLatitude + "; Lon: " + stringLongitude + "; " + country + "; " + city;
+             
+             t.set("" + 1, stringLatitude + " " + stringLongitude);
+             t.set("" + 2, country);
+             t.set("" + 3, city);  
+             
+             if(mUserLogs != null) { 
+            	 mUserLogs.setLocation(data);
+             } 
+        } else { 
+        	mUserLogs.setLocation("unk");
+        }
 		
 		// Send a screen view.
 		t.send(new HitBuilders.AppViewBuilder().build());
  
-		// Create folders for the audio files 
-		setupDirectory();
-		
-		latituteField = -1;
-	    longitudeField = -1;
-	    // Get the location manager
-	    locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-	    // Define the criteria how to select the locatioin provider -> use
-	    // default
-	     
-	    Criteria criteria = new Criteria();
-	    provider = locationManager.getBestProvider(criteria, false);
-	    Location location = locationManager.getLastKnownLocation(provider);
-	    
-	    // Initialize the location fields
-	    if (location != null) {
-	    	Log.e(TAG, "Provider " + provider + " has been selected.");
-	    	onLocationChanged(location);
-	    } else {
-	    	Log.e(TAG, "location null");
-	    }
-	     
+		  
 		chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() { 
             @Override
             public void onChronometerTick(Chronometer chronometer) { 
@@ -291,22 +288,23 @@ public class RecordAudio extends Activity implements LocationListener {
 	 
 	/**  */
 	private void goBackHome() { 
-		if(includePhoto) {
-			 t.send(new HitBuilders.TimingBuilder()
-	         .setCategory("Length of recording") 
-	         .setVariable("Audio recording not sent, button clicked to return home")
-	         .setLabel("Photo included") 
-	         .setValue(Long.parseLong(mUserLogs.getDuration()) * 1000) 
-	         .build());
-		} else { 
-			 t.send(new HitBuilders.TimingBuilder()
-	         .setCategory("Length of recording") 
-	         .setVariable("Audio recording not sent, button clicked to return home")
-	         .setLabel("Photo not included") 	  
-	         .setValue(Long.parseLong(mUserLogs.getDuration()) * 1000) 						 
-	         .build()); 
-		} 
-		
+		if(!mUserLogs.getDuration().equals(null) && !mUserLogs.getDuration().equals("")) {
+			if(includePhoto) {
+				 t.send(new HitBuilders.TimingBuilder()
+		         .setCategory("Length of recording") 
+		         .setVariable("Audio recording not sent, button clicked to return home")
+		         .setLabel("Photo included") 
+		         .setValue(Long.parseLong(mUserLogs.getDuration()) * 1000) 
+		         .build());
+			} else { 
+				 t.send(new HitBuilders.TimingBuilder()
+		         .setCategory("Length of recording") 
+		         .setVariable("Audio recording not sent, button clicked to return home")
+		         .setLabel("Photo not included") 	  
+		         .setValue(Long.parseLong(mUserLogs.getDuration()) * 1000) 						 
+		         .build()); 
+			} 
+		}
 		if(includePhoto) {
 			 t.send(new HitBuilders.EventBuilder()
 	         .setCategory("Number of times image changed") 
@@ -484,8 +482,7 @@ public class RecordAudio extends Activity implements LocationListener {
 	 *  system and stops audio recordings that may be playing. */
 	@Override
 	public void onPause() {
-		super.onPause();
-		locationManager.removeUpdates(this);
+		super.onPause(); 
 		
 		// If the user pauses the app when they're recording a message 
 		// we're going to treat it like they stopped recording before 
@@ -501,7 +498,7 @@ public class RecordAudio extends Activity implements LocationListener {
 	@Override
 	public void onResume() {
 		super.onResume(); 
-		locationManager.requestLocationUpdates(provider, 400, 1, this);
+ 
 		if(mRecMicToMp3 != null) {
 			mRecMicToMp3.stop();
 		} 
@@ -543,21 +540,22 @@ public class RecordAudio extends Activity implements LocationListener {
 	private void sendData() { 
 		Log.e(TAG, "Send data is being called");
 		
-    	 
-		if(includePhoto) {
-			 t.send(new HitBuilders.TimingBuilder()
-	         .setCategory("Length of recording") 
-	         .setVariable("Audio recording sent")
-	         .setLabel("Photo included") 
-	         .setValue(Long.parseLong(mUserLogs.getDuration()) * 1000) 
-	         .build());
-		} else { 
-			 t.send(new HitBuilders.TimingBuilder()
-	         .setCategory("Length of recording") 
-	         .setVariable("Audio recording sent")
-	         .setLabel("Photo not included") 	  
-	         .setValue(Long.parseLong(mUserLogs.getDuration()) * 1000) 						 
-	         .build()); 
+		if(!mUserLogs.getDuration().equals(null) && !mUserLogs.getDuration().equals("")) {
+			if(includePhoto) {
+				 t.send(new HitBuilders.TimingBuilder()
+		         .setCategory("Length of recording") 
+		         .setVariable("Audio recording sent")
+		         .setLabel("Photo included") 
+		         .setValue(Long.parseLong(mUserLogs.getDuration()) * 1000) 
+		         .build());
+			} else { 
+				 t.send(new HitBuilders.TimingBuilder()
+		         .setCategory("Length of recording") 
+		         .setVariable("Audio recording sent")
+		         .setLabel("Photo not included") 	  
+		         .setValue(Long.parseLong(mUserLogs.getDuration()) * 1000) 						 
+		         .build()); 
+			}
 		}
 		   
 		if(includePhoto) {
@@ -608,22 +606,24 @@ public class RecordAudio extends Activity implements LocationListener {
 	        .setMessage(this.getString(R.string.discard_message))
 	        .setPositiveButton(this.getString(R.string.yes_message), new DialogInterface.OnClickListener() {
 	            @Override
-	            public void onClick(DialogInterface dialog, int which) { 
-	            	if(includePhoto) {
-	            		t.send(new HitBuilders.TimingBuilder()
-	       	         	.setCategory("Length of recording") 
-	       	         	.setVariable("Audio recording not sent, soft key clicked to return home")
-	       	         	.setLabel("Photo included") 
-	       	         	.setValue(Long.parseLong(mUserLogs.getDuration()) * 1000) 
-	       	         	.build());
-		       		} else { 
-		       			t.send(new HitBuilders.TimingBuilder()
-		       	        .setCategory("Length of recording") 
-		       	        .setVariable("Audio recording not sent, soft key clicked to return home")
-		       	        .setLabel("Photo not included") 	  
-            	         .setValue(Long.parseLong(mUserLogs.getDuration()) * 1000) 						 
-		       	        .build()); 
-		       		}
+	            public void onClick(DialogInterface dialog, int which) {
+	            	if(!mUserLogs.getDuration().equals(null) && !mUserLogs.getDuration().equals("")) {
+		            	if(includePhoto) {
+		            		t.send(new HitBuilders.TimingBuilder()
+		       	         	.setCategory("Length of recording") 
+		       	         	.setVariable("Audio recording not sent, soft key clicked to return home")
+		       	         	.setLabel("Photo included") 
+		       	         	.setValue(Long.parseLong(mUserLogs.getDuration()) * 1000) 
+		       	         	.build());
+			       		} else { 
+			       			t.send(new HitBuilders.TimingBuilder()
+			       	        .setCategory("Length of recording") 
+			       	        .setVariable("Audio recording not sent, soft key clicked to return home")
+			       	        .setLabel("Photo not included") 	  
+	            	         .setValue(Long.parseLong(mUserLogs.getDuration()) * 1000) 						 
+			       	        .build()); 
+			       		}
+	            	}
 		        		
 		        		
 	        		if(includePhoto) {

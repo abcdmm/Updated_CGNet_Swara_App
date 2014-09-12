@@ -126,7 +126,8 @@ public class MainActivity extends Activity {
 			public void beforeTextChanged(CharSequence s, int start, int count, int after){}
 			public void onTextChanged(CharSequence s, int start, int before, int count){}
 		});
-		//TODO			
+
+		// TODO: Can we write a regular expression here?
 		mNumber.addTextChangedListener(new TextWatcher(){
 	        public void afterTextChanged(Editable s) {
 	        	if(s.toString().equals("") || s.toString().equals(" ")) { 
@@ -164,6 +165,9 @@ public class MainActivity extends Activity {
 				editor.apply();
 
 				mNumber.setText(mPhoneNumber);
+				if(mPhoneNumber == null || mPhoneNumber.equals("") || mPhoneNumber.equals(" ")) { 
+					showPrompt();
+				} 
 			}
 		})
 		.setNegativeButton(this.getString(R.string.cancel_phone),
@@ -174,6 +178,7 @@ public class MainActivity extends Activity {
 				if(mPhoneNumber == null || mPhoneNumber.equals("") || mPhoneNumber.equals(" ")) { 
 					showPrompt();
 				} else {
+					mNumber.setText(mPhoneNumber);
 					dialog.cancel();
 					onResume();
 				}

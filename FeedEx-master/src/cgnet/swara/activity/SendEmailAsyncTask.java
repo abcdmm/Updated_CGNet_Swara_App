@@ -78,6 +78,7 @@ class SendEmailAsyncTask extends AsyncTask <Void, Void, Boolean> {
 		String phoneNumber = parts[2]; 
 		String time = parts[3];
 		String length = parts[4];
+		String location = parts[5];
 		
     	mMail = new Mail(mFromAdddress, mFromPassword);  
     	Log.e(TAG, "mMail: " + mMail);
@@ -88,9 +89,9 @@ class SendEmailAsyncTask extends AsyncTask <Void, Void, Boolean> {
     	String[] toArr = {mToAddress}; // multiple email addresses can be added here 
         mMail.setTo(toArr);
         mMail.setFrom(mFromAdddress);
-        mMail.setSubject(getSubject(phoneNumber, time, length));
+        mMail.setSubject(getSubject(phoneNumber, time, length, location));
          
-        String body = getBody(phoneNumber, time, length); 
+        String body = getBody(phoneNumber, time, length, location); 
         		
         mMail.setBody(body); 
         
@@ -152,8 +153,8 @@ class SendEmailAsyncTask extends AsyncTask <Void, Void, Boolean> {
      *  returns a string that will serve as the subject of the email - includes 
      *  the relevant information about the audio file that will be parsed later by the
      *  server. */    
-    private String getSubject(String phoneNumber, String time, String length) {
-    	String subject = "Swara-Main|app|" + length + "|DRAFT|" + phoneNumber + "|unk|" + time;
+    private String getSubject(String phoneNumber, String time, String length, String location) {
+    	String subject = "Swara-Main|app|" + length + "|DRAFT|" + phoneNumber + "|" + location + "|" + time;
     	 
 		return subject;
 	}
@@ -162,7 +163,7 @@ class SendEmailAsyncTask extends AsyncTask <Void, Void, Boolean> {
      *  returns a string that will serve as the body of the email - includes 
      *  the relevant information about the audio file that will be parsed later by the
      *  server. */
-    private String getBody(String phoneNumber, String time, String length) { 
+    private String getBody(String phoneNumber, String time, String length, String location) { 
     	String body;
     	body =  "******************************************************************************\n" + 
     			"SERVER/सर्वर                        : Swara-Main\n" +
@@ -177,7 +178,7 @@ class SendEmailAsyncTask extends AsyncTask <Void, Void, Boolean> {
     			"******************************************************************************\n" +
     			"CALL LOCATION/कॉल कहाँ से आई        :\n" + 
     			"******************************************************************************\n" +
-    			"TEL CIRC/ टेलिकॉम सर्किल                : unk"+ "\n" +
+    			"TEL CIRC/ टेलिकॉम सर्किल                : "+ location + "\n" +
     			"******************************************************************************\n" +
     			"LNGTH/अवधी                              : " + length + "\n" +
     			"******************************************************************************\n" +
