@@ -1,21 +1,16 @@
 package cgnet.swara.activity;
 
 import java.io.File;  
-
 import android.net.Uri;  
 import android.util.Log;  
 import android.view.View;
 import net.fred.feedex.R;
 import android.os.Bundle;
-
 import java.util.Calendar;
 import java.io.IOException; 
-
 import android.app.Activity;  
 import android.view.KeyEvent;
-
 import java.io.FileInputStream; 
-
 import android.app.AlertDialog;
 import android.widget.Toast;
 import android.os.SystemClock; 
@@ -301,14 +296,14 @@ public class RecordAudio extends Activity implements LocationListener {
 	         .setCategory("Length of recording") 
 	         .setVariable("Audio recording not sent, button clicked to return home")
 	         .setLabel("Photo included") 
-	         .setValue(Long.parseLong(mUserLogs.getDuration())) 
+	         .setValue(Long.parseLong(mUserLogs.getDuration()) * 1000) 
 	         .build());
 		} else { 
 			 t.send(new HitBuilders.TimingBuilder()
 	         .setCategory("Length of recording") 
 	         .setVariable("Audio recording not sent, button clicked to return home")
 	         .setLabel("Photo not included") 	  
-	         .setValue(Long.parseLong(mUserLogs.getDuration())) 						 
+	         .setValue(Long.parseLong(mUserLogs.getDuration()) * 1000) 						 
 	         .build()); 
 		} 
 		
@@ -348,6 +343,10 @@ public class RecordAudio extends Activity implements LocationListener {
 			Log.e(TAG, "mBack.onClick - Deleting file: " + mMainDir + mInnerDir + mUniqueAudioRecording);
 			file.delete();
 		}
+		
+		Toast.makeText(RecordAudio.this, RecordAudio.this.getString(R.string.your_message_discarded),  
+				Toast.LENGTH_LONG).show();
+		
 		Intent intent = new Intent(RecordAudio.this, MainActivity.class);
 		startActivity(intent);
 		finish();
@@ -550,14 +549,14 @@ public class RecordAudio extends Activity implements LocationListener {
 	         .setCategory("Length of recording") 
 	         .setVariable("Audio recording sent")
 	         .setLabel("Photo included") 
-	         .setValue(Long.parseLong(mUserLogs.getDuration())) 
+	         .setValue(Long.parseLong(mUserLogs.getDuration()) * 1000) 
 	         .build());
 		} else { 
 			 t.send(new HitBuilders.TimingBuilder()
 	         .setCategory("Length of recording") 
 	         .setVariable("Audio recording sent")
 	         .setLabel("Photo not included") 	  
-	         .setValue(Long.parseLong(mUserLogs.getDuration())) 						 
+	         .setValue(Long.parseLong(mUserLogs.getDuration()) * 1000) 						 
 	         .build()); 
 		}
 		   
@@ -615,14 +614,14 @@ public class RecordAudio extends Activity implements LocationListener {
 	       	         	.setCategory("Length of recording") 
 	       	         	.setVariable("Audio recording not sent, soft key clicked to return home")
 	       	         	.setLabel("Photo included") 
-	       	         	.setValue(Long.parseLong(mUserLogs.getDuration())) 
+	       	         	.setValue(Long.parseLong(mUserLogs.getDuration()) * 1000) 
 	       	         	.build());
 		       		} else { 
 		       			t.send(new HitBuilders.TimingBuilder()
 		       	        .setCategory("Length of recording") 
 		       	        .setVariable("Audio recording not sent, soft key clicked to return home")
 		       	        .setLabel("Photo not included") 	  
-		       	        .setValue(Long.parseLong(mUserLogs.getDuration())) 						 
+            	         .setValue(Long.parseLong(mUserLogs.getDuration()) * 1000) 						 
 		       	        .build()); 
 		       		}
 		        		

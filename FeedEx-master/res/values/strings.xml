@@ -225,6 +225,7 @@
     <string name="yes_message">हाँ </string>
     <string name="no_message">नहीं </string>
     <string name="tap_image_to_choose_another">फोटो बदलने के लिए यहाँ दबाएं</string>
+    <string name="your_message_discarded">आपका संदेश रद्द कर दिया जाएगा। </string>
     
     
 	<!--  Never used -->
