@@ -67,5 +67,5 @@ public class MainApplication extends Application {
 
     public static Context getContext() {
         return context;
-    }
+    } 
 }

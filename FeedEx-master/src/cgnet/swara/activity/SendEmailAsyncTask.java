@@ -77,9 +77,18 @@ class SendEmailAsyncTask extends AsyncTask <Void, Void, Boolean> {
 		String photo = parts[1];
 		String phoneNumber = parts[2]; 
 		String time = parts[3];
-		String length = parts[4];
-		String location = parts[5];
-		
+		String length;
+		if(parts.length > 4) {
+			length = parts[4];
+		} else { 
+			length = "0";
+		}
+		String location;
+		if(parts.length > 5) {
+			location = parts[5];
+		} else { 
+			location = "unk";
+		}
     	mMail = new Mail(mFromAdddress, mFromPassword);  
     	Log.e(TAG, "mMail: " + mMail);
     	mMainDir = outerDir;

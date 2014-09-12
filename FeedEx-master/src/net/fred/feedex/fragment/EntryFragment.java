@@ -21,6 +21,7 @@ package net.fred.feedex.fragment;
 
 import java.io.File;
 
+import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
 import cgnet.swara.activity.MainActivity;
@@ -200,7 +201,11 @@ public class EntryFragment extends SwipeRefreshFragment implements BaseActivity.
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        setHasOptionsMenu(true); 
+        setHasOptionsMenu(true);
+     /*   Tracker t =  ((MainApplication) this.getActivity().getApplication()).getTracker(TrackerName.APP_TRACKER);
+        t.send(new HitBuilders.EventBuilder()
+        .setCategory("Entry Fragment") 
+        .build()); */
         
         mEntryPagerAdapter = new EntryPagerAdapter();
 
