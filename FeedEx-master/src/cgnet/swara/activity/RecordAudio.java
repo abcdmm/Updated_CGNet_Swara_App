@@ -40,6 +40,7 @@ import android.location.LocationListener;
 import android.view.View.OnClickListener;
 import android.media.MediaMetadataRetriever;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker; 
 
 import net.fred.feedex.MainApplication.TrackerName;
@@ -126,6 +127,11 @@ public class RecordAudio extends Activity implements LocationListener {
 	
 	private boolean doneRecording;
 	 
+	private	Tracker t;
+	
+	private int mCountPlaybacks = 0;
+	 
+	
 	/** Called when the activity is first created. */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -158,8 +164,7 @@ public class RecordAudio extends Activity implements LocationListener {
 		includePhoto = extras.getBoolean("photo"); 
 		mPhoneNumber = extras.getString("phone");
 
-		// Get tracker.
-		Tracker t = ((MainApplication) getApplication()).getTracker(TrackerName.APP_TRACKER);
+		t = ((MainApplication) getApplication()).getTracker(TrackerName.APP_TRACKER);
  		        		
 		if(includePhoto) { 
 			Intent i = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -238,6 +243,7 @@ public class RecordAudio extends Activity implements LocationListener {
 					mUserAudio.pause();
 					mPlayback.setImageResource(R.drawable.play_icon);
 				} else {
+					mCountPlaybacks++;
 					mStart.setVisibility(View.GONE);
 					mStop.setVisibility(View.GONE); 
 					mPlayback.setVisibility(View.VISIBLE); 
@@ -286,7 +292,42 @@ public class RecordAudio extends Activity implements LocationListener {
 	 
 	 
 	/**  */
-	private void goBackHome() { 
+	private void goBackHome() {
+		// TODO
+		if(includePhoto) {
+			 t.send(new HitBuilders.EventBuilder()
+	         .setCategory("Length of recording") 
+	         .setAction("Audio recording not sent, button clicked to return home")
+	         .setLabel("Photo included") 
+	         .setValue(Long.parseLong(mUserLogs.getDuration())) 
+	         .build());
+		} else { 
+			 t.send(new HitBuilders.EventBuilder()
+	         .setCategory("Length of recording") 
+	         .setAction("Audio recording not sent, button clicked to return home")
+	         .setLabel("Photo not included") 	  
+	         .setValue(Long.parseLong(mUserLogs.getDuration())) 						 
+	         .build()); 
+		}
+
+		if(includePhoto) {
+			 t.send(new HitBuilders.EventBuilder()
+	         .setCategory("Number of playbacks") 
+	         .setAction("Audio recording not sent, button clicked to return home")
+	         .setLabel("Photo included") 
+	         .setValue(mCountPlaybacks)
+	         .build());
+		} else { 
+			 t.send(new HitBuilders.EventBuilder()
+	         .setCategory("Number of playbacks") 
+	         .setAction("Audio recording not sent, button clicked to return home")
+	         .setLabel("Photo not included") 	  
+	         .setValue(mCountPlaybacks) 						 
+	         .build()); 
+		}
+		
+		
+		
 		if(bitmap != null) {
 			Log.e(TAG, "Recycling bitmap.");
 			bitmap.recycle();
@@ -417,23 +458,17 @@ public class RecordAudio extends Activity implements LocationListener {
 		 	
 			Long durationms = Long.parseLong(metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION));
 			long duration = durationms / 1000;
-		    
-			Log.e(TAG, "SECONDS DURATION: " + duration);
-			
+		      
 			mUserLogs.setAudioLength(duration);
 		    
 		} catch (Exception e) {
 			Log.e(TAG, e.toString());
 			long duration = 0;
-		    
-			Log.e(TAG, "SECONDS DURATION: " + duration);
+		     
 			
 			mUserLogs.setAudioLength(duration);
 		    
-		}
- 
-	    
-	    
+		} 
 	}
 
 	/** Called when the activity is paused; releases resources back to the 
@@ -499,10 +534,46 @@ public class RecordAudio extends Activity implements LocationListener {
 	private void sendData() { 
 		Log.e(TAG, "Send data is being called");
 		
+		// TODO - Leave 
+		if(includePhoto) {
+			 t.send(new HitBuilders.EventBuilder()
+	         .setCategory("Length of recording") 
+	         .setAction("Audio recording sent")
+	         .setLabel("Photo included") 
+	         .setValue(Long.parseLong(mUserLogs.getDuration())) 
+	         .build());
+		} else { 
+			 t.send(new HitBuilders.EventBuilder()
+	         .setCategory("Length of recording") 
+	         .setAction("Audio recording sent")
+	         .setLabel("Photo not included") 	  
+	         .setValue(Long.parseLong(mUserLogs.getDuration())) 						 
+	         .build()); 
+		}
+		   
+		if(includePhoto) {
+			 t.send(new HitBuilders.EventBuilder()
+	         .setCategory("Number of playbacks") 
+	         .setAction("Audio recording sent")
+	         .setLabel("Photo included") 
+	         .setValue(mCountPlaybacks)
+	         .build());
+		} else { 
+			 t.send(new HitBuilders.EventBuilder()
+	         .setCategory("Number of playbacks") 
+	         .setAction("Audio recording sent")
+	         .setLabel("Photo not included") 	  
+	         .setValue(mCountPlaybacks) 						 
+	         .build()); 
+		}
+		
+		
+		 
 		mFileToBeSent = true; 
 		mUserLogs.writeToFile();
 		 
-		Intent intent = new Intent(); 
+		Intent intent = new Intent();  
+		GoogleAnalytics.getInstance(this.getBaseContext()).dispatchLocalHits();
 		intent.setAction("com.android.CUSTOM_INTENT");
 		sendBroadcast(intent);  
 	} 
@@ -522,7 +593,23 @@ public class RecordAudio extends Activity implements LocationListener {
 	        .setPositiveButton(this.getString(R.string.yes_message), new DialogInterface.OnClickListener() {
 	            @Override
 	            public void onClick(DialogInterface dialog, int which) { 
-	                RecordAudio.this.finish();    
+	        		if(includePhoto) {
+	       			 t.send(new HitBuilders.EventBuilder()
+	       	         .setCategory("Length of recording") 
+	       	         .setAction("Audio recording not sent, soft key clicked to return home")
+	       	         .setLabel("Photo included") 
+	       	         .setValue(Long.parseLong(mUserLogs.getDuration())) 
+	       	         .build());
+	       		} else { 
+	       			 t.send(new HitBuilders.EventBuilder()
+	       	         .setCategory("Length of recording") 
+	       	         .setAction("Audio recording not sent, soft key clicked to return home")
+	       	         .setLabel("Photo not included") 	  
+	       	         .setValue(Long.parseLong(mUserLogs.getDuration())) 						 
+	       	         .build()); 
+	       		}
+	            	RecordAudio.this.finish();
+	                // TODO - leave 
 	            } 
 	        })
 	        .setNegativeButton(this.getString(R.string.no_message), null)

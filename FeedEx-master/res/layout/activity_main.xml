@@ -84,7 +84,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.75"
         android:focusable="true" 
-        android:maxLength="12"
+        android:maxLength="12" 
 		android:focusableInTouchMode="true"
         android:layout_gravity="bottom"
         android:ems="10" 

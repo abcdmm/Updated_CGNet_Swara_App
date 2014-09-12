@@ -87,4 +87,8 @@ public class SaveAudioInfo {
 		Log.e(TAG, "Setting duration: " + durationAudio);
 		duration = Long.toString(durationAudio); 
 	} 	
+	
+	public String getDuration() {
+		return duration; 
+	}
 }
