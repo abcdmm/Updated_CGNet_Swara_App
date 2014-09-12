@@ -219,7 +219,7 @@ public class EntryView extends WebView {
         	
         	content.append("</div>");
         }
-        Log.e("entry view", "" + content);
+        Log.e("entry view", "" + contentText);
          // TODO  
          String s = contentText;
          String[] feed_content = s.split("\\<h3"); 
