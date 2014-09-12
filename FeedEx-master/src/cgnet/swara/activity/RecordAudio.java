@@ -295,8 +295,7 @@ public class RecordAudio extends Activity implements LocationListener {
 	 
 	 
 	/**  */
-	private void goBackHome() {
-		// TODO
+	private void goBackHome() { 
 		if(includePhoto) {
 			 t.send(new HitBuilders.TimingBuilder()
 	         .setCategory("Length of recording") 
@@ -337,11 +336,7 @@ public class RecordAudio extends Activity implements LocationListener {
 	         .setLabel("Photo not included") 	  
 	         .setValue(mCountPlaybacks) 						 
 	         .build()); 
-		}
-		
-
-
-		
+		} 
 		
 		if(bitmap != null) {
 			Log.e(TAG, "Recycling bitmap.");
@@ -549,9 +544,7 @@ public class RecordAudio extends Activity implements LocationListener {
 	private void sendData() { 
 		Log.e(TAG, "Send data is being called");
 		
-    	
-		
-		// TODO - Leave 
+    	 
 		if(includePhoto) {
 			 t.send(new HitBuilders.TimingBuilder()
 	         .setCategory("Length of recording") 
@@ -648,10 +641,9 @@ public class RecordAudio extends Activity implements LocationListener {
 		       	         .setLabel("Photo not included") 	  
 		       	         .setValue(mCountPlaybacks) 						 
 		       	         .build()); 
-		       		}
-	        		
+		       		} 
 	            	RecordAudio.this.finish();
-	                // TODO - leave 
+	                
 	            } 
 	        })
 	        .setNegativeButton(this.getString(R.string.no_message), null)

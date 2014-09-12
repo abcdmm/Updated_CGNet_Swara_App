@@ -209,10 +209,7 @@ public class EntryView extends WebView {
         	String file_path = "<source src=\"file://mnt/sdcard/CGNet_Swara/";
         	file_path += child.getName();        	
         	file_path += "\" type=\"audio/mpeg\">";
-        	
-        	Log.e("!", "" + child.getName());
-        	Log.e("!??!", file_path);
-        	
+        	 
         	content.append("<video width=\"100%\" height=\"48\" controls>");
         	content.append(file_path);
         	content.append("</video>");
