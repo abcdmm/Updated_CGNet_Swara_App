@@ -1,21 +1,29 @@
 package cgnet.swara.activity;
 
 import java.io.File;  
+
 import android.net.Uri;  
 import android.util.Log;  
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import net.fred.feedex.R;
 import android.os.Bundle;
+
 import java.util.Calendar;
 import java.io.IOException; 
+
 import android.app.Activity;  
 import android.view.KeyEvent;
+
 import java.io.FileInputStream; 
+
 import android.app.AlertDialog;
 import android.widget.Toast;
 import android.os.SystemClock; 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Environment;
 import android.database.Cursor;
 import android.graphics.Bitmap; 
@@ -24,6 +32,7 @@ import android.location.Criteria;
 import android.location.Location;
 import android.media.MediaPlayer;  
 import android.widget.Chronometer;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.provider.MediaStore;
@@ -123,6 +132,8 @@ public class RecordAudio extends Activity implements LocationListener {
 	private int mCountPlaybacks = 0;
 	
 	private int mCountChangingImages = 0;
+
+	String mSecondPhonenumber;
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -282,9 +293,53 @@ public class RecordAudio extends Activity implements LocationListener {
 				}
 			} 
 		});
-				
+		
+		if(!includePhoto) { 
+			showPrompt(); 
+		} 		
 	}
 	 
+	
+	/** Displays an alert dialog prompting 
+	 *  the user to input their phone number. */
+	private void showPrompt() {
+ 		// get prompts.xml view
+		LayoutInflater li = LayoutInflater.from(this);
+		View promptsView = li.inflate(R.layout.phone_prompt, null);
+
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+
+		// set prompts.xml to alertdialog builder
+		alertDialogBuilder.setView(promptsView);
+
+		final EditText userInput = (EditText) promptsView.findViewById(R.id.editTextDialogUserInput);
+
+		// set dialog message
+		alertDialogBuilder.setCancelable(false).setPositiveButton(this.getString(R.string.ok_phone),
+				new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog,int id) { 
+				mSecondPhonenumber = userInput.getText().toString();
+				mUserLogs.setPhoneNumber("Reporter: " + mPhoneNumber + " Interviewee: " + mSecondPhonenumber);
+			}
+		})
+		.setNegativeButton(this.getString(R.string.cancel_phone),
+				new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog,int id) { 
+				dialog.cancel();
+				Intent intent = new Intent(RecordAudio.this, MainActivity.class);
+				startActivity(intent);
+				finish();
+			}
+		});
+
+		// create alert dialog
+		AlertDialog alertDialog = alertDialogBuilder.create(); 
+		alertDialog.getWindow().setSoftInputMode(
+				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+		// show it
+		alertDialog.show();
+	} 
+	
 	 
 	/**  */
 	private void goBackHome() { 
@@ -369,6 +424,7 @@ public class RecordAudio extends Activity implements LocationListener {
 					mUserImage.setImageBitmap(bitmap);  
 					mUserLogs.setPhotoPath(selectedImagePath); 
 				}
+				showPrompt();
 			}
 		} else { 
 			goBackHome(); 
@@ -428,7 +484,7 @@ public class RecordAudio extends Activity implements LocationListener {
 		
 		mUniqueAudioRecording = "/" + date + "__" + time;
 		
-		mUserLogs = new SaveAudioInfo(mMainDir, mUniqueAudioRecording, mPhoneNumber); 
+		mUserLogs = new SaveAudioInfo(mMainDir, mUniqueAudioRecording);  
 		mUserLogs.setAudioDateTime(dateAudio + " " + timeAudio);
 
 		mUniqueAudioRecording += ".mp3";  

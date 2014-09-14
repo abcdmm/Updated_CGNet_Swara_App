@@ -95,6 +95,7 @@ public class EntryView extends WebView {
             + "h1 {font-size: 170%; margin-bottom: 0.1em} "
             + "h2 {font-size: 140%} "
             + "a {color: #0099CC}"
+            + "video::-webkit-media-controls-fullscreen-button {display: none}"   
             + "h1 a {color: inherit; text-decoration: none}"
             + "img {height: auto} "
             + "pre {white-space: pre-wrap;} "
@@ -193,8 +194,7 @@ public class EntryView extends WebView {
       	
      	audio_recording = path_audio + "/" + audio_recording;
      	File child = new File(audio_recording);
-         
-        // TODO - add if statement here
+          
         content.append(dateStringBuilder).append(SUBTITLE_END);
         if(!child.exists()) {
 	        content.append(BUTTON_SECTION_START); 

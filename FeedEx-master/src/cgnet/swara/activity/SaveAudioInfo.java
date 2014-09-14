@@ -33,13 +33,13 @@ public class SaveAudioInfo {
 	private String time = "";
 
 	private String location = "";
+ 
 	
 	/** Given a path to a main direction, the unique audio file name and the 
 	 *  users phone number, initializes an object. */
-	public SaveAudioInfo(String mainDir, String audioRecordingPath, String phone) {   
+	public SaveAudioInfo(String mainDir, String audioRecordingPath) {    
 		mMainDir = mainDir;
 		mAudioPath = audioRecordingPath;
-		mPhoneNumber = phone;  
 		
 		// This folder will be queried when there's Internet - files that 
 		// need to be sent should be stored in here 
@@ -49,6 +49,10 @@ public class SaveAudioInfo {
 		} 
 	} 
 
+	public void setPhoneNumber(String phone) { 
+		mPhoneNumber = phone;   
+	}
+	
 	/** Sets the path to an image chosen by the user. */
 	public void setPhotoPath(String path) { 
 		mPhotoFile = path;
