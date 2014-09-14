@@ -125,18 +125,7 @@ public class MainActivity extends Activity {
 			}
 			public void beforeTextChanged(CharSequence s, int start, int count, int after){}
 			public void onTextChanged(CharSequence s, int start, int before, int count){}
-		});
-
-		// TODO: Can we write a regular expression here?
-		mNumber.addTextChangedListener(new TextWatcher(){
-	        public void afterTextChanged(Editable s) {
-	        	if(s.toString().equals("") || s.toString().equals(" ")) { 
-	        		showPrompt();
-	        	}
-	        }
-	        public void beforeTextChanged(CharSequence s, int start, int count, int after){}
-	        public void onTextChanged(CharSequence s, int start, int before, int count){}
-	    }); 
+		}); 
 	}
 
 	 
