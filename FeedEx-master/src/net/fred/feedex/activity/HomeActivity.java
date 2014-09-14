@@ -105,7 +105,7 @@ public class HomeActivity extends BaseActivity implements LoaderManager.LoaderCa
         getWindow().setBackgroundDrawableResource(R.color.light_entry_list_background);
         
         // !!!!
-        FeedDataContentProvider.addFeed(HomeActivity.this, "http://cgnetswara.org//podcast-big.php", getResources().getString(R.string.main_title), true); 
+        FeedDataContentProvider.addFeed(HomeActivity.this, "http://cgnetswara.org//podcast.php", getResources().getString(R.string.main_title), true); 
         
         setContentView(R.layout.activity_home);
 
