@@ -3,7 +3,7 @@
     package="net.fred.feedex"
     android:installLocation="auto"
     android:versionCode="42"
-    android:versionName="1.6.1" >
+    android:versionName="1.7.0" >
 
     <uses-sdk
         android:minSdkVersion="15"

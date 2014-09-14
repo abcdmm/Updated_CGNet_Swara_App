@@ -163,14 +163,9 @@ public class MainActivity extends Activity {
 				new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog,int id) {
 				mPhoneNumber = userInput.getText().toString();
-
-				if(mPhoneNumber == null || mPhoneNumber.equals("") || mPhoneNumber.equals(" ")) { 
-					showPrompt();
-				} else {
-					mNumber.setText(mPhoneNumber);
-					dialog.cancel();
-					onResume();
-				}
+				mNumber.setText(mPhoneNumber);
+				dialog.cancel();
+				onResume();
 			}
 		});
 
