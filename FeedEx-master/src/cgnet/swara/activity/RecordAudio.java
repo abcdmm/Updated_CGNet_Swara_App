@@ -3,6 +3,7 @@ package cgnet.swara.activity;
 import java.io.File;  
 
 import android.net.Uri;  
+import android.telephony.TelephonyManager;
 import android.util.Log;  
 import android.view.LayoutInflater;
 import android.view.View;
@@ -119,8 +120,6 @@ public class RecordAudio extends Activity implements LocationListener {
 	/** Audio recorder that records the users' message. */
 	private RecMicToMp3 mRecMicToMp3;
 	  
-	 
-	
 	private String provider;
 	
 	private boolean includePhoto;
@@ -219,7 +218,7 @@ public class RecordAudio extends Activity implements LocationListener {
 		mStart.setOnClickListener(new OnClickListener() { 
 			@Override
 			public void onClick(View arg) { 
-				findViewById(R.id.time).setVisibility(View.VISIBLE);
+				chronometer.setVisibility(View.VISIBLE);
 				mStart.setVisibility(View.GONE);
 				mStop.setVisibility(View.VISIBLE);
 				chronometer.setBase(SystemClock.elapsedRealtime());
@@ -233,6 +232,7 @@ public class RecordAudio extends Activity implements LocationListener {
 			@Override
 			public void onClick(View arg) {  
 				chronometer.stop();  
+				chronometer.setVisibility(View.INVISIBLE);
 				mStop.setVisibility(View.GONE); 
 				mPlayback.setVisibility(View.VISIBLE);
 				mSendAudio.setVisibility(View.VISIBLE); 
@@ -247,8 +247,14 @@ public class RecordAudio extends Activity implements LocationListener {
 				if(mUserAudio != null && mUserAudio.isPlaying()) {
 					mUserAudio.pause();
 					mPlayback.setImageResource(R.drawable.play_icon);
+					chronometer.stop(); 
 				} else {
-					mCountPlaybacks++;
+					mCountPlaybacks++; 
+					chronometer.setVisibility(View.VISIBLE); 
+					chronometer.setBase(SystemClock.elapsedRealtime());
+					chronometer.start();
+					
+					
 					mStart.setVisibility(View.GONE);
 					mStop.setVisibility(View.GONE); 
 					mPlayback.setVisibility(View.VISIBLE); 
@@ -308,18 +314,22 @@ public class RecordAudio extends Activity implements LocationListener {
 		View promptsView = li.inflate(R.layout.phone_prompt, null);
 
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-
+		
 		// set prompts.xml to alertdialog builder
 		alertDialogBuilder.setView(promptsView);
 
 		final EditText userInput = (EditText) promptsView.findViewById(R.id.editTextDialogUserInput);
-
+		TextView tv = (TextView) promptsView.findViewById(R.id.textView1);
+		tv.setText(this.getString(R.string.interviee_phone_number));
+		
 		// set dialog message
 		alertDialogBuilder.setCancelable(false).setPositiveButton(this.getString(R.string.ok_phone),
 				new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog,int id) { 
 				mSecondPhonenumber = userInput.getText().toString();
-				mUserLogs.setPhoneNumber("Reporter: " + mPhoneNumber + " Interviewee: " + mSecondPhonenumber);
+				TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+				String device_id = telephonyManager.getDeviceId();
+				mUserLogs.setPhoneNumber("Reporter: " + mPhoneNumber + " IMEI: " + device_id + " Interviewee: " + mSecondPhonenumber);
 			}
 		})
 		.setNegativeButton(this.getString(R.string.cancel_phone),
@@ -426,8 +436,11 @@ public class RecordAudio extends Activity implements LocationListener {
 				}
 				showPrompt();
 			}
+		} else if(bitmap != null) {
+			Log.e(TAG, resultCode + " " + requestCode);
+			 
 		} else { 
-			goBackHome(); 
+			goBackHome();
 		}
 	}
 	
@@ -581,6 +594,7 @@ public class RecordAudio extends Activity implements LocationListener {
 			mUserAudio.setOnCompletionListener(new OnCompletionListener() {
 	            public void onCompletion(MediaPlayer mp) { 
 	            	mPlayback.setImageResource(R.drawable.play_icon);
+	            	chronometer.stop(); 
 	            }
 	        }); 
 			
