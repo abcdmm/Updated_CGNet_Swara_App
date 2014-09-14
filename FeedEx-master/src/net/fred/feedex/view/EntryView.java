@@ -45,9 +45,13 @@
 package net.fred.feedex.view;
 
 import android.annotation.SuppressLint;
+import android.app.DownloadManager;
+import android.app.DownloadManager.Query;
 import android.content.ActivityNotFoundException;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
@@ -60,6 +64,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 import net.fred.feedex.Constants;
+import net.fred.feedex.MainApplication;
 import net.fred.feedex.R;
 import net.fred.feedex.utils.FileUtils;
 import net.fred.feedex.utils.HtmlUtils;
@@ -139,8 +144,7 @@ public class EntryView extends WebView {
     }
 
     public EntryView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-
+        super(context, attrs); 
         setupWebview();
     }
 
@@ -171,6 +175,7 @@ public class EntryView extends WebView {
         // do not put 'null' to the base url...
         loadDataWithBaseURL("", generateHtmlContent(title, link, contentText, enclosure, author, timestamp, preferFullText), TEXT_HTML, Constants.UTF8, null);
     }
+     
 
     private String generateHtmlContent(String title, String link, String contentText, String enclosure, String author, long timestamp, boolean preferFullText) {
         StringBuilder content = new StringBuilder(CSS).append(BODY_START);
@@ -196,7 +201,9 @@ public class EntryView extends WebView {
      	File child = new File(audio_recording);
           
         content.append(dateStringBuilder).append(SUBTITLE_END);
-        if(!child.exists()) {
+          
+        
+        if(!child.exists()) { 
 	        content.append(BUTTON_SECTION_START); 
 	        if (enclosure != null && enclosure.length() > 6 && !enclosure.contains(IMAGE_ENCLOSURE)) {
 	            content.append(BUTTON_START).append(context.getString(R.string.see_enclosure)).append(BUTTON_MIDDLE)

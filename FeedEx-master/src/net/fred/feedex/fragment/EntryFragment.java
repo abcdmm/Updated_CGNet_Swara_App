@@ -202,10 +202,8 @@ public class EntryFragment extends SwipeRefreshFragment implements BaseActivity.
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-     /*   Tracker t =  ((MainApplication) this.getActivity().getApplication()).getTracker(TrackerName.APP_TRACKER);
-        t.send(new HitBuilders.EventBuilder()
-        .setCategory("Entry Fragment") 
-        .build()); */
+        Tracker t =  ((MainApplication) this.getActivity().getApplication()).getTracker(TrackerName.APP_TRACKER);
+        
         
         mEntryPagerAdapter = new EntryPagerAdapter();
 
@@ -349,11 +347,29 @@ public class EntryFragment extends SwipeRefreshFragment implements BaseActivity.
                 }
                 case R.id.menu_share: {
                     Cursor cursor = mEntryPagerAdapter.getCursor(mCurrentPagerPos);
-                    String link = cursor.getString(mLinkPos);
-                    if (link != null) {
-                        String title = cursor.getString(mTitlePos);
+                    String enclose = cursor.getString(mEnclosurePos);
+                     
+                    String temp = enclose.split("http://cgnetswara.org//audio/")[1];
+                    String audio_recording = temp.split("\\[")[0]; 
+                     
+
+                    // Creates a folder for the app's recordings
+                    String path_audio = Environment.getExternalStorageDirectory().getAbsolutePath();
+                 	path_audio += "/CGNet_Swara";
+                  	
+                 	audio_recording = path_audio + "/" + audio_recording;
+                 	File child = new File(audio_recording);
+                      
+                 	
+                    if(child.exists()) { 
+                        Log.e("enclose", "INSDIE" + audio_recording);
+                      /* 
+                        t.send(new HitBuilders.EventBuilder()
+                        .setCategory("Entry Fragment") 
+                        .build()); 
+                        */
                         startActivity(Intent.createChooser(
-                                new Intent(Intent.ACTION_SEND).putExtra(Intent.EXTRA_SUBJECT, title).putExtra(Intent.EXTRA_TEXT, link)
+                                new Intent(Intent.ACTION_SEND).setType("audio/*").putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///" + audio_recording))
                                         .setType(Constants.MIMETYPE_TEXT_PLAIN), getString(R.string.menu_share)
                         ));
                     }
@@ -410,7 +426,7 @@ public class EntryFragment extends SwipeRefreshFragment implements BaseActivity.
             mEntryPager.setCurrentItem(mCurrentPagerPos);
         }
     }
-
+// TODO
     private void refreshUI(Cursor entryCursor) {
         if (entryCursor != null) {
             String feedTitle = entryCursor.isNull(mFeedNamePos) ? entryCursor.getString(mFeedUrlPos) : entryCursor.getString(mFeedNamePos);
@@ -493,8 +509,7 @@ public class EntryFragment extends SwipeRefreshFragment implements BaseActivity.
             if (alreadyMobilized) {
                 activity.runOnUiThread(new Runnable() {
                     @Override
-                    public void run() { 
-                    	
+                    public void run() {  
                         mPreferFullText = true;
                         mEntryPagerAdapter.displayEntry(mCurrentPagerPos, null, true);
                     }
@@ -524,7 +539,7 @@ public class EntryFragment extends SwipeRefreshFragment implements BaseActivity.
             }
         }
     }
-
+// TODO
     @Override
     public void onClickEnclosure() {
         getActivity().runOnUiThread(new Runnable() {
@@ -556,7 +571,8 @@ public class EntryFragment extends SwipeRefreshFragment implements BaseActivity.
 		                            r.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename);
 		                            r.allowScanningByMediaScanner();
 		                            r.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-		                            
+		                            r.setVisibleInDownloadsUi(true);
+		                             
 		                            String name = new File(uri.toString()).getName(); 
 		                             
 		                    		String path = Environment.getExternalStorageDirectory().getAbsolutePath();
@@ -570,6 +586,14 @@ public class EntryFragment extends SwipeRefreshFragment implements BaseActivity.
 		                            
 		                            DownloadManager dm = (DownloadManager) MainApplication.getContext().getSystemService(Context.DOWNLOAD_SERVICE);
 		                            dm.enqueue(r);
+		                             
+		                             
+		                            Cursor c = mEntryPagerAdapter.getCursor(mCurrentPagerPos);
+		                             
+		                            refreshUI(c);
+		                            
+		                            
+		                            // TODO
 		                        } catch (Exception e) {
 		                            Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_LONG).show();
 		                        }
