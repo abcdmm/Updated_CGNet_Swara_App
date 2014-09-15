@@ -1,6 +1,7 @@
 package cgnet.swara.activity;
 
 import java.io.File;  
+
 import android.net.Uri;  
 import android.telephony.TelephonyManager;
 import android.util.Log;  
@@ -41,6 +42,7 @@ import android.content.DialogInterface;
 import net.fred.feedex.MainApplication;  
 import android.location.LocationListener;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.media.MediaMetadataRetriever;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
@@ -342,10 +344,13 @@ public class RecordAudio extends Activity implements LocationListener {
 		.setNegativeButton(this.getString(R.string.cancel_phone),
 				new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog,int id) { 
-				dialog.cancel();
+				
 				Intent intent = new Intent(RecordAudio.this, MainActivity.class);
 				startActivity(intent);
 				finish();
+				InputMethodManager im = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                im.hideSoftInputFromWindow(userInput.getWindowToken(), 0);
+                dialog.cancel();
 			}
 		});
 

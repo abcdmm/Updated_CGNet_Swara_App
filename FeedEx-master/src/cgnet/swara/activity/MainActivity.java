@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.app.Activity; 
 import android.text.Editable;
 import android.widget.Button;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Environment;  
 import android.app.AlertDialog;
@@ -20,6 +21,7 @@ import android.content.DialogInterface;
 import net.fred.feedex.MainApplication;
 import android.content.SharedPreferences;  
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 
 import com.google.android.gms.analytics.Tracker;
 
@@ -229,6 +231,10 @@ public class MainActivity extends Activity {
 	private void recordInput(final boolean includePhoto) {
 		SharedPreferences prefs = getPreferences(MODE_PRIVATE); 
 		String restoredText = prefs.getString("Phone", null);
+		
+
+		InputMethodManager im = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        im.hideSoftInputFromWindow(mNumber.getWindowToken(), 0);
 
 		if (restoredText != null) { 
 			Intent intent = new Intent(MainActivity.this, RecordAudio.class);
