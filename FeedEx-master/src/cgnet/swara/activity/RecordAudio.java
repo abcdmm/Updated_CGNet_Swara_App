@@ -133,7 +133,7 @@ public class RecordAudio extends Activity implements LocationListener {
 	
 	private int mCountChangingImages = 0;
 
-	String mSecondPhonenumber;
+	String mSecondPhonenumber = "";
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -324,19 +324,19 @@ public class RecordAudio extends Activity implements LocationListener {
 		final EditText userInput = (EditText) promptsView.findViewById(R.id.editTextDialogUserInput);
 		TextView tv = (TextView) promptsView.findViewById(R.id.textView1);
 		tv.setText(this.getString(R.string.interviee_phone_number));
-		
+ 
+		userInput.setText(mSecondPhonenumber);
 		// set dialog message
 		alertDialogBuilder.setCancelable(false).setPositiveButton(this.getString(R.string.ok_phone),
 				new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog,int id) { 
-				
+				mSecondPhonenumber = userInput.getText().toString(); 
 				if(userInput.getText().toString().length() == 10) {
 					mSecondPhonenumber = userInput.getText().toString();
 					TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
 					String device_id = telephonyManager.getDeviceId();
 					mUserLogs.setPhoneNumber("Reporter: " + mPhoneNumber + " IMEI: " + device_id + " Interviewee: " + mSecondPhonenumber);
 				} else { 
-					userInput.setText(mSecondPhonenumber);
 					showPrompt();
 				}
 			}
