@@ -119,6 +119,15 @@ public class MainActivity extends Activity {
 		if (!dir_audio.exists()|| !dir_audio.isDirectory()) {
 			dir_audio.mkdirs();
 		}
+		
+		if(mNumber != null && mNumber.getText().toString() != null &&  mNumber.getText().toString().length() == 10) {
+			mRecordMessage.setEnabled(true);
+			mIncludeAudio.setEnabled(true);
+		} else { 
+			mRecordMessage.setEnabled(false);
+			mIncludeAudio.setEnabled(false); 
+		}	
+
  
 		// Saves the users phone number
 		mNumber.addTextChangedListener(new TextWatcher(){
@@ -195,9 +204,15 @@ public class MainActivity extends Activity {
 	@Override
 	public void onResume() {
 		super.onResume();   
- 
-		mRecordMessage.setEnabled(true);
-		mIncludeAudio.setEnabled(true);
+
+		if(mNumber != null && mNumber.getText().toString() != null &&  mNumber.getText().toString().length() == 10) {
+			mRecordMessage.setEnabled(true);
+			mIncludeAudio.setEnabled(true);
+		} else { 
+			mRecordMessage.setEnabled(false);
+			mIncludeAudio.setEnabled(false); 
+		}	
+
 		mNumber.clearFocus();
 		mNumber.setSelected(false);  
 	}
