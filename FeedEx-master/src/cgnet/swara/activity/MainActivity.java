@@ -1,6 +1,8 @@
 package cgnet.swara.activity;
 
 import java.io.File;     
+
+import android.util.Log;
 import android.view.View;
 import net.fred.feedex.R; 
 import android.os.Bundle;
@@ -18,8 +20,11 @@ import android.content.DialogInterface;
 import net.fred.feedex.MainApplication;
 import android.content.SharedPreferences;  
 import android.view.View.OnClickListener;
+
 import com.google.android.gms.analytics.Tracker;
+
 import net.fred.feedex.MainApplication.TrackerName;
+
 import com.google.android.gms.analytics.HitBuilders;
  
 /** This is the first screen of the CGNet Swara App. 
@@ -122,6 +127,14 @@ public class MainActivity extends Activity {
 				SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
 				editor.putString("Phone", mPhoneNumber); 
 				editor.apply();
+				Log.e(TAG, ""+mPhoneNumber.length());
+				if(mPhoneNumber.length() != 10) {
+					mRecordMessage.setEnabled(false);
+					mIncludeAudio.setEnabled(false);
+				} else {
+					mRecordMessage.setEnabled(true);
+					mIncludeAudio.setEnabled(true); 
+				}
 			}
 			public void beforeTextChanged(CharSequence s, int start, int count, int after){}
 			public void onTextChanged(CharSequence s, int start, int before, int count){}

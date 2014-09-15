@@ -1,7 +1,6 @@
 package cgnet.swara.activity;
 
 import java.io.File;  
-
 import android.net.Uri;  
 import android.telephony.TelephonyManager;
 import android.util.Log;  
@@ -303,6 +302,8 @@ public class RecordAudio extends Activity implements LocationListener {
 		if(!includePhoto) { 
 			showPrompt(); 
 		} 		
+		
+		
 	}
 	 
 	
@@ -326,10 +327,16 @@ public class RecordAudio extends Activity implements LocationListener {
 		alertDialogBuilder.setCancelable(false).setPositiveButton(this.getString(R.string.ok_phone),
 				new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog,int id) { 
-				mSecondPhonenumber = userInput.getText().toString();
-				TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
-				String device_id = telephonyManager.getDeviceId();
-				mUserLogs.setPhoneNumber("Reporter: " + mPhoneNumber + " IMEI: " + device_id + " Interviewee: " + mSecondPhonenumber);
+				
+				if(userInput.getText().toString().length() == 10) {
+					mSecondPhonenumber = userInput.getText().toString();
+					TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+					String device_id = telephonyManager.getDeviceId();
+					mUserLogs.setPhoneNumber("Reporter: " + mPhoneNumber + " IMEI: " + device_id + " Interviewee: " + mSecondPhonenumber);
+				} else { 
+					userInput.setText(mSecondPhonenumber);
+					showPrompt();
+				}
 			}
 		})
 		.setNegativeButton(this.getString(R.string.cancel_phone),

@@ -209,7 +209,7 @@
     <string name="record">सन्देश रिकॉर्ड करें</string>
     <string name="include_image">फोटो के साथ सन्देश रिकॉर्ड करें</string>
     <string name="listen">संदेशों को सुनें</string>
-    <string name="your_number">आपका फ़ोन नंबर डालिये </string>
+    <string name="your_number">आपका फ़ोन नंबर डालिये  (+91)</string>
     <string name="limit">बटन दबाने के बाद अपना सन्देश 3 मिनट के अंदर रिकॉर्ड करें </string>
     <string name="title_activity_get_audio_files">स्वर</string>
     <string name="title_activity_record_audio">स्वर</string>
@@ -226,7 +226,7 @@
     <string name="no_message">नहीं </string>
     <string name="tap_image_to_choose_another">फोटो बदलने के लिए यहाँ दबाएं</string>
     <string name="your_message_discarded">आपका संदेश रद्द कर दिया जाएगा। </string>
-    <string name="interviee_phone_number">शिकायत कर्ता  का फ़ोन नंबर डालें</string>
+    <string name="interviee_phone_number">शिकायत कर्ता  का फ़ोन नंबर डालें (+91)</string>
     
     
 	<!--  Never used -->

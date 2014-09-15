@@ -126,8 +126,8 @@ public class EntryFragment extends SwipeRefreshFragment implements BaseActivity.
             return view == object;
         }
 
-        public void displayEntry(int pagerPos, Cursor newCursor, boolean forceUpdate) { 
-        	 
+        public void displayEntry(int pagerPos, Cursor newCursor, boolean forceUpdate) {  
+        	
             EntryView view = mEntryViews.get(pagerPos);
             if (view != null) {
                 if (newCursor == null) {
@@ -152,7 +152,11 @@ public class EntryFragment extends SwipeRefreshFragment implements BaseActivity.
                     String link = newCursor.getString(mLinkPos);
                     String title = newCursor.getString(mTitlePos);
                     String enclosure = newCursor.getString(mEnclosurePos);
-                     
+                    
+                    
+                    t.setScreenName(title);
+                	
+                    
                     view.setHtml(mEntriesIds[pagerPos], title, link, contentText, enclosure, author, timestamp, mPreferFullText);
                     view.setTag(newCursor);
 
@@ -198,11 +202,11 @@ public class EntryFragment extends SwipeRefreshFragment implements BaseActivity.
             }
         }
     }
-
+    Tracker t;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        Tracker t =  ((MainApplication) this.getActivity().getApplication()).getTracker(TrackerName.APP_TRACKER);
+        t =  ((MainApplication) this.getActivity().getApplication()).getTracker(TrackerName.APP_TRACKER);
         
         
         mEntryPagerAdapter = new EntryPagerAdapter();
@@ -363,11 +367,12 @@ public class EntryFragment extends SwipeRefreshFragment implements BaseActivity.
                  	
                     if(child.exists()) { 
                         Log.e("enclose", "INSDIE" + audio_recording);
-                      /* 
+                      
                         t.send(new HitBuilders.EventBuilder()
-                        .setCategory("Entry Fragment") 
+                        .setCategory("Audio file shared.")
+                        .setLabel(audio_recording)
                         .build()); 
-                        */
+                        
                         startActivity(Intent.createChooser(
                                 new Intent(Intent.ACTION_SEND).setType("audio/*").putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///" + audio_recording))
                                         .setType(Constants.MIMETYPE_TEXT_PLAIN), getString(R.string.menu_share)
@@ -548,26 +553,43 @@ public class EntryFragment extends SwipeRefreshFragment implements BaseActivity.
         	@Override
             public void run() {
                 final String enclosure = mEntryPagerAdapter.getCursor(mCurrentPagerPos).getString(mEnclosurePos);
-
+                
+                
                 final int position1 = enclosure.indexOf(Constants.ENCLOSURE_SEPARATOR);
                 final int position2 = enclosure.indexOf(Constants.ENCLOSURE_SEPARATOR, position1 + 3);
 
                 final Uri uri = Uri.parse(enclosure.substring(0, position1));
                 final String filename = uri.getLastPathSegment();
-
+                
+                t.send(new HitBuilders.EventBuilder()
+	   	        .setCategory("Button to download audio file was clicked on") 
+	   	        .setAction(filename)
+	   	        .build());
+                
                 new AlertDialog.Builder(getActivity())
                         .setTitle(R.string.open_enclosure)
 //                        .setMessage(getString(R.string.file) + ": " + filename)
                         .setNegativeButton(R.string.cancel_phone, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) { 
-                            	// showEnclosure(uri, enclosure, position1, position2); 
+                            	// showEnclosure(uri, enclosure, position1, position2);
+                            	t.send(new HitBuilders.EventBuilder()
+	            	   	        .setCategory("Button to download audio file was clicked on") 
+	            	   	        .setAction(filename)
+	            	   	        .setValue(0)
+	            	   	        .build());
                             }
                         }).setPositiveButton(R.string.download_and_save, new DialogInterface.OnClickListener() {
 		                    @Override
 		                    public void onClick(DialogInterface dialog, int which) {
 		                        try { 
-		                            DownloadManager.Request r = new DownloadManager.Request(uri);
+		                        	t.send(new HitBuilders.EventBuilder()
+		            	   	        .setCategory("Button to download audio file was clicked on") 
+		            	   	        .setAction(filename)
+		            	   	        .setValue(1)
+		            	   	        .build());
+		                        	
+		                        	DownloadManager.Request r = new DownloadManager.Request(uri);
 		                            r.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename);
 		                            r.allowScanningByMediaScanner();
 		                            r.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
