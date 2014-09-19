@@ -60,8 +60,8 @@ import android.net.Uri;
 import android.os.SystemClock;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Xml;
-
 import net.fred.feedex.Constants;
 import net.fred.feedex.MainApplication;
 import net.fred.feedex.R;
@@ -228,6 +228,7 @@ public class FetcherService extends IntentService {
     }
 
     public static void addImagesToDownload(String entryId, ArrayList<String> images) {
+    	Log.e("fetcher service", "add images to download");
         if (images != null && !images.isEmpty()) {
             ContentValues[] values = new ContentValues[images.size()];
             for (int i = 0; i < images.size(); i++) {

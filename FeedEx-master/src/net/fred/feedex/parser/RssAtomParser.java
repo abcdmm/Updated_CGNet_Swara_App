@@ -52,7 +52,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.text.Html;
 import android.text.TextUtils;
-
+import android.util.Log;
 import net.fred.feedex.Constants;
 import net.fred.feedex.MainApplication;
 import net.fred.feedex.provider.FeedData;
@@ -157,7 +157,7 @@ public class RssAtomParser extends DefaultHandler {
     private final String feedBaseUrl;
     private boolean done = false;
     private final Date keepDateBorder;
-    private boolean fetchImages = false;
+    private boolean fetchImages = true;
     private boolean retrieveFullText = false;
     private boolean cancelled = false;
     private long now = System.currentTimeMillis();
@@ -511,7 +511,7 @@ public class RssAtomParser extends DefaultHandler {
     }
 
     public void setFetchImages(boolean fetchImages) {
-        this.fetchImages = fetchImages;
+        this.fetchImages = true;
     }
 
     private Date parseUpdateDate(String dateStr) {
@@ -605,7 +605,8 @@ public class RssAtomParser extends DefaultHandler {
         try {
             if (!inserts.isEmpty()) {
                 ContentProviderResult[] results = cr.applyBatch(FeedData.AUTHORITY, inserts);
-
+                Log.e("rss atom parser", "" + fetchImages);
+                
                 if (fetchImages) {
                     for (int i = 0; i < results.length; ++i) {
                         ArrayList<String> images = entriesImages.get(i);
