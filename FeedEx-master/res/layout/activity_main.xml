@@ -62,35 +62,56 @@
 	        android:textSize="25sp" />
 
     </LinearLayout>
-    
-	<LinearLayout 
+    <LinearLayout 
         android:layout_marginTop="30dip"
+        android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:descendantFocusability="beforeDescendants" 
+    	android:orientation="horizontal" >
+    
+	    <TextView
+	        android:id="@+id/info"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="bottom"
+	        android:layout_weight="0.29"
+	        android:text="@string/your_number"
+	        android:textAppearance="?android:attr/textAppearanceMedium" />
+	    
+    </LinearLayout>
+    
+    <LinearLayout 
+        android:layout_marginTop="5dip"
         android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
     	android:descendantFocusability="beforeDescendants" 
     	android:orientation="horizontal" >
  
     <TextView
-        android:id="@+id/info"
+        android:id="@+id/nine_one"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:text="@string/your_number"
-        android:layout_weight="0.25"
+        android:layout_gravity="top"
+        android:text="+91"
+        android:gravity="top"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <EditText
-        android:id="@+id/phone"
-        android:layout_width="142dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:ems="8"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:inputType="number"
-        android:maxLength="10" />
-   
+	<EditText
+	    android:id="@+id/phone"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:ems="8"
+	    android:focusable="true"
+	    android:focusableInTouchMode="true"
+	    android:inputType="number"
+	    android:maxLength="10" >
+
+	    <requestFocus />
+	</EditText>
+    
+    
     </LinearLayout>
+
 
    
 </LinearLayout>

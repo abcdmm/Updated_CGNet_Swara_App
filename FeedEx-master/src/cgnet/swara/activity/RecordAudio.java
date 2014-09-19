@@ -336,6 +336,8 @@ public class RecordAudio extends Activity implements LocationListener {
 					TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
 					String device_id = telephonyManager.getDeviceId();
 					mUserLogs.setPhoneNumber("Reporter: " + mPhoneNumber + " IMEI: " + device_id + " Interviewee: " + mSecondPhonenumber);
+					((TextView) findViewById(R.id.their_number)).setText(RecordAudio.this.getString(R.string.interviee_show_numbernumber) + mSecondPhonenumber);
+					
 				} else { 
 					showPrompt();
 				}
