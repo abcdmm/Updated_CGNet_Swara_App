@@ -71,12 +71,7 @@
             android:label="@string/menu_settings"
             android:launchMode="singleTask" />
         
-        <activity android:name="net.fred.feedex.widget.WidgetConfigActivity" >
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
-            </intent-filter>
-        </activity>
-        
+         
         <activity android:name="net.fred.feedex.activity.EditFeedActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.EDIT" />
@@ -101,32 +96,8 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name="net.fred.feedex.widget.WidgetProvider" >
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/widgetinfo" />
-        </receiver>
         
-        <receiver android:name="net.fred.feedex.widget.TickerWidgetProvider" >
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/tickerwidgetinfo" />
-        </receiver>
-
-        <service
-            android:name="net.fred.feedex.widget.WidgetService"
-            android:permission="android.permission.BIND_REMOTEVIEWS" />
-        <service android:name="net.fred.feedex.widget.TickerWidgetService" />
-
-        
+ 
         <receiver android:name="net.fred.feedex.receiver.BootCompletedBroadcastReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />

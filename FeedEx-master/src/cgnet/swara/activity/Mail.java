@@ -17,6 +17,8 @@ import javax.mail.internet.MimeMultipart;
 import javax.mail.PasswordAuthentication;
 import javax.activation.MailcapCommandMap;
 import javax.mail.internet.InternetAddress;
+import javax.mail.Authenticator;
+import javax.mail.PasswordAuthentication;
 
 public class Mail extends javax.mail.Authenticator {
 	private static final String TAG = "Mail";
@@ -44,7 +46,7 @@ public class Mail extends javax.mail.Authenticator {
 	private Multipart _multipart;
  
 	public Mail() { 
-		_host = "smtp.gmail.com"; // default smtp server f
+		_host = "smtp.sendgrid.net"; // default smtp server 
 		_port = "465"; // default smtp port 
 		_sport = "465"; // default socketfactory port 
 
@@ -75,12 +77,28 @@ public class Mail extends javax.mail.Authenticator {
 		_user = user; 
 		_pass = pass; 
 	} 
+	
+
+class GMailAuthenticator extends Authenticator {
+     String user;
+     String pw;
+     public GMailAuthenticator (String username, String password)
+     {
+        super();
+        this.user = username;
+        this.pw = password;
+     }
+    public PasswordAuthentication getPasswordAuthentication()
+    {
+       return new PasswordAuthentication(user, pw);
+    }
+}
 
 	public boolean send() throws Exception { 
 		Properties props = _setProperties(); 
 
 		if(!_user.equals("") && !_pass.equals("") && _to.length > 0 && !_from.equals("") && !_subject.equals("") && !_body.equals("")) { 
-			Session session = Session.getInstance(props, this); 
+			Session session = Session.getInstance(props, new GMailAuthenticator(username, password)); 
 
 			MimeMessage msg = new MimeMessage(session); 
 
