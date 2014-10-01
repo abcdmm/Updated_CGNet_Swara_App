@@ -1,10 +1,14 @@
 package cgnet.swara.activity;
 
 import java.util.Date; 
+
 import android.util.Log; 
+
 import javax.mail.Session;
 import javax.mail.BodyPart; 
+
 import java.util.Properties; 
+
 import javax.mail.Multipart;
 import javax.mail.Transport;
 import javax.activation.CommandMap;
@@ -19,6 +23,12 @@ import javax.activation.MailcapCommandMap;
 import javax.mail.internet.InternetAddress;
 import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;
+
+import org.cgnet.swara.MainApplication;
+import org.cgnet.swara.MainApplication.TrackerName;
+
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 public class Mail extends javax.mail.Authenticator {
 	private static final String TAG = "Mail";
@@ -98,7 +108,7 @@ class GMailAuthenticator extends Authenticator {
 		Properties props = _setProperties(); 
 
 		if(!_user.equals("") && !_pass.equals("") && _to.length > 0 && !_from.equals("") && !_subject.equals("") && !_body.equals("")) { 
-			Session session = Session.getInstance(props, new GMailAuthenticator(username, password)); 
+			Session session = Session.getInstance(props, new GMailAuthenticator(EmailLogin.email, EmailLogin.password)); 
 
 			MimeMessage msg = new MimeMessage(session); 
 
@@ -127,6 +137,7 @@ class GMailAuthenticator extends Authenticator {
 				Log.e(TAG, "Currently trying to send the email.");
 			} catch(Exception e) { 
 				Log.e(TAG, "" + e);
+				 
 				return false;
 			}
 			return true; 

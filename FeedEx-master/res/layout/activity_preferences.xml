@@ -16,7 +16,7 @@
             android:summary="@string/settings_refresh_enabled_description"
             android:title="@string/settings_refresh_enabled" />
 
-        <net.fred.feedex.view.AutoSummaryListPreference
+        <org.cgnet.swara.view.AutoSummaryListPreference
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:defaultValue="600000"
@@ -68,7 +68,7 @@
             android:key="keeptime"
             android:title="@string/settings_keep_time" />   -->
 
-        <net.fred.feedex.view.AutoSummaryListPreference
+        <org.cgnet.swara.view.AutoSummaryListPreference
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:defaultValue="0"
@@ -86,7 +86,7 @@
             android:summary="@string/settings_display_images_description"
             android:title="@string/settings_display_images" />
 
-        <net.fred.feedex.view.AutoSummaryListPreference
+        <org.cgnet.swara.view.AutoSummaryListPreference
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:defaultValue="ALWAYS_PRELOAD"

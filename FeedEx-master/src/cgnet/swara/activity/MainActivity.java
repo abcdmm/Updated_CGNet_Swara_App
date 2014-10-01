@@ -1,33 +1,32 @@
 package cgnet.swara.activity;
 
-import java.io.File;     
+import java.io.File;
 
-import android.util.Log;
-import android.view.View;
-import net.fred.feedex.R; 
-import android.os.Bundle;
-import android.app.Activity; 
-import android.text.Editable;
-import android.widget.Button;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Environment;  
+import org.cgnet.swara.MainApplication;
+import org.cgnet.swara.MainApplication.TrackerName;
+import org.cgnet.swara.R;
+
+import android.app.Activity;
 import android.app.AlertDialog;
-import android.widget.EditText;
-import android.text.TextWatcher;
-import android.view.WindowManager;
-import android.view.LayoutInflater; 
+import android.content.Context;
 import android.content.DialogInterface;
-import net.fred.feedex.MainApplication;
-import android.content.SharedPreferences;  
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.os.Environment;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-
-import com.google.android.gms.analytics.Tracker;
-
-import net.fred.feedex.MainApplication.TrackerName;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
  
 /** This is the first screen of the CGNet Swara App. 
  *  It allows the user to either record a message (which is then sent to a central location) 
@@ -150,6 +149,10 @@ public class MainActivity extends Activity {
 			public void beforeTextChanged(CharSequence s, int start, int count, int after){}
 			public void onTextChanged(CharSequence s, int start, int before, int count){}
 		}); 
+		
+		Intent intent = new Intent();   
+		intent.setAction("com.android.CUSTOM_INTENT");
+		sendBroadcast(intent);  
 	}
 
 	 
@@ -251,7 +254,7 @@ public class MainActivity extends Activity {
 	/** Opens a new activity to allow the user to view and listen to 
 	 *  recordings. */
 	private void loadRecordings() { 
-		Intent intent = new Intent(this, net.fred.feedex.activity.HomeActivity.class);
+		Intent intent = new Intent(this, org.cgnet.swara.activity.HomeActivity.class);
 		startActivity(intent); 
 	} 
 }

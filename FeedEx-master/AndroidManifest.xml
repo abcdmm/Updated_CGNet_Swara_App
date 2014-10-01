@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="net.fred.feedex"
+    package="org.cgnet.swara"
     android:installLocation="auto"
-    android:versionCode="42"
-    android:versionName="1.8.0" >
+    android:versionCode="12"
+    android:versionName="2.0.0" >
 
     <uses-sdk
         android:minSdkVersion="15"
@@ -24,39 +24,39 @@
     
     
     <application
-        android:name="net.fred.feedex.MainApplication"
+        android:name="org.cgnet.swara.MainApplication"
         android:allowBackup="true"
         android:icon="@drawable/cgnet_launcher"
         android:label="@string/app_name"
         android:theme="@style/Theme.Light" >
-        <service android:name="net.fred.feedex.service.RefreshService" />
-        <service android:name="net.fred.feedex.service.FetcherService" />
+        <service android:name="org.cgnet.swara.service.RefreshService" />
+        <service android:name="org.cgnet.swara.service.FetcherService" />
    
         <provider
-            android:name="net.fred.feedex.provider.FeedDataContentProvider"
+            android:name="org.cgnet.swara.provider.FeedDataContentProvider"
             android:authorities="net.fred.feedex.provider.FeedData"
             android:exported="true" />
 
         <activity
-            android:name="net.fred.feedex.activity.HomeActivity"
+            android:name="org.cgnet.swara.activity.HomeActivity"
             android:label="@string/app_name" > 
         </activity>
          
         <activity
-            android:name="net.fred.feedex.activity.AddGoogleNewsActivity"
+            android:name="org.cgnet.swara.activity.AddGoogleNewsActivity"
             android:label="@string/google_news_title"
             android:launchMode="singleTask" />
         <activity
-            android:name="net.fred.feedex.activity.AboutActivity"
+            android:name="org.cgnet.swara.activity.AboutActivity"
             android:label="@string/about_feedex"
             android:launchMode="singleTask" />
         <activity
-            android:name="net.fred.feedex.activity.EditFeedsListActivity"
+            android:name="org.cgnet.swara.activity.EditFeedsListActivity"
             android:label="@string/feeds"
             android:launchMode="singleTask" />
         
         <activity
-            android:name="net.fred.feedex.activity.EntryActivity"
+            android:name="org.cgnet.swara.activity.EntryActivity"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTask" >
             <intent-filter>
@@ -67,12 +67,12 @@
         </activity>
         
         <activity
-            android:name="net.fred.feedex.activity.GeneralPrefsActivity"
+            android:name="org.cgnet.swara.activity.GeneralPrefsActivity"
             android:label="@string/menu_settings"
             android:launchMode="singleTask" />
         
          
-        <activity android:name="net.fred.feedex.activity.EditFeedActivity" >
+        <activity android:name="org.cgnet.swara.activity.EditFeedActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.EDIT" />
 
@@ -98,19 +98,19 @@
 
         
  
-        <receiver android:name="net.fred.feedex.receiver.BootCompletedBroadcastReceiver" >
+        <receiver android:name="org.cgnet.swara.receiver.BootCompletedBroadcastReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
         
-        <receiver android:name="net.fred.feedex.receiver.ConnectionChangeReceiver" >
+        <receiver android:name="org.cgnet.swara.receiver.ConnectionChangeReceiver" >
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
         
-        <receiver android:name="net.fred.feedex.service.RefreshService$RefreshAlarmReceiver" />
+        <receiver android:name="org.cgnet.swara.service.RefreshService$RefreshAlarmReceiver" />
 
         <activity
             android:name="cgnet.swara.activity.MainActivity" 

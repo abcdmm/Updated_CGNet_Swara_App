@@ -1,59 +1,50 @@
 package cgnet.swara.activity;
 
-import java.io.File;  
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Calendar;
 
-import android.net.Uri;  
+import org.cgnet.swara.MainApplication;
+import org.cgnet.swara.MainApplication.TrackerName;
+import org.cgnet.swara.R;
+
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.location.Location;
+import android.location.LocationListener;
+import android.media.MediaMetadataRetriever;
+import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnCompletionListener;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Environment;
+import android.os.SystemClock;
+import android.provider.MediaStore;
 import android.telephony.TelephonyManager;
-import android.util.Log;  
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.WindowManager;
-import net.fred.feedex.R;
-import android.os.Bundle;
-
-import java.util.Calendar;
-import java.io.IOException; 
-
-import android.app.Activity;  
-import android.view.KeyEvent;
-
-import java.io.FileInputStream; 
-
-import android.app.AlertDialog;
-import android.widget.Toast;
-import android.os.SystemClock; 
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Environment;
-import android.database.Cursor;
-import android.graphics.Bitmap; 
-import android.widget.ImageView; 
-import android.location.Criteria;
-import android.location.Location;
-import android.media.MediaPlayer;  
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.provider.MediaStore;
-import android.graphics.BitmapFactory;
-import android.content.DialogInterface;
-import net.fred.feedex.MainApplication;  
-import android.location.LocationListener;
-import android.view.View.OnClickListener;
-import android.view.inputmethod.InputMethodManager;
-import android.media.MediaMetadataRetriever;
+import android.widget.Toast;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.HitBuilders.TimingBuilder;
-import com.google.android.gms.analytics.Tracker; 
-
-import net.fred.feedex.MainApplication.TrackerName;
-
 import com.google.android.gms.analytics.HitBuilders;
-
-import android.media.MediaPlayer.OnCompletionListener; 
+import com.google.android.gms.analytics.Tracker;
 
 
 /** This screen allows the user to record an audio message.

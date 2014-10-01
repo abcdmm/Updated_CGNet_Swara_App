@@ -129,18 +129,21 @@ class SendEmailAsyncTask extends AsyncTask <Void, Void, Boolean> {
         	Log.e(TAG, "about to send the file");
         	if (mMail != null && mMail.send()) {
         		mEmailSent = true; 
-        		
+
+    	    	Log.e(TAG, "email sent");
+    	    	Log.e(TAG, "deleting: " + mTextFile);
         		// For now, the audio file created is NOT deleted. 
         		// It can be, if the files end up taking too much storage space.
         		//File audio = new File(mAudioFile);
         		//audio.delete();
         		File file = new File(mTextFile);
         		file.delete(); 
+        		return true;
         	} else { 
         		mEmailSent = false;
         		Log.e(TAG, "Email not sent"); 
-        	}
-            return true;
+        		return false;
+        	} 
         } catch (AuthenticationFailedException e) {
             Log.e(TAG, "Bad account details: " + e); 
             return false;

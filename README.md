@@ -1,4 +1,6 @@
-Updated_CGNet_Swara_App
+Official Android App for CGNet Swara
 =======================
 
-An ameliorated Android app for CGNet Swara. This version allows users to both view and create posts.
+CGNet Swara is an interactive voice forum used in India. This is an Android app that 
+lets users contribute to the forum and also view posts. 
+The app is in Hindi.

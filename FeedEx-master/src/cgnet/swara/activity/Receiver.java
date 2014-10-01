@@ -39,7 +39,6 @@ public class Receiver extends BroadcastReceiver {
         	if (directoryListing != null) {
         		for (File child : directoryListing) { 
         	    	String fileName = child.getName();
- 
         			SendEmailAsyncTask task = new SendEmailAsyncTask(context, 
         										  mMainDir, mInnerDir, "/" + fileName);
         			task.execute(); 
