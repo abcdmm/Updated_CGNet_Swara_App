@@ -30,6 +30,9 @@ import org.cgnet.swara.MainApplication.TrackerName;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
+// I based this version of something I saw online here:
+// 
+
 public class Mail extends javax.mail.Authenticator {
 	private static final String TAG = "Mail";
 	
