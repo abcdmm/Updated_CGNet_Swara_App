@@ -31,7 +31,8 @@ import com.google.android.gms.analytics.Tracker;
 /** This is the first screen of the CGNet Swara App. 
  *  It allows the user to either record a message (which is then sent to a central location) 
  *  or listen to recordings.
- *  @author Krittika D'Silva (krittika.dsilva@gmail.com) */ 
+ *  @author Krittika D'Silva (krittika.dsilva@gmail.com) 
+ */ 
 public class MainActivity extends Activity {
 	protected static final String TAG = "MainActivity";
 
