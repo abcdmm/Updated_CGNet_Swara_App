@@ -166,7 +166,7 @@ class SendEmailAsyncTask extends AsyncTask <Void, Void, Boolean> {
      *  the relevant information about the audio file that will be parsed later by the
      *  server. */    
     private String getSubject(String phoneNumber, String time, String length, String location) {
-    	String subject = "Swara-Main|app|" + length + "|DRAFT|" + phoneNumber + "|" + location + "|" + time;
+    	String subject = "Swara-Main|app|" + length + "|DRAFT|" + phoneNumber + "|" + location + "|" + time + "|PUBLIC";
     	 
 		return subject;
 	}

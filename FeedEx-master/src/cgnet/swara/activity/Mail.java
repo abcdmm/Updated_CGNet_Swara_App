@@ -1,34 +1,25 @@
 package cgnet.swara.activity;
 
-import java.util.Date; 
+import java.util.Date;
+import java.util.Properties;
 
-import android.util.Log; 
-
-import javax.mail.Session;
-import javax.mail.BodyPart; 
-
-import java.util.Properties; 
-
-import javax.mail.Multipart;
-import javax.mail.Transport;
 import javax.activation.CommandMap;
+import javax.activation.DataHandler;
 import javax.activation.DataSource;
-import javax.activation.DataHandler; 
 import javax.activation.FileDataSource;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMultipart;
-import javax.mail.PasswordAuthentication;
 import javax.activation.MailcapCommandMap;
-import javax.mail.internet.InternetAddress;
 import javax.mail.Authenticator;
+import javax.mail.BodyPart;
+import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
-import org.cgnet.swara.MainApplication;
-import org.cgnet.swara.MainApplication.TrackerName;
-
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
+import android.util.Log;
 
 // I based this version of something I saw online here:
 // 

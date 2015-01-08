@@ -42,14 +42,14 @@
             android:label="@string/app_name" > 
         </activity>
          
-        <activity
+        <!-- <activity
             android:name="org.cgnet.swara.activity.AddGoogleNewsActivity"
             android:label="@string/google_news_title"
             android:launchMode="singleTask" />
         <activity
             android:name="org.cgnet.swara.activity.AboutActivity"
             android:label="@string/about_feedex"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask" />  -->
         <activity
             android:name="org.cgnet.swara.activity.EditFeedsListActivity"
             android:label="@string/feeds"
